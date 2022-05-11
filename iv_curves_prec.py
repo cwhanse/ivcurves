@@ -22,7 +22,7 @@ ns -> number of cells in series
 
 def diff_lhs_rhs(v, i, il, io, rs, rsh, n, vth, ns):
     # returns the difference between the lhs and rhs of the single diode equation
-    return (il - io*(mp.exp((v + i*rs)/(n*ns*vth)) - 1) - (v + i*rs)/(rsh) - i)
+    return (il - io*(mp.expm1((v + i*rs)/(n*ns*vth)) - 1) - (v + i*rs)/(rsh) - i)
 
 
 def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
@@ -49,7 +49,6 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
         prec_i[idx] = new_i
 
     return vv, prec_i
-    # return plt.plot(vv, prec_i)
 
 
 def plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case):
@@ -74,7 +73,7 @@ if __name__ == "__main__":
     k, q, temp_cell = [1.380649e-23, 1.60217663e-19, 298.15]
     vth = (k * temp_cell) / q
 
-    case1 = False 
+    case1 = True
     case = [1 if case1 else 2][0]
 
     if case1:
