@@ -22,25 +22,26 @@ ns -> number of cells in series
 
 def diff_lhs_rhs(v, i, il, io, rs, rsh, n, vth, ns):
     # returns the difference between the lhs and rhs of the single diode equation
-    return (il - io*(mp.expm1((v + i*rs)/(n*ns*vth)) - 1) - (v + i*rs)/(rsh) - i)
+    return (il - io*mp.expm1((v + i*rs)/(n*ns*vth)) - (v + i*rs)/(rsh) - i)
 
 
 def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     res = pvlib.pvsystem.singlediode(il, io, rs, rsh, n*vth*ns, num_pts)
     vv = res['v']
     ii = res['i']
-    prec_i = np.zeros_like(ii) # initialize 'empty' array for new, more precise i's
+    prec_i = np.array([0 for _ in range(ii.shape[0])], dtype=mp.mpf) # initialize 'empty' array for new, more precise i's
 
     assert len(vv) == len(ii)
     for idx in range(len(vv)):
+        i = mp.mpf(str(ii[idx]))
         # check if i val already precise enough
-        if abs(diff_lhs_rhs(vv[idx], ii[idx], il, io, rs, rsh, n, vth, ns)) < atol: 
-            new_i = ii[idx]
+        if abs(diff_lhs_rhs(vv[idx], i, il, io, rs, rsh, n, vth, ns)) < atol: 
+            new_i = i
 
         else:
             # findroot takes the function whose roots we want to find, a good guess for where the root is, and a tolerance
             # default solver uses secant method
-            new_i = mp.findroot(lambda i: diff_lhs_rhs(vv[idx], i, il, io, rs, rsh, n, vth, ns), ii[idx], tol=atol)
+            new_i = mp.findroot(lambda x: diff_lhs_rhs(vv[idx], x, il, io, rs, rsh, n, vth, ns), i, tol=atol)
 
         # check that mp.findroot did what we wanted 
         assert abs(diff_lhs_rhs(vv[idx], new_i, il, io, rs, rsh, n, vth, ns)) < atol
@@ -48,6 +49,7 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
         # updating array of i's
         prec_i[idx] = new_i
 
+    # vv is a np.array of float64 and prec_i is a np.array of mp.mpf 
     return vv, prec_i
 
 
