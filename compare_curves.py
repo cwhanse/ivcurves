@@ -5,7 +5,7 @@ from shapely.geometry import LineString
 
 # from ivcurves repo
 from max_power import lambert_i_from_v
-from iv_curves_prec import diff_lhs_rhs, get_precise_i
+from precise import diff_lhs_rhs, get_precise_i
 
 
 #####################
