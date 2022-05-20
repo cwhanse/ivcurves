@@ -20,7 +20,7 @@ ns -> number of cells in series
 ###################
 
 
-def max_power_pt_finder(atol, il, io, rs, rsh, n, vth, ns):
+def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
     # calculate max power with at most atol error for IV curve with given parameters
     # returns max_voltage, max_current, max_power
 
@@ -45,7 +45,8 @@ def max_power_pt_finder(atol, il, io, rs, rsh, n, vth, ns):
     # if not precise enough, make precise using findroot
     dff = diff_lhs_rhs(max_voltage, max_current, il, io, rs, rsh, n, vth, ns)
     if abs(dff) > atol:
-        max_current = mp.findroot(lambda x: diff_lhs_rhs(max_voltage, x, il, io, rs, rsh, n, vth, ns), max_current, tol=atol)
+        max_current = mp.findroot(lambda x: diff_lhs_rhs(max_voltage, x, il, io, rs, rsh, n, vth, ns), max_current, tol=atol**2)
+        # setting tol=atol**2 because findroot checks func(zero)**2 < tol
 
     return max_voltage, max_current, max_power
 
@@ -153,7 +154,7 @@ def lambert_v_from_i(i, il, io, rs, rsh, n, vth, ns):
 
 
 if __name__ == "__main__":
-    mp.dps = 20
+    mp.dps = 40 # 16*2 rounded up
     atol = 1e-16
     parameters = dict()
     max_vals = dict()
@@ -182,7 +183,7 @@ if __name__ == "__main__":
 
     count = 0
     for il, io, rs, rsh, n in product(IL, IO, RS, RSH, N):
-        max_voltage, max_current, max_power = max_power_pt_finder(atol, il, io, rs, rsh, n, vth, ns)
+        max_voltage, max_current, max_power = max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol)
         parameters[count] = [il, io, rs, rsh, n]
         max_vals[count] = [max_voltage, max_current, max_power]
         count += 1

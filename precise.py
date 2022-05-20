@@ -41,7 +41,8 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
         else:
             # findroot takes the function whose roots we want to find, a good guess for where the root is, and a tolerance
             # default solver uses secant method
-            new_i = mp.findroot(lambda x: diff_lhs_rhs(vv[idx], x, il, io, rs, rsh, n, vth, ns), i, tol=atol)
+            new_i = mp.findroot(lambda x: diff_lhs_rhs(vv[idx], x, il, io, rs, rsh, n, vth, ns), i, tol=atol**2)
+            # setting tol=atol**2 because findroot checks func(zero)**2 < tol
 
         # check that mp.findroot did what we wanted 
         assert abs(diff_lhs_rhs(vv[idx], new_i, il, io, rs, rsh, n, vth, ns)) < atol
@@ -67,7 +68,7 @@ def plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case):
 
 
 if __name__ == "__main__":
-    mp.dps = 20 # set precision
+    mp.dps = 40 # set precision, 16*2 rounded up
     num_pts = 100 
     atol = 1e-16 
 
