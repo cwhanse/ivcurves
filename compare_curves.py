@@ -78,8 +78,15 @@ def get_guess_interval(known_curve_params, pt_on_line, vth, num_pts=10, atol=1e-
 
 def find_distance(v, i, vp, ip):
     # v, i : point on known curve & vp, ip : point on fitted curve
-    # FIXME how to alter when v == 0 or i == 0
-    diff_v, diff_i = (vp - v) / v, (ip - i) / i 
+    assert not (v == 0 and i == 0)
+
+    if v == 0: # then vp == 0 too
+        diff_v, diff_i = 0, (ip - i) / i
+    elif i == 0: # then ip == 0 too
+        diff_v, diff_i = (vp - v) / v, 0
+    else: # v != 0 and i != 0
+        diff_v, diff_i = (vp - v) / v, (ip - i) / i 
+
     return mp.sqrt(diff_v**2 + diff_i**2)
 
 
@@ -94,7 +101,6 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol=1e-1
 
     for x, y in list(zip(fit_xs, fit_ys)):
         new_volt, new_current = find_intersection(known_curve_params, x, y, vth, atol)
-        if new_volt == 0 or new_current == 0: continue # FIXME
         score += find_distance(new_volt, new_current, x, y)
 
     return score 
