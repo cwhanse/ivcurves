@@ -2,6 +2,9 @@ from mpmath import mp
 from itertools import product
 import pvlib 
 
+# from ivcurves repo
+from precise import diff_lhs_rhs
+
 
 r"""
 Parameters
@@ -118,11 +121,6 @@ def get_right_int_pt(left_x_endpt, right_x_endpt, func):
 #######################
 # Auxiliary functions #
 #######################
-
-
-def diff_lhs_rhs(v, i, il, io, rs, rsh, n, vth, ns):
-    # returns the difference between the lhs and rhs of the single diode equation
-    return (il - io*mp.expm1((v + i*rs)/(n*ns*vth)) - (v + i*rs)/(rsh) - i)
 
 
 def lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns):
