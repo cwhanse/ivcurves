@@ -57,7 +57,7 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
 ########################
 
 
-def golden_search(l_endpt, r_endpt, func, atol, int_pt=None, is_right_int_pt=None):
+def golden_search(l_endpt, r_endpt, func, atol, int_pt=None, is_right_int_pt=False):
     # func is function we want to maximize (single-variable)
 
     # add some sort of iterlimit FIXME
