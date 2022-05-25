@@ -12,7 +12,7 @@ from precise import diff_lhs_rhs, get_precise_i
 # Find intersection #
 #####################
 
-def find_intersection(known_curve_params, vp, ip, vth, atol):
+def find_intersection(known_curve_params, vp, ip, vth, num_segments, atol):
     # find intersection point on known curve
     il, io, rs, rsh, n, ns = known_curve_params
     single_diode = lambda v, i : il - io * mp.expm1((v + i*rs) / (n * ns * vth)) - ((v + i*rs) / rsh)  
@@ -27,7 +27,7 @@ def find_intersection(known_curve_params, vp, ip, vth, atol):
         line = lambda v : (ip / vp) * v 
         solve_for_zero = lambda v : single_diode(v, line(v)) - line(v)
 
-        guess_int = get_guess_interval(known_curve_params, (vp, ip), vth)
+        guess_int = get_guess_interval(known_curve_params, (vp, ip), vth, num_segments, atol)
         new_volt = try_findroot(solve_for_zero, guess_int, atol)
         assert abs(solve_for_zero(new_volt)) < atol
 
@@ -57,10 +57,10 @@ def try_findroot(func, guess, atol, max_steps=100):
     return zero
 
 
-def get_guess_interval(known_curve_params, pt_on_line, vth, num_pts=10, atol=1e-16):
+def get_guess_interval(known_curve_params, pt_on_line, vth, num_segments, atol):
     # return interval in which curve intersects line (good guess for location of zero for findroot)
     line = LineString([(0,0), pt_on_line])
-    vv, ii = get_curve(known_curve_params, vth, num_pts, atol)
+    vv, ii = get_curve(known_curve_params, vth, num_segments, atol)
 
     pts = list(zip(vv, ii))
     for idx in range(len(pts)-1): 
@@ -95,12 +95,12 @@ def find_distance(v, i, vp, ip):
 # Final score #
 ###############
 
-def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol=1e-16):
+def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
     fit_xs, fit_ys = get_curve(fitted_curve_params, vth, num_pts, atol)
     score = 0
 
     for x, y in list(zip(fit_xs, fit_ys)):
-        new_volt, new_current = find_intersection(known_curve_params, x, y, vth, atol)
+        new_volt, new_current = find_intersection(known_curve_params, x, y, vth, num_pts, atol)
         score += find_distance(new_volt, new_current, x, y)
 
     return score 
@@ -117,7 +117,7 @@ def get_curve(curve_parameters, vth, num_pts, atol):
     return vv, ii
 
 
-def iv_plotter(iv_known, iv_fitted, vth, num_pts, pts=[], plot_lines=False, atol=1e-16):
+def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=False):
     # iv_known, iv_fitted = [il, io, rs, rsh, n, ns]
     plot = plt.plot()
 
@@ -129,12 +129,13 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, pts=[], plot_lines=False, atol
     fit_xs, fit_ys = get_curve(iv_fitted, vth, num_pts, atol)
     plt.plot(fit_xs, fit_ys, color='green')
 
+    num_segments = len(pts)
     for vp, ip in pts:
         # plot point on fitted curve
         plt.plot(vp, ip, marker='o', color='lightgreen', markersize=3)
 
         # get intersection point on known curve
-        new_volt, new_current = find_intersection(iv_known, vp, ip, vth, atol)
+        new_volt, new_current = find_intersection(iv_known, vp, ip, vth, num_segments, atol)
 
         # plot point on known curve
         plt.plot(new_volt, new_current, marker='o', color='magenta', markersize=3)
@@ -165,16 +166,17 @@ if __name__ == "__main__":
     # Boltzmann's const (J/K), electron charge (C), temp (K) 
     k, q, temp_cell = [1.380649e-23, 1.60217663e-19, 298.15]
     vth = (k * temp_cell) / q
-    num_pts = 10
+    num_compare_pts = 10
+    num_total_pts = 200
     atol = 1e-16
 
     # intersecting curves example
     iv_known = [1.0, 5e-10, 0.1, 300, 1.01, 72]
     iv_fitted = [8.0, 3e-8, 0.1, 300, 1.01, 72] 
 
-    print("Total score:", total_score(iv_known, iv_fitted, vth, num_pts, atol))
+    print("Total score:", total_score(iv_known, iv_fitted, vth, num_compare_pts, atol))
 
-    fit_xs, fit_ys = get_curve(iv_fitted, vth, num_pts, atol)
-    plot = iv_plotter(iv_known, iv_fitted, vth, 200, list(zip(fit_xs, fit_ys)), plot_lines=False)
+    fit_xs, fit_ys = get_curve(iv_fitted, vth, num_compare_pts, atol)
+    plot = iv_plotter(iv_known, iv_fitted, vth, num_total_pts, atol, pts=list(zip(fit_xs, fit_ys)), plot_lines=False)
     plt.show()
 
