@@ -60,7 +60,7 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
 ########################
 
 
-def golden_search(l_endpt, r_endpt, func, atol, int_pt=None, is_right_int_pt=False):
+def golden_search(l_endpt, r_endpt, func, atol, int_pt=tuple(), is_right_int_pt=False):
     # func is function we want to maximize (single-variable)
 
     # add some sort of iterlimit FIXME
@@ -71,7 +71,7 @@ def golden_search(l_endpt, r_endpt, func, atol, int_pt=None, is_right_int_pt=Fal
     xr, yr = r_endpt
 
     # find left and right interior points
-    if int_pt == None: # first iteration, no interior points yet
+    if int_pt == tuple(): # first iteration, no interior points yet
         l_int_pt = get_left_int_pt(xl, xr, func) 
         r_int_pt = get_right_int_pt(xl, xr, func)
     else: # already have one interior point
