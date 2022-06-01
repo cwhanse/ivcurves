@@ -1,7 +1,6 @@
 import pvlib
 from mpmath import mp
 import matplotlib.pyplot as plt
-from shapely.geometry import LineString
 
 # from ivcurves repo
 from max_power import lambert_i_from_v
@@ -59,14 +58,32 @@ def try_findroot(func, guess, atol, max_steps=100):
 
 def get_guess_interval(known_curve_params, pt_on_line, vth, num_segments, atol):
     # return interval in which curve intersects line (good guess for location of zero for findroot)
-    line = LineString([(0,0), pt_on_line])
     vv, ii = get_curve(known_curve_params, vth, num_segments, atol)
+
+    # find (finite) slope and y-intercept of line 
+    if pt_on_line[0] != 0:
+        line_slope, line_incpt = pt_on_line[1] / pt_on_line[0], 0
 
     pts = list(zip(vv, ii))
     for idx in range(len(pts)-1): 
-        segment = LineString([pts[idx], pts[idx+1]])
-        if segment.intersects(line):
-            return pts[idx][0], pts[idx+1][0] # return x-coords of interval that contains intersection
+        assert (pts[idx+1][0] != pts[idx][0]) # voltage points from pvlib.pvsystem.singlediode using secant method are linearly spaced, so consecutive points should not be equal
+
+        # find slope and y-intercept of segment
+        seg_slope = (pts[idx+1][1] - pts[idx][1]) / (pts[idx+1][0] - pts[idx][0])
+        seg_incpt = pts[idx][1] - pts[idx][0]*seg_slope
+
+        # intersection of line and segment
+        if pt_on_line[0] != 0: # then line_slope and line_incpt are defined
+            int_x = (seg_incpt - line_incpt) / (line_slope - seg_slope)
+            int_y = line_slope*int_x + line_incpt
+        else: # intersection is where segment crosses y-axis
+            int_x = 0
+            int_y = seg_incpt
+
+        # if intersection point is within segment, return intersection point
+        if min(pts[idx][0], pts[idx+1][0]) <= int_x and int_x <= max(pts[idx][0], pts[idx+1][0]):
+            if min(pts[idx][1], pts[idx+1][1]) <= int_y and int_y <= max(pts[idx][1], pts[idx+1][1]):
+                return pts[idx][0], pts[idx+1][0] # return x-coords of interval that contains intersection
 
     return pts[idx][0], pts[idx+1][0] # in case it misses the last interval because intersection occurs at (or near) last endpoint
 
@@ -78,7 +95,7 @@ def get_guess_interval(known_curve_params, pt_on_line, vth, num_segments, atol):
 
 def find_distance(v, i, vp, ip):
     # v, i : point on known curve & vp, ip : point on fitted curve
-    assert not (v == 0 and i == 0)
+    assert not (v == 0 and i == 0) # this should never happen for these curves
 
     if v == 0: # then vp == 0 too
         diff_v, diff_i = 0, (ip - i) / i
@@ -130,12 +147,19 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=False
     plt.plot(fit_xs, fit_ys, color='green')
 
     num_segments = len(pts)
+    count = 0
     for vp, ip in pts:
         # plot point on fitted curve
         plt.plot(vp, ip, marker='o', color='lightgreen', markersize=3)
 
         # get intersection point on known curve
-        new_volt, new_current = find_intersection(iv_known, vp, ip, vth, num_segments, atol)
+        try: 
+            new_volt, new_current = find_intersection(iv_known, vp, ip, vth, num_segments, atol)
+        except:
+            print("BAD PT @", count)
+            count += 1
+        else:
+            count += 1
 
         # plot point on known curve
         plt.plot(new_volt, new_current, marker='o', color='magenta', markersize=3)
