@@ -11,33 +11,19 @@ from precise import diff_lhs_rhs, get_precise_i
 # Find intersection #
 #####################
 
-def find_intersection(known_curve_params, vp, ip, vth, num_segments, atol):
-    # find intersection point on known curve
-    il, io, rs, rsh, n, ns = known_curve_params
-    single_diode = lambda v, i : il - io * mp.expm1((v + i*rs) / (n * ns * vth)) - ((v + i*rs) / rsh)  
-
-    if vp == 0:
-        new_volt = 0
-        solve_for_zero = lambda i : single_diode(0, i) - i
-        new_current = try_findroot(solve_for_zero, ip, atol)
-        assert (single_diode(0, new_current) - new_current) < atol
+def find_x_intersection(single_diode, known_xs, known_ys, xp, yp, num_segments, atol):
+    if xp == 0: 
+        return 0
 
     else:
-        line = lambda v : (ip / vp) * v 
-        solve_for_zero = lambda v : single_diode(v, line(v)) - line(v)
+        line = lambda x : (yp / xp) * x
+        solve_for_zero = lambda x : single_diode(x, line(x)) - line(x)
 
-        guess_int = get_guess_interval(known_curve_params, (vp, ip), vth, num_segments, atol)
-        new_volt = try_findroot(solve_for_zero, guess_int, atol)
-        assert abs(solve_for_zero(new_volt)) < atol
+        guess_int = get_guess_interval(known_xs, known_ys, (xp, yp), num_segments)
+        x_int = try_findroot(solve_for_zero, guess_int, atol)
+        assert abs(solve_for_zero(x_int)) < atol
 
-        new_current = lambert_i_from_v(new_volt, il, io, rs, rsh, n, vth, ns)
-
-    # if new_volt, new_current aren't a precise solution, make precise
-    dff = diff_lhs_rhs(new_volt, new_current, il, io, rs, rsh, n, vth, ns)
-    if abs(dff) > atol:
-        new_current = mp.findroot(lambda i : diff_lhs_rhs(new_volt, i, il, io, rs, rsh, n, vth, ns), new_current, tol=atol**2)
-
-    return new_volt, new_current
+    return x_int
 
 
 def try_findroot(func, guess, atol, max_steps=100):
@@ -56,29 +42,39 @@ def try_findroot(func, guess, atol, max_steps=100):
     return zero
 
 
-def get_guess_interval(known_curve_params, pt_on_line, vth, num_segments, atol):
+def get_guess_interval(known_xs, known_ys, pt_on_line, num_segments):
     # return interval in which curve intersects line (good guess for location of zero for findroot)
-    vv, ii = get_curve(known_curve_params, vth, num_segments, atol)
-
-    # find (finite) slope and y-intercept of line 
+    
+    # find slope and y-intercept of line, if finite
     if pt_on_line[0] != 0:
         line_slope, line_incpt = pt_on_line[1] / pt_on_line[0], 0
 
-    pts = list(zip(vv, ii))
+    pts = list(zip(known_xs, known_ys))
     for idx in range(len(pts)-1): 
-        assert (pts[idx+1][0] != pts[idx][0]) # voltage points from pvlib.pvsystem.singlediode using secant method are linearly spaced, so consecutive points should not be equal
+        if (pts[idx+1][0] == pts[idx][0]): # line segment is vertical
+            int_x = pts[idx][0]
 
-        # find slope and y-intercept of segment
-        seg_slope = (pts[idx+1][1] - pts[idx][1]) / (pts[idx+1][0] - pts[idx][0])
-        seg_incpt = pts[idx][1] - pts[idx][0]*seg_slope
+            if pt_on_line[0] == 0: # line is on y-axis
+                if int_x == 0: # segment is on y-axis
+                    int_y = pts[idx][1] # segment is contained in line, just take an endpoint of segment as intersection pt
+                else: # segment doesn't intersect y-axis (and so doesn't intersect line)
+                    continue
+            else: # slope of line is finite
+                int_y = line_slope*int_x + line_incpt
 
-        # intersection of line and segment
-        if pt_on_line[0] != 0: # then line_slope and line_incpt are defined
-            int_x = (seg_incpt - line_incpt) / (line_slope - seg_slope)
-            int_y = line_slope*int_x + line_incpt
-        else: # intersection is where segment crosses y-axis
-            int_x = 0
-            int_y = seg_incpt
+        else: # segment is not vertical, and so has a finite slope
+            # find slope and y-intercept of segment
+            seg_slope = (pts[idx+1][1] - pts[idx][1]) / (pts[idx+1][0] - pts[idx][0])
+            seg_incpt = pts[idx][1] - pts[idx][0]*seg_slope
+
+            # intersection of line and segment
+            if pt_on_line[0] != 0: # then line_slope and line_incpt are defined
+                int_x = (seg_incpt - line_incpt) / (line_slope - seg_slope)
+                int_y = line_slope*int_x + line_incpt
+
+            else: # intersection is where segment crosses y-axis
+                int_x = 0
+                int_y = seg_incpt
 
         # if intersection point is within segment, return intersection point
         if min(pts[idx][0], pts[idx+1][0]) <= int_x and int_x <= max(pts[idx][0], pts[idx+1][0]):
@@ -93,18 +89,19 @@ def get_guess_interval(known_curve_params, pt_on_line, vth, num_segments, atol):
 # Calculate distance #
 ######################
 
-def find_distance(v, i, vp, ip):
-    # v, i : point on known curve & vp, ip : point on fitted curve
-    assert not (v == 0 and i == 0) # this should never happen for these curves
+def find_distance(x, y, xp, yp):
+    # x, y is a point on known curve 
+    # xp, yp is a point on fitted curve
+    assert not (x == 0 and y == 0) # this should never happen for these curves
 
-    if v == 0: # then vp == 0 too
-        diff_v, diff_i = 0, (ip - i) / i
-    elif i == 0: # then ip == 0 too
-        diff_v, diff_i = (vp - v) / v, 0
-    else: # v != 0 and i != 0
-        diff_v, diff_i = (vp - v) / v, (ip - i) / i 
+    if x == 0: # then xp == 0 too
+        diff_x, diff_y = 0, (yp - y) / y 
+    elif y == 0: # then yp == 0 too
+        diff_x, diff_y = (xp - x) / x, 0
+    else: # x != 0 and y != 0
+        diff_x, diff_y = (xp - x) / x, (yp - y) / y 
 
-    return mp.sqrt(diff_v**2 + diff_i**2)
+    return mp.sqrt(diff_x**2 + diff_y**2)
 
 
 
@@ -113,12 +110,24 @@ def find_distance(v, i, vp, ip):
 ###############
 
 def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
+    known_xs, known_ys = get_curve(known_curve_params, vth, num_pts, atol)
     fit_xs, fit_ys = get_curve(fitted_curve_params, vth, num_pts, atol)
+
+    il, io, rs, rsh, n, ns = known_curve_params
+    single_diode = lambda v, i : il - io * mp.expm1((v + i*rs) / (n * ns * vth)) - ((v + i*rs) / rsh)  
+
     score = 0
 
-    for x, y in list(zip(fit_xs, fit_ys)):
-        new_volt, new_current = find_intersection(known_curve_params, x, y, vth, num_pts, atol)
-        score += find_distance(new_volt, new_current, x, y)
+    for v, i in list(zip(fit_xs, fit_ys)):
+        new_voltage = find_x_intersection(single_diode, known_xs, known_ys, v, i, num_pts, atol)
+        new_current = lambert_i_from_v(new_voltage, il, io, rs, rsh, n, vth, ns) # find current associated to new_voltage
+
+        # if voltage, current pair not a precise enough solution to single diode equation, make more precise
+        dff = diff_lhs_rhs(new_voltage, new_current, il, io, rs, rsh, n, vth, ns)
+        if abs(dff) > atol:
+            new_current = mp.findroot(lambda y : diff_lhs_rhs(new_voltage, y, il, io, rs, rsh, n, vth, ns), new_current, tol=atol**2)
+
+        score += find_distance(new_voltage, new_current, v, i)
 
     return score 
 
@@ -134,7 +143,7 @@ def get_curve(curve_parameters, vth, num_pts, atol):
     return vv, ii
 
 
-def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=False):
+def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=True):
     # iv_known, iv_fitted = [il, io, rs, rsh, n, ns]
     plot = plt.plot()
 
@@ -146,6 +155,9 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=False
     fit_xs, fit_ys = get_curve(iv_fitted, vth, num_pts, atol)
     plt.plot(fit_xs, fit_ys, color='green')
 
+    il, io, rs, rsh, n, ns = iv_known
+    single_diode = lambda v, i : il - io * mp.expm1((v + i*rs) / (n * ns * vth)) - ((v + i*rs) / rsh)  
+
     num_segments = len(pts)
     count = 0
     for vp, ip in pts:
@@ -154,27 +166,26 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=False
 
         # get intersection point on known curve
         try: 
-            new_volt, new_current = find_intersection(iv_known, vp, ip, vth, num_segments, atol)
+            new_voltage = find_x_intersection(single_diode, known_xs, known_ys, vp, ip, num_pts, atol)
+            new_current = lambert_i_from_v(new_voltage, il, io, rs, rsh, n, vth, ns) 
         except:
             print("BAD PT @", count)
             count += 1
+            continue
         else:
             count += 1
 
         # plot point on known curve
-        plt.plot(new_volt, new_current, marker='o', color='magenta', markersize=3)
+        plt.plot(new_voltage, new_current, marker='o', color='magenta', markersize=3)
         
-        if plot_lines:
-            # make sure line goes all the way to end of plot
-            if known_xs[-1] > fit_xs[-1]: xs = known_xs
-            else: xs = fit_xs
-
-            # plot line intersecting curves
-            if vp != 0:
-                line_ys = [(ip / vp)*x for x in xs]
-                plt.plot(xs, line_ys, color='darkorchid', linewidth=0.4)
+        if plot_lines: # plot line intersecting curves
+            xs = [0, min(vp, new_voltage), max(vp, new_voltage)]
+            if xs[1] == vp:
+                ys = [0, ip, new_current]
             else:
-                plt.plot([0]*len(xs), xs, color='darkorchid', linewidth=0.4)
+                ys = [0, new_current, ip]
+
+            plt.plot(xs, ys, color='darkorchid', linewidth=0.4)
 
     return plot
 
@@ -195,12 +206,12 @@ if __name__ == "__main__":
     atol = 1e-16
 
     # intersecting curves example
-    iv_known = [1.0, 5e-10, 0.1, 300, 1.01, 72]
-    iv_fitted = [8.0, 3e-8, 0.1, 300, 1.01, 72] 
+    iv_known = [6.0, 3.8500023e-06, 1.6816000000000002, 8832.800000000005, 1.4200000000000004, 72]
+    iv_fitted = [4.2, 6.500087e-07, 0.9453, 17881.40000000001, 1.6300000000000006, 72]
 
     print("Total score:", total_score(iv_known, iv_fitted, vth, num_compare_pts, atol))
 
     fit_xs, fit_ys = get_curve(iv_fitted, vth, num_compare_pts, atol)
-    plot = iv_plotter(iv_known, iv_fitted, vth, num_total_pts, atol, pts=list(zip(fit_xs, fit_ys)), plot_lines=False)
+    plot = iv_plotter(iv_known, iv_fitted, vth, num_total_pts, atol, pts=list(zip(fit_xs, fit_ys)), plot_lines=True)
     plt.show()
 
