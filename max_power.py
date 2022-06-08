@@ -39,7 +39,16 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
     xr, yr = lambert_v_from_i(0, il, io, rs, rsh, n, vth, ns), 0
 
     # run golden search on power function with above starting interval
-    max_voltage, max_power = golden_search((xl, yl), (xr, yr), power_func, atol)
+    if (xr - xl) < atol: # this will cause problems when defining iterlimit
+        # means xr == xl (roughly)
+        # shouldn't happen unless both xr and xl are basically zero 
+        assert (mp.chop(xr) == 0 and mp.chop(xl))
+        # this should only ever happen for very extreme parameters
+        return 0, 0, 0
+    else:
+        iterlimit = 1 + mp.floor( mp.log(atol/(xr - xl)) / mp.log((mp.sqrt(5) - 1) / 2) )
+
+    max_voltage, max_power = golden_search((xl, yl), (xr, yr), power_func, atol, iterlimit)
 
     # find current associated to max_voltage
     max_current = lambert_i_from_v(max_voltage, il, io, rs, rsh, n, vth, ns)
@@ -60,12 +69,13 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
 ########################
 
 
-def golden_search(l_endpt, r_endpt, func, atol, int_pt=tuple(), is_right_int_pt=False):
+def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_right_int_pt=False, num_iter=0):
     # func is function we want to maximize (single-variable)
 
-    # add some sort of iterlimit FIXME
     # overflow ? FIXME
     # take care of f(int_pt_1) == f(int_pt_2) (right now just pushing this case into the f(int_pt_1) < f(int_pt_2) case) FIXME
+
+    if num_iter >= iterlimit: raise Exception("Iterations exceeded maximum.")
 
     xl, yl = l_endpt
     xr, yr = r_endpt
@@ -88,13 +98,13 @@ def golden_search(l_endpt, r_endpt, func, atol, int_pt=tuple(), is_right_int_pt=
         if error < atol:
             return l_int_pt
         else:
-            return golden_search(l_endpt, r_int_pt, func, atol, l_int_pt, True) # true because l_int_pt is now the right_int_pt of new interval
+            return golden_search(l_endpt, r_int_pt, func, atol, iterlimit, l_int_pt, True, num_iter+1) # true because l_int_pt is now the right_int_pt of new interval
     else:
         error = abs(r_endpt[0] - l_int_pt[0])
         if error < atol:
             return r_int_pt
         else:
-            return golden_search(l_int_pt, r_endpt, func, atol, r_int_pt, False) # false because r_int_pt is now the left_int_pt of new interval
+            return golden_search(l_int_pt, r_endpt, func, atol, iterlimit, r_int_pt, False, num_iter+1) # false because r_int_pt is now the left_int_pt of new interval
 
 
 def get_left_int_pt(left_x_endpt, right_x_endpt, func):
