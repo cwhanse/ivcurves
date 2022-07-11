@@ -13,7 +13,7 @@ from precise import diff_lhs_rhs, get_precise_i
 
 def find_x_intersection(single_diode, known_xs, known_ys, xp, yp, num_segments, atol):
     r"""
-    Finds x-coordinate of the intersection point of the known IV curve and the line through origin and given point.
+    Finds x-coordinate of the intersection point of the known IV curve and the line through origin and given point (`xp`, `yp`).
 
     Auxiliary function for total_score.
 
@@ -101,7 +101,7 @@ def get_guess_interval(known_xs, known_ys, pt_on_line, num_segments):
     r"""
     Finds the interval in which the known curve intersects the given line.
 
-    Auxiliary function for find_intersection. 
+    Auxiliary function for find_x_intersection. 
 
     Parameters
     ----------

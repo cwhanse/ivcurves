@@ -62,7 +62,7 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
     if (xr - xl) < atol: # this will cause problems when defining iterlimit
         # means xr == xl (roughly)
         # shouldn't happen unless both xr and xl are basically zero 
-        assert (mp.chop(xr) == 0 and mp.chop(xl))
+        assert (mp.chop(xr) == 0 and mp.chop(xl) == 0)
         # this should only ever happen for very extreme parameters
         return 0, 0, 0
     else:
@@ -128,7 +128,7 @@ def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_ri
     -----
     This is a recursive function. When using, `int_pt` and `is_right_int_pt` and `num_iter` should not be passed; they are only passed when the function recurses.
 
-    From more information on the algorithm (and calculating the interior points in get_left_int_pt and get_right_int_pt), see http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf.
+    For more information on the algorithm (and calculating the interior points in get_left_int_pt and get_right_int_pt), see http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf.
     """
     # overflow ? FIXME
     # take care of f(int_pt_1) == f(int_pt_2) (right now just pushing this case into the f(int_pt_1) < f(int_pt_2) case) FIXME
