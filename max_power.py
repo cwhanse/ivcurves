@@ -21,39 +21,48 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
         Light-generated current :math:`I_L` (photocurrent) [A]
 
     io : numeric
-        Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+        Diode saturation :math:`I_0` current under desired IV curve conditions.
+        [A]
 
     rs : numeric
         Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
     rsh : numeric
-        Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+        Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+        [ohm]
 
     n : numeric
         Diode ideality factor :math:`n`
 
     vth : numeric
         Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K), :math:`T_c` is the temperature of the p-n junction in Kelvin, and :math:`q` is the charge of an electron (coulombs). 
+        The thermal voltage of the cell (in volts) may be calculated as
+        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
+        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
+        :math:`q` is the charge of an electron (coulombs). 
 
     ns : numeric
         Number of cells in series :math:`N_s`
 
     atol : float
-        The returned voltage will be at most `atol` from the voltage that yields the true maximum power of the given IV curve.
+        The returned voltage will be at most `atol` from the voltage that
+        yields the true maximum power of the given IV curve.
 
     Returns
     -------
     (max_voltage, max_current, max_power) : tuple of mpmath floats
-        A good approximation for the voltage :math:`V`, current :math:`I`, and power :math:`P` of the maximum power point of the given IV curve.
+        A good approximation for the voltage :math:`V`, current :math:`I`, and
+        power :math:`P` of the maximum power point of the given IV curve.
     """
     # make parameters mpf types for precision
     il, io, rs, rsh, n, vth = [mp.mpf(str(val)) for val in [il, io, rs, rsh, n, vth]]
 
     # function we want to maximize
-    power_func = lambda x : x * lambert_i_from_v(x, il, io, rs, rsh, n, vth, ns) # x represents voltage
+    # x represents voltage
+    power_func = lambda x : x * lambert_i_from_v(x, il, io, rs, rsh, n, vth, ns) 
 
-    # find initial interval endpts (using (0, I_sc) and (V_oc, 0) as starting endpts, power=0 at both these points)
+    # find initial interval endpts (using (0, I_sc) and (V_oc, 0) as starting
+    # endpts, power=0 at both these points)
     # x-coord is voltage, y-coord is power (power = voltage * current)
     xl, yl = lambert_i_from_v(0, il, io, rs, rsh, n, vth, ns), 0
     xr, yr = lambert_v_from_i(0, il, io, rs, rsh, n, vth, ns), 0
@@ -91,7 +100,8 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
 
 def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_right_int_pt=False, num_iter=0):
     r"""
-    Uses golden-section search to recursively find maximum of the given function over the given interval, with at most `atol` error.
+    Uses golden-section search to recursively find maximum of the given
+    function over the given interval, with at most `atol` error.
 
     Parameters
     ----------
@@ -105,16 +115,20 @@ def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_ri
         Function we want to maximize (single-variable).
 
     atol : float 
-        The x-coordinate of the returned point will be at most `atol` from the x-coordinate that produces the true maximum in the given interval.
+        The x-coordinate of the returned point will be at most `atol` from the
+        x-coordinate that produces the true maximum in the given interval.
 
     iterlimit : int
-        Maximum number of iterations for golden-section search. Should converge before we hit this.
+        Maximum number of iterations for golden-section search. Should converge
+        before we hit this.
 
     int_pt : tuple of floats, optional
-        Coordinates of interior point in interval. The default value is an empty tuple.
+        Coordinates of interior point in interval. The default value is an
+        empty tuple.
 
     is_right_int_pt : bool, optional
-        If `int_pt` is the right hand interior point, then True. If `int_pt` is given, this should also be passed in (default value is False).
+        If `int_pt` is the right hand interior point, then True. If `int_pt` is
+        given, this should also be passed in (default value is False).
 
     num_iter : int
         The number of iterations we've already done.
@@ -122,16 +136,24 @@ def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_ri
     Returns
     -------
     tuple of ints
-        Coordinates of a point whose y-coordinate is a good approximation for the true maximum, and whose x-coordinate is within `atol` of the x-coordinate that yields the true maximum of `func` on the given interval.
+        Coordinates of a point whose y-coordinate is a good approximation for
+        the true maximum, and whose x-coordinate is within `atol` of the
+        x-coordinate that yields the true maximum of `func` on the given
+        interval.
 
     Notes
     -----
-    This is a recursive function. When using, `int_pt` and `is_right_int_pt` and `num_iter` should not be passed; they are only passed when the function recurses.
+    This is a recursive function. When using, `int_pt` and `is_right_int_pt`
+    and `num_iter` should not be passed; they are only passed when the function
+    recurses.
 
-    For more information on the algorithm (and calculating the interior points in get_left_int_pt and get_right_int_pt), see http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf.
+    For more information on the algorithm (and calculating the interior points
+    in get_left_int_pt and get_right_int_pt), see
+    http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf.
     """
     # overflow ? FIXME
-    # take care of f(int_pt_1) == f(int_pt_2) (right now just pushing this case into the f(int_pt_1) < f(int_pt_2) case) FIXME
+    # take care of f(int_pt_1) == f(int_pt_2) (right now just pushing this case
+    # into the f(int_pt_1) < f(int_pt_2) case) FIXME
 
     if num_iter >= iterlimit: raise Exception("Iterations exceeded maximum.")
 
@@ -156,13 +178,15 @@ def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_ri
         if error < atol:
             return l_int_pt
         else:
-            return golden_search(l_endpt, r_int_pt, func, atol, iterlimit, l_int_pt, True, num_iter+1) # true because l_int_pt is now the right_int_pt of new interval
+            return golden_search(l_endpt, r_int_pt, func, atol, iterlimit, l_int_pt, is_right_int_pt=True, num_iter=num_iter+1) 
+            # `is_right_int_pt`=True because l_int_pt is now the right_int_pt of new interval
     else:
         error = abs(r_endpt[0] - l_int_pt[0])
         if error < atol:
             return r_int_pt
         else:
-            return golden_search(l_int_pt, r_endpt, func, atol, iterlimit, r_int_pt, False, num_iter+1) # false because r_int_pt is now the left_int_pt of new interval
+            return golden_search(l_int_pt, r_endpt, func, atol, iterlimit, r_int_pt, is_right_int_pt=False, num_iter=num_iter+1) 
+            # `is_right_int_pt`=False because r_int_pt is now the left_int_pt of new interval
 
 
 def get_left_int_pt(left_x_endpt, right_x_endpt, func):
@@ -235,7 +259,8 @@ def get_right_int_pt(left_x_endpt, right_x_endpt, func):
 
 def lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns):
     r"""
-    Given a voltage, calculates the associated current using the Lambert W function.
+    Given a voltage, calculates the associated current using the Lambert W
+    function.
 
     Parameters
     ----------
@@ -246,20 +271,25 @@ def lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns):
         Light-generated current :math:`I_L` (photocurrent) [A]
 
     io : numeric
-        Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+        Diode saturation :math:`I_0` current under desired IV curve conditions.
+        [A]
 
     rs : numeric
         Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
     rsh : numeric
-        Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+        Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+        [ohm]
 
     n : numeric
         Diode ideality factor :math:`n`
 
     vth : numeric
         Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K), :math:`T_c` is the temperature of the p-n junction in Kelvin, and :math:`q` is the charge of an electron (coulombs). 
+        The thermal voltage of the cell (in volts) may be calculated as
+        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
+        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
+        :math:`q` is the charge of an electron (coulombs). 
 
     ns : numeric
         Number of cells in series :math:`N_s`
@@ -271,7 +301,9 @@ def lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns):
 
     Notes
     -----
-    See pvlib.singlediode for original function. This implemention differs only in that it does not accept Series as inputs and can take mpmath floats as inputs.
+    See pvlib.singlediode for original function. This implemention differs only
+    in that it does not accept Series as inputs and can take mpmath floats as
+    inputs.
     """
     gsh = 1. / rsh
     if rs == 0:
@@ -285,7 +317,8 @@ def lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns):
 
 def lambert_v_from_i(i, il, io, rs, rsh, n, vth, ns):
     r"""
-    Given a current, calculates the associated voltage using the Lambert W function.
+    Given a current, calculates the associated voltage using the Lambert W
+    function.
 
     Parameters
     ----------
@@ -296,20 +329,25 @@ def lambert_v_from_i(i, il, io, rs, rsh, n, vth, ns):
         Light-generated current :math:`I_L` (photocurrent) [A]
 
     io : numeric
-        Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+        Diode saturation :math:`I_0` current under desired IV curve conditions.
+        [A]
 
     rs : numeric
         Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
     rsh : numeric
-        Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+        Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+        [ohm]
 
     n : numeric
         Diode ideality factor :math:`n`
 
     vth : numeric
         Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K), :math:`T_c` is the temperature of the p-n junction in Kelvin, and :math:`q` is the charge of an electron (coulombs). 
+        The thermal voltage of the cell (in volts) may be calculated as
+        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
+        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
+        :math:`q` is the charge of an electron (coulombs). 
 
     ns : numeric
         Number of cells in series :math:`N_s`
@@ -321,7 +359,9 @@ def lambert_v_from_i(i, il, io, rs, rsh, n, vth, ns):
 
     Notes
     -----
-    See pvlib.singlediode for original function. This implemention differs only in that it does not accept Series as inputs and can take mpmath floats as inputs.
+    See pvlib.singlediode for original function. This implemention differs only
+    in that it does not accept Series as inputs and can take mpmath floats as
+    inputs.
     """
     gsh = 1. / rsh
     if gsh == 0:

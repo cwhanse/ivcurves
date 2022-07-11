@@ -7,7 +7,8 @@ from itertools import product
 
 def diff_lhs_rhs(v, i, il, io, rs, rsh, n, vth, ns):
     r"""
-    Calculates the difference between the left hand side and right hand side of the single diode equation.
+    Calculates the difference between the left hand side and right hand side of
+    the single diode equation.
 
     Parameters
     ----------
@@ -21,20 +22,25 @@ def diff_lhs_rhs(v, i, il, io, rs, rsh, n, vth, ns):
         Light-generated current :math:`I_L` (photocurrent) [A]
 
     io : numeric
-        Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+        Diode saturation :math:`I_0` current under desired IV curve conditions.
+        [A]
 
     rs : numeric
         Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
     rsh : numeric
-        Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+        Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+        [ohm]
 
     n : numeric
         Diode ideality factor :math:`n`
 
     vth : numeric
         Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K), :math:`T_c` is the temperature of the p-n junction in Kelvin, and :math:`q` is the charge of an electron (coulombs). 
+        The thermal voltage of the cell (in volts) may be calculated as
+        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
+        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
+        :math:`q` is the charge of an electron (coulombs). 
 
     ns : numeric
         Number of cells in series :math:`N_s`
@@ -42,14 +48,16 @@ def diff_lhs_rhs(v, i, il, io, rs, rsh, n, vth, ns):
     Returns
     -------
     mpmath float
-        Difference between the left hand and right hand sides of the single diode equation.
+        Difference between the left hand and right hand sides of the single
+        diode equation.
     """
     return (il - io*mp.expm1((v + i*rs)/(n*ns*vth)) - (v + i*rs)/(rsh) - i)
 
 
 def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     r"""
-    Calculates precise solutions to the single diode equation for the given parameters, with an error of at most `atol`.
+    Calculates precise solutions to the single diode equation for the given
+    parameters, with an error of at most `atol`.
 
     Parameters
     ----------
@@ -57,20 +65,25 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
         Light-generated current :math:`I_L` (photocurrent) [A]
 
     io : numeric
-        Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+        Diode saturation :math:`I_0` current under desired IV curve conditions.
+        [A]
 
     rs : numeric
         Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
     rsh : numeric
-        Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+        Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+        [ohm]
 
     n : numeric
         Diode ideality factor :math:`n`
 
     vth : numeric
         Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K), :math:`T_c` is the temperature of the p-n junction in Kelvin, and :math:`q` is the charge of an electron (coulombs). 
+        The thermal voltage of the cell (in volts) may be calculated as
+        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
+        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
+        :math:`q` is the charge of an electron (coulombs). 
 
     ns : numeric
         Number of cells in series :math:`N_s`
@@ -78,11 +91,15 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     atol : numeric
         The error of each of the returned solution pairs is at most `atol`.
 
-        Each returned voltage, current pair is a solution to the single diode equation. Because we are working with inexact numbers, these pairs are rarely exact solutions to this equation. Here, an error of at most `atol` means that for a given :math:`(V, I)` pair,
+        Each returned voltage, current pair is a solution to the single diode
+        equation. Because we are working with inexact numbers, these pairs are
+        rarely exact solutions to this equation. Here, an error of at most
+        `atol` means that for a given :math:`(V, I)` pair,
 
         .. math:: 
 
-         atol > I_L - I_0 \left[ \exp \left( \frac{V+I R_s}{n N_s V_{th}} \right) - 1 \right] - \frac{V + I R_s}{R_{sh}} - I. 
+         atol > I_L - I_0 \left[ \exp \left( \frac{V+I R_s}{n N_s V_{th}}
+         \right) - 1 \right] - \frac{V + I R_s}{R_{sh}} - I. 
 
     num_pts : int
         Number of points calculated on IV curve.
@@ -90,16 +107,19 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     Returns
     -------
     (vv, prec_i) : tuple of numpy arrays
-        `vv` is a numpy array of float64 and `prec_i` is a numpy array of mpmath floats. Each array has `num_pts` entries.
+        `vv` is a numpy array of float64 and `prec_i` is a numpy array of
+        mpmath floats. Each array has `num_pts` entries.
 
     Notes
     -----
-    Uses pvlib.pvsystem.singlediode to generate solution pairs, then uses mpmath's findroot to sharpen the precision of the solutions if necessary.
+    Uses pvlib.pvsystem.singlediode to generate solution pairs, then uses
+    mpmath's findroot to sharpen the precision of the solutions if necessary.
     """
     res = pvlib.pvsystem.singlediode(il, io, rs, rsh, n*vth*ns, num_pts)
     vv = res['v']
     ii = res['i']
-    prec_i = np.array([0 for _ in range(ii.shape[0])], dtype=mp.mpf) # initialize 'empty' array for new, more precise i's
+    # initialize 'empty' array for new, more precise i's
+    prec_i = np.array([0 for _ in range(ii.shape[0])], dtype=mp.mpf) 
 
     assert len(vv) == len(ii)
     for idx in range(len(vv)):
@@ -109,7 +129,8 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
             new_i = i
 
         else:
-            # findroot takes the function whose roots we want to find, a good guess for where the root is, and a tolerance
+            # findroot takes the function whose roots we want to find, a good
+            # guess for where the root is, and a tolerance
             # default solver uses secant method
             new_i = mp.findroot(lambda x: diff_lhs_rhs(vv[idx], x, il, io, rs, rsh, n, vth, ns), i, tol=atol**2)
             # setting tol=atol**2 because findroot checks func(zero)**2 < tol

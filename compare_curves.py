@@ -13,20 +13,23 @@ from precise import diff_lhs_rhs, get_precise_i
 
 def find_x_intersection(single_diode, known_xs, known_ys, xp, yp, num_segments, atol):
     r"""
-    Finds x-coordinate of the intersection point of the known IV curve and the line through origin and given point (`xp`, `yp`).
+    Finds x-coordinate of the intersection point of the known IV curve and the
+    line through origin and given point (`xp`, `yp`).
 
     Auxiliary function for total_score.
 
     Parameters
     ----------
     single_diode : function
-        The single diode equation with two unknowns (the first being voltage, the second being current).
+        The single diode equation with two unknowns (the first being voltage,
+        the second being current).
 
     known_xs : list of floats
         A list of x-coordinates.
 
     known_ys : list of floats
-        A list of y-coordinates associated to `known_xs` that lie on the known curve.
+        A list of y-coordinates associated to `known_xs` that lie on the known
+        curve.
 
     xp : float
         x-coordinate of point on fitted curve (voltage).
@@ -35,23 +38,30 @@ def find_x_intersection(single_diode, known_xs, known_ys, xp, yp, num_segments, 
         y-coordinate of point on fitted curve (current).
 
     num_segments : int
-        Number of segments to use when approximating known curve. (See get_guess_interval.)
+        Number of segments to use when approximating known curve. (See
+        get_guess_interval.)
 
     atol : float
-        When finding roots within function, found root will be at most `atol` from true root. (See try_findroot.)
+        When finding roots within function, found root will be at most `atol`
+        from true root. (See try_findroot.)
 
     Returns
     -------
     float
-        x-coordinate of the intersection of known IV curve and line through the origin and the given point.
+        x-coordinate of the intersection of known IV curve and line through the
+        origin and the given point.
     """
     if xp == 0: 
+        # then line through origin and (`xp`, `yp`) sits on y-axis
+        # so x coordinate at intersection must be zero
         return 0
 
     else:
+        # line through origin and (`xp`, `yp`) has a defined slope
         line = lambda x : (yp / xp) * x
-        solve_for_zero = lambda x : single_diode(x, line(x)) - line(x)
 
+        # solve for intersection of line and single_diode
+        solve_for_zero = lambda x : single_diode(x, line(x)) - line(x)
         guess_int = get_guess_interval(known_xs, known_ys, (xp, yp), num_segments)
         x_int = try_findroot(solve_for_zero, guess_int, atol)
         assert abs(solve_for_zero(x_int)) < atol
@@ -61,7 +71,8 @@ def find_x_intersection(single_diode, known_xs, known_ys, xp, yp, num_segments, 
 
 def try_findroot(func, guess, atol, max_steps=100):
     r"""
-    Tries running findroot with different parameters to maximize chance of success.
+    Tries running findroot with different parameters to maximize chance of
+    success.
 
     Parameters
     ----------
@@ -69,18 +80,22 @@ def try_findroot(func, guess, atol, max_steps=100):
         Function whose zero we're trying to find.
 
     guess : float or tuple of floats
-        A starting point (or interval) for where the zero is located. If only a single value (call it :math:`x0`) is given, findroot considers the interval from :math:`x0` to :math:`x0 + 0.25`. 
+        A starting point (or interval) for where the zero is located. If only a
+        single value (call it :math:`x0`) is given, findroot considers the
+        interval from :math:`x0` to :math:`x0 + 0.25`. 
 
     atol : float
         Returned root will be at most `atol` from true root.
 
     max_steps : int, default=100
-        The maximum number of iterations we let findroot try before raising an Exception.
+        The maximum number of iterations we let findroot try before raising an
+        Exception.
 
     Returns
     -------
     zero : mpmath float
-        An approximate root (which is at most `atol` from the true root) of `func` on the given interval (`guess`). 
+        An approximate root (which is at most `atol` from the true root) of
+        `func` on the given interval (`guess`). 
     """
     raisedException = True
     steps = 30 # initial default value for findroot secant method
@@ -109,28 +124,38 @@ def get_guess_interval(known_xs, known_ys, pt_on_line, num_segments):
         A list of x-coordinates.
 
     known_ys : list of floats
-        A list of y-coordinates associated to `known_xs` that lie on the known curve.
+        A list of y-coordinates associated to `known_xs` that lie on the known
+        curve.
 
     pt_on_line : tuple of floats
         Point on fitted curve.
 
     num_segments : int
         Number of segments to use when approximating known curve.
-        We will find `num_segments` points on the given curve, then consider consecutive pairs of points (which will define a line segment between them). If the line that passes through the origin and `pt_on_line` crosses this particular segment, we return the x-coordinates of the endpoints of this segment.
+        We will find `num_segments` points on the given curve, then consider
+        consecutive pairs of points (which will define a line segment between
+        them). If the line that passes through the origin and `pt_on_line`
+        crosses this particular segment, we return the x-coordinates of the
+        endpoints of this segment.
 
     Returns
     -------
     tuple of mpmath floats
-        The left and right x-coordinates of the interval that contains the intersection of the known curve with the line that passes through the origin and `pt_on_line`. 
+        The left and right x-coordinates of the interval that contains the
+        intersection of the known curve with the line that passes through the
+        origin and `pt_on_line`. 
     """
     # find slope and y-intercept of line, if finite
     if pt_on_line[0] != 0:
         line_slope, line_incpt = pt_on_line[1] / pt_on_line[0], 0
 
     pts = list(zip(known_xs, known_ys))
+    # go through line segments
     for idx in range(len(pts)-1): 
-        if (pts[idx+1][0] == pts[idx][0]): # line segment is vertical
-            int_x = pts[idx][0]
+        if (pts[idx+1][0] == pts[idx][0]): 
+            # line segment is vertical, so x at intersection (`int_x`) 
+            # must be pts[idx][0] (==pts[idx+1][0])
+            int_x = pts[idx][0] 
 
             if pt_on_line[0] == 0: # line is on y-axis
                 if int_x == 0: # segment is on y-axis
@@ -138,6 +163,7 @@ def get_guess_interval(known_xs, known_ys, pt_on_line, num_segments):
                 else: # segment doesn't intersect y-axis (and so doesn't intersect line)
                     continue
             else: # slope of line is finite
+                # so we can solve for y coordinate of intersection
                 int_y = line_slope*int_x + line_incpt
 
         else: # segment is not vertical, and so has a finite slope
@@ -154,6 +180,7 @@ def get_guess_interval(known_xs, known_ys, pt_on_line, num_segments):
                 int_x = 0
                 int_y = seg_incpt
 
+        # check that found intersection point occurs within segment
         # if intersection point is within segment, return intersection point
         if min(pts[idx][0], pts[idx+1][0]) <= int_x and int_x <= max(pts[idx][0], pts[idx+1][0]):
             if min(pts[idx][1], pts[idx+1][1]) <= int_y and int_y <= max(pts[idx][1], pts[idx+1][1]):
@@ -191,7 +218,8 @@ def find_distance(x, y, xp, yp):
     Returns
     -------
     mpmath float
-        Distance between the two points, where here the distance between :math:`(x, y)` and :math:`(xp, yp)` is
+        Distance between the two points, where here the distance between
+        :math:`(x, y)` and :math:`(xp, yp)` is
 
         ..math: 
 
@@ -230,24 +258,29 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
     r"""
     Calculates the total score for a given fitted curve. 
 
-    This score encodes how good an approximation the fitted curve is for the curve with the known parameters. If the score is small, then the fitted curve is close to the known curve.
+    This score encodes how good an approximation the fitted curve is for the
+    curve with the known parameters. If the score is small, then the fitted
+    curve is close to the known curve.
 
     Parameters
     ----------
     known_curve_params : list
-        A list of parameters representing a given IV curve. Should be passed in the order [il, io, rs, rsh, n, ns].
+        A list of parameters representing a given IV curve. Should be passed in
+        the order [il, io, rs, rsh, n, ns].
 
         il : numeric
             Light-generated current :math:`I_L` (photocurrent) [A]
 
         io : numeric
-            Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+            Diode saturation :math:`I_0` current under desired IV curve
+            conditions. [A]
 
         rs : numeric
             Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
         rsh : numeric
-            Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+            Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+            [ohm]
 
         n : numeric
             Diode ideality factor :math:`n`
@@ -256,19 +289,22 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
             Number of cells in series :math:`N_s`
 
     fitted_curve_params : list
-        A list of parameters representing a given IV curve. Should be passed in the order [il, io, rs, rsh, n, ns].
+        A list of parameters representing a given IV curve. Should be passed in
+        the order [il, io, rs, rsh, n, ns].
 
         il : numeric
             Light-generated current :math:`I_L` (photocurrent) [A]
 
         io : numeric
-            Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+            Diode saturation :math:`I_0` current under desired IV curve
+            conditions. [A]
 
         rs : numeric
             Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
         rsh : numeric
-            Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+            Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+            [ohm]
 
         n : numeric
             Diode ideality factor :math:`n`
@@ -278,13 +314,17 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
 
     vth : numeric
         Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K), :math:`T_c` is the temperature of the p-n junction in Kelvin, and :math:`q` is the charge of an electron (coulombs). 
+        The thermal voltage of the cell (in volts) may be calculated as
+        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
+        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
+        :math:`q` is the charge of an electron (coulombs). 
 
     num_pts : int
         Number of points we want to compare between the two curves.
 
     atol : float
-        The error of each of the solution pairs found is at most `atol`. (See get_precise_i.)
+        The error of each of the solution pairs found is at most `atol`. (See
+        get_precise_i.)
         Each solution pair is a point on the curve.
 
     Returns
@@ -294,8 +334,17 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
 
     Notes
     -----
-    The user inputs parameters that they’ve fitted to a particular known IV curve. The curve from these fitted parameters is compared to the known IV curve. A sampling of points on the fitted curve are chosen. To get an associated point on the known curve, we draw a line from the origin that passes through the point on the fitted curve. This line will intersect the known curve; this point of intersection is what we compare the fitted point to. We then find the distance between these two points, using the definition of distance given in find_distance. The sum of the distances for each pair of associated points is the score. 
+    The user inputs parameters that they’ve fitted to a particular known IV
+    curve. The curve from these fitted parameters is compared to the known IV
+    curve. A sampling of points on the fitted curve are chosen. To get an
+    associated point on the known curve, we draw a line from the origin that
+    passes through the point on the fitted curve. This line will intersect the
+    known curve; this point of intersection is what we compare the fitted point
+    to. We then find the distance between these two points, using the
+    definition of distance given in find_distance. The sum of the distances for
+    each pair of associated points is the score. 
     """
+    # get xs and ys for known and fitted curves
     known_xs, known_ys = get_curve(known_curve_params, vth, num_pts, atol)
     fit_xs, fit_ys = get_curve(fitted_curve_params, vth, num_pts, atol)
 
@@ -305,6 +354,8 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
     score = 0
 
     for v, i in list(zip(fit_xs, fit_ys)):
+        # for each point (`v`, `i`) on the fitted curve, find the associated
+        # point on known curve (`new_voltage`, `new_current`)
         new_voltage = find_x_intersection(single_diode, known_xs, known_ys, v, i, num_pts, atol)
         new_current = lambert_i_from_v(new_voltage, il, io, rs, rsh, n, vth, ns) # find current associated to new_voltage
 
@@ -313,6 +364,7 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
         if abs(dff) > atol:
             new_current = mp.findroot(lambda y : diff_lhs_rhs(new_voltage, y, il, io, rs, rsh, n, vth, ns), new_current, tol=atol**2)
 
+        # calculate distance between these points, and add to score
         score += find_distance(new_voltage, new_current, v, i)
 
     return score 
@@ -330,19 +382,22 @@ def get_curve(curve_parameters, vth, num_pts, atol):
     Parameters
     ----------
     curve_parameters : list
-        A list of parameters representing a given IV curve. Should be passed in the order [il, io, rs, rsh, n, ns].
+        A list of parameters representing a given IV curve. Should be passed in
+        the order [il, io, rs, rsh, n, ns].
 
         il : numeric
             Light-generated current :math:`I_L` (photocurrent) [A]
 
         io : numeric
-            Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+            Diode saturation :math:`I_0` current under desired IV curve
+            conditions. [A]
 
         rs : numeric
             Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
         rsh : numeric
-            Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+            Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+            [ohm]
 
         n : numeric
             Diode ideality factor :math:`n`
@@ -352,19 +407,24 @@ def get_curve(curve_parameters, vth, num_pts, atol):
 
     vth : numeric
         Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K), :math:`T_c` is the temperature of the p-n junction in Kelvin, and :math:`q` is the charge of an electron (coulombs). 
+        The thermal voltage of the cell (in volts) may be calculated as
+        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
+        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
+        :math:`q` is the charge of an electron (coulombs). 
 
     num_pts : int
         Number of points to calculate on the given curve.
 
     atol : float
-        The error of each of the solution pairs found is at most `atol`. (See get_precise_i.)
+        The error of each of the solution pairs found is at most `atol`. (See
+        get_precise_i.)
         Each solution pair is a point on the curve.
 
     Returns
     -------
     (vv, ii) : tuple of numpy arrays
-        `vv` is a numpy array of float64 and `ii` is a numpy array of mpmath floats. Each array has `num_pts` entries.
+        `vv` is a numpy array of float64 and `ii` is a numpy array of mpmath
+        floats. Each array has `num_pts` entries.
     """
     il, io, rs, rsh, n, ns = curve_parameters
     vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts)
@@ -378,19 +438,22 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=True)
     Parameters
     ----------
     iv_known : list
-        A list of parameters representing a given IV curve. Should be passed in the order [il, io, rs, rsh, n, ns].
+        A list of parameters representing a given IV curve. Should be passed in
+        the order [il, io, rs, rsh, n, ns].
 
         il : numeric
             Light-generated current :math:`I_L` (photocurrent) [A]
 
         io : numeric
-            Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+            Diode saturation :math:`I_0` current under desired IV curve
+            conditions. [A]
 
         rs : numeric
             Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
         rsh : numeric
-            Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+            Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+            [ohm]
 
         n : numeric
             Diode ideality factor :math:`n`
@@ -399,19 +462,22 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=True)
             Number of cells in series :math:`N_s`
 
     iv_fitted : list
-        A list of parameters representing a given IV curve. Should be passed in the order [il, io, rs, rsh, n, ns].
+        A list of parameters representing a given IV curve. Should be passed in
+        the order [il, io, rs, rsh, n, ns].
 
         il : numeric
             Light-generated current :math:`I_L` (photocurrent) [A]
 
         io : numeric
-            Diode saturation :math:`I_0` current under desired IV curve conditions. [A]
+            Diode saturation :math:`I_0` current under desired IV curve
+            conditions. [A]
 
         rs : numeric
             Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
 
         rsh : numeric
-            Shunt resistance :math:`R_{sh}` under desired IV curve conditions. [ohm]
+            Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+            [ohm]
 
         n : numeric
             Diode ideality factor :math:`n`
@@ -421,26 +487,36 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=True)
 
     vth : numeric
         Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K), :math:`T_c` is the temperature of the p-n junction in Kelvin, and :math:`q` is the charge of an electron (coulombs). 
+        The thermal voltage of the cell (in volts) may be calculated as
+        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
+        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
+        :math:`q` is the charge of an electron (coulombs). 
 
 
     num_pts : int
         Number of points to use when plotting curves. 
         
     atol : float
-        The error of each of the solution pairs found is at most `atol`. (See get_precise_i.)
+        The error of each of the solution pairs found is at most `atol`. (See
+        get_precise_i.)
         Each solution pair is a point on the curve.
 
     pts : list, default []
-        A list of points on the fitted curve that will be plotted, along with their associated points on the known curve.
+        A list of points on the fitted curve that will be plotted, along with
+        their associated points on the known curve.
 
     plot_lines : bool, defult True
-        If true, the lines connecting the points on the fitted curve and the associated points on the known curve will be plotted.
+        If true, the lines connecting the points on the fitted curve and the
+        associated points on the known curve will be plotted.
 
     Returns
     -------
     plot
-        A matplotlib plot of the known curve (cyan) and the fitted curve (green). If `pts` is given, the image will also include points that were compared on the fitted curve (light green) and the known curve (magenta). If `plot_lines` is True, then lines are drawn that connect the associated points.
+        A matplotlib plot of the known curve (cyan) and the fitted curve
+        (green). If `pts` is given, the image will also include points that
+        were compared on the fitted curve (light green) and the known curve
+        (magenta). If `plot_lines` is True, then lines are drawn that connect
+        the associated points.
     """
     plot = plt.plot()
 
