@@ -3,7 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpmath import mp
 from itertools import product
+import json
 import csv
+import datetime
 
 
 def diff_lhs_rhs(v, i, il, io, rs, rsh, n, vth, ns):
@@ -157,6 +159,14 @@ def plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case_title):
     return plt.plot(v_vals, i_vals)
 
 
+def plot_case_iv_curves(case_title, case_parameter_sets, vth, atol, num_pts):
+    plt.style.use('seaborn-darkgrid')
+    plot = plt.plot()
+    for il, io, rs, rsh, n, ns in case_parameter_sets:
+        plot += plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case_title)
+    plt.show()
+
+
 def read_case_parameters(filename):
     with open(f'{filename}.csv', newline='') as file:
         reader = csv.DictReader(file, delimiter=',')
@@ -165,6 +175,37 @@ def read_case_parameters(filename):
         for row in reader:
             rows.append([float(row[col]) for col in columns])
         return rows
+
+
+def write_case_tests(case_filename, case_parameter_sets, vth, atol, num_pts):
+    case_test_suite = {'Manufacturer': '', 'Sandia ID': '', 'Material': '',
+                       'IV Curves': []}
+    for idx, (il, io, rs, rsh, n, ns) in enumerate(case_parameter_sets):
+        voltages, currents = get_precise_i(il, io, rs, rsh, n, vth, ns, atol,
+                                           num_pts)
+        nstr16 = lambda x: mp.nstr(x, n=16)
+        voltages_str_list = [nstr16(x) for x in voltages]
+        currents_str_list = [nstr16(x) for x in currents]
+
+        # find V_mp, I_mp, where P_mp = V_mp * I_mp is maximized
+        V_mp, I_mp = voltages[0], currents[0]
+        P_mp = V_mp * I_mp
+        for v, c in zip(voltages, currents):
+            if P_mp < v * c:
+                V_mp, I_mp = v, c
+                P_mp = v * c
+
+        case_test_suite['IV Curves'].append({
+            'Index': idx + 1, 'Voltages': voltages_str_list,
+            'Currents': currents_str_list, 'V_oc': nstr16(voltages.max()),
+            'I_sc': nstr16(currents.max()), 'V_mp': nstr16(V_mp),
+            'I_mp': nstr16(I_mp), 'P_mp': nstr16(P_mp), 'Temperature': None,
+            'Irradiance': None, 'Sweep direction': '',
+            'Datetime': datetime.date.today().strftime('%m/%d/%Y')
+        })
+
+    with open(f'{case_filename}.json', 'w') as file:
+        json.dump(case_test_suite, file, indent=2)
 
 
 if __name__ == "__main__":
@@ -179,11 +220,8 @@ if __name__ == "__main__":
     case_number = 1
     case_filename = f'case{case_number}'
     case_title = f'Case {case_number}'
+    case_parameter_sets = read_case_parameters(case_filename)
 
-    plt.style.use('seaborn-darkgrid')
-    plot = plt.plot()
-    for il, io, rs, rsh, n, ns in read_case_parameters(case_filename):
-        plot += plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case_title)
-    
-    plt.show()
+    write_case_tests(case_filename, case_parameter_sets, vth, atol, num_pts)
+    # plot_case_iv_curves(case_title, case_parameter_sets, vth, atol, num_pts)
 
