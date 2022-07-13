@@ -162,7 +162,7 @@ def plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case_title):
 def plot_case_iv_curves(case_title, case_parameter_sets, vth, atol, num_pts):
     plt.style.use('seaborn-darkgrid')
     plot = plt.plot()
-    for il, io, rs, rsh, n, ns in case_parameter_sets:
+    for _, il, io, rs, rsh, n, ns in case_parameter_sets:
         plot += plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case_title)
     plt.show()
 
