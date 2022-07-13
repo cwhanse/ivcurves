@@ -189,15 +189,8 @@ def write_case_tests(case_filename, case_parameter_sets, vth, temp_cell, atol,
                                num_pts)
         v_oc = vv.max()
         i_sc = ii.max()
-
-        # find v_mp, i_mp, where p_mp = v_mp * i_mp is maximized
-        v_mp, i_mp = vv[0], ii[0]
-        p_mp = v_mp * i_mp
-        for v, c in zip(vv, ii):
-            if p_mp < v * c:
-                v_mp, i_mp = v, c
-                p_mp = v * c
-
+        v_mp, i_mp, p_mp = max_power.max_power_pt_finder(il, io, rs, rsh, n,
+                                                         vth, ns, atol)
         precision = 16
         # find max digits to the left of decimal
         all_mpf = itertools.chain(vv, ii, [v_oc, i_sc, v_mp, i_mp, p_mp])
