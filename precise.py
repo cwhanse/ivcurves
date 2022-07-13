@@ -142,6 +142,14 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
         # updating array of i's
         precise_i[idx] = new_i
 
+    # find precise v_oc and set as last coordinate
+    precise_i[-1] = mp.mpmathify(0)
+    vv[-1] = max_power.lambert_v_from_i(precise_i[-1], il, io, rs, rsh, n, vth,
+                                        ns)
+
+    assert vv[0] == 0, f'Must be zero: vv[0] = {vv[0]}'
+    assert precise_i[-1] == 0, f'Must be zero: precise_i[-1] = {precise_i[-1]}'
+
     return vv, precise_i
 
 
