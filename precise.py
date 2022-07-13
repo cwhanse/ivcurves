@@ -170,38 +170,43 @@ def plot_case_iv_curves(case_title, case_parameter_sets, vth, atol, num_pts):
 def read_case_parameters(filename):
     with open(f'{filename}.csv', newline='') as file:
         reader = csv.DictReader(file, delimiter=',')
-        columns = ['IL', 'IO', 'RS', 'RSH', 'N', 'ns']
+        parameter_columns = ['photocurrent', 'saturation_current',
+                             'resistance_series', 'resistance_shunt', 'n',
+                             'cells_in_series']
         rows = []
         for row in reader:
-            rows.append([float(row[col]) for col in columns])
+            rows.append([int(row['Index'])]
+                        + [float(row[col]) for col in parameter_columns])
         return rows
 
 
-def write_case_tests(case_filename, case_parameter_sets, vth, atol, num_pts):
+def write_case_tests(case_filename, case_parameter_sets, vth, temp_cell, atol,
+                     num_pts):
     case_test_suite = {'Manufacturer': '', 'Sandia ID': '', 'Material': '',
                        'IV Curves': []}
-    for idx, (il, io, rs, rsh, n, ns) in enumerate(case_parameter_sets):
+    for test_idx, il, io, rs, rsh, n, ns in case_parameter_sets:
         voltages, currents = get_precise_i(il, io, rs, rsh, n, vth, ns, atol,
                                            num_pts)
         nstr16 = lambda x: mp.nstr(x, n=16)
         voltages_str_list = [nstr16(x) for x in voltages]
         currents_str_list = [nstr16(x) for x in currents]
 
-        # find V_mp, I_mp, where P_mp = V_mp * I_mp is maximized
-        V_mp, I_mp = voltages[0], currents[0]
-        P_mp = V_mp * I_mp
+        # find v_mp, i_mp, where p_mp = v_mp * i_mp is maximized
+        # should calculate precisely
+        v_mp, i_mp = voltages[0], currents[0]
+        p_mp = v_mp * i_mp
         for v, c in zip(voltages, currents):
-            if P_mp < v * c:
-                V_mp, I_mp = v, c
-                P_mp = v * c
+            if p_mp < v * c:
+                v_mp, i_mp = v, c
+                p_mp = v * c
 
         case_test_suite['IV Curves'].append({
-            'Index': idx + 1, 'Voltages': voltages_str_list,
-            'Currents': currents_str_list, 'V_oc': nstr16(voltages.max()),
-            'I_sc': nstr16(currents.max()), 'V_mp': nstr16(V_mp),
-            'I_mp': nstr16(I_mp), 'P_mp': nstr16(P_mp), 'Temperature': None,
-            'Irradiance': None, 'Sweep direction': '',
-            'Datetime': datetime.date.today().strftime('%m/%d/%Y')
+            'Index': test_idx, 'Voltages': voltages_str_list,
+            'Currents': currents_str_list, 'v_oc': nstr16(voltages.max()),
+            'i_sc': nstr16(currents.max()), 'v_mp': nstr16(v_mp),
+            'i_mp': nstr16(i_mp), 'p_mp': nstr16(p_mp),
+            'Temperature': str(temp_cell), 'Irradiance': None,
+            'Sweep direction': None, 'Datetime': None
         })
 
     with open(f'{case_filename}.json', 'w') as file:
@@ -222,6 +227,7 @@ if __name__ == "__main__":
     case_title = f'Case {case_number}'
     case_parameter_sets = read_case_parameters(case_filename)
 
-    write_case_tests(case_filename, case_parameter_sets, vth, atol, num_pts)
+    write_case_tests(case_filename, case_parameter_sets, vth, temp_cell, atol,
+                     num_pts)
     # plot_case_iv_curves(case_title, case_parameter_sets, vth, atol, num_pts)
 
