@@ -120,7 +120,7 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     if necessary.
     """
     # convert mpf to np.float64
-    parameters_npfloat64 = map(lambda x: np.array(x, dtype=np.float64), [il, io, rs, rsh, n*vth*ns])
+    parameters_npfloat64 = map(lambda x: np.float64(x), [il, io, rs, rsh, n*vth*ns])
     res = pvlib.pvsystem.singlediode(*parameters_npfloat64, ivcurve_pnts=num_pts)
 
     # convert np.float64 to mpf
@@ -129,10 +129,9 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
 
     # allocate array for new, more precise i's
     precise_i = np.zeros(ii.shape[0], dtype=mp.mpf)
-
+    i_precise_enough = lambda c: abs(diff_lhs_rhs(v, c, il, io, rs, rsh, n, vth, ns)) < atol
     for idx, (v, i) in enumerate(zip(vv, ii, strict=True)):
         # check if i val already precise enough
-        i_precise_enough = lambda c: abs(diff_lhs_rhs(v, c, il, io, rs, rsh, n, vth, ns)) < atol
         if i_precise_enough(i): 
             new_i = i
         else:
@@ -240,5 +239,5 @@ if __name__ == "__main__":
 
     write_case_tests(case_filename, case_parameter_sets, vth, temp_cell, atol,
                      num_pts)
-    # plot_case_iv_curves(case_title, case_parameter_sets, vth, atol, num_pts)
+    plot_case_iv_curves(case_title, case_parameter_sets, vth, atol, num_pts)
 
