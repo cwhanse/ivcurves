@@ -234,7 +234,7 @@ if __name__ == "__main__":
     vth = (k * temp_cell) / q
 
     case_number = 1
-    case_filename = f'case{case_number}'
+    case_filename = f'tests/case{case_number}'
     case_title = f'Case {case_number}'
     case_parameter_sets = read_case_parameters(case_filename)
 
