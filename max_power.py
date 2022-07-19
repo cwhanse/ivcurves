@@ -1,9 +1,8 @@
-from mpmath import mp
-from itertools import product
 import pvlib 
 
 # from ivcurves repo
-from precise import diff_lhs_rhs
+import utils
+from utils import mp, diff_lhs_rhs
 
 
 ###################
@@ -380,46 +379,23 @@ def lambert_v_from_i(i, il, io, rs, rsh, n, vth, ns):
 
 
 if __name__ == "__main__":
-    mp.dps = 40 # 16*2 rounded up
-    atol = 1e-16
+    case_number = 1
+    case_filename = f'tests/case{case_number}'
+
     parameters = dict()
     max_vals = dict()
+    constants = utils.constants()
+    vth, atol = constants['vth'], constants['atol']
 
-    # Boltzmann's const (J/K), electron charge (C), temp (K) 
-    k, q, temp_cell = [1.380649e-23, 1.60217663e-19, 298.15]
-    vth = (k * temp_cell) / q
-
-
-    case1 = True
-
-    if case1:
-        IL = [1.0, 8.0]
-        IO = [5e-10, 3e-8]
-        RS = [0.1, 1.0]
-        RSH = [300, 3000]
-        N = [1.01, 1.3]
-        ns = 72
-    else: # we're in case 2
-        IL = [0.5, 2.5] 
-        IO = [1e-9, 1e-8]
-        RS = [0.1, 1.0]
-        RSH = [300, 3000]
-        N = [1.3, 1.5]
-        ns = 140
-
-    count = 0
-    for il, io, rs, rsh, n in product(IL, IO, RS, RSH, N):
+    for test_idx, il, io, rs, rsh, n, ns in utils.read_case_parameters(case_filename):
         max_voltage, max_current, max_power = max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol)
-        parameters[count] = [il, io, rs, rsh, n]
-        max_vals[count] = [max_voltage, max_current, max_power]
-        count += 1
+        parameters[test_idx] = [il, io, rs, rsh, n]
+        max_vals[test_idx] = [max_voltage, max_current, max_power]
 
-    assert count == 32
-
-    for idx in range(count):
-        print(parameters[idx])
-        print('Max voltage:', max_vals[idx][0])
-        print('Max current:', max_vals[idx][1])
-        print('Max power:', max_vals[idx][2])
+    for p, mv in zip(parameters.values(), max_vals.values(), strict=True):
+        print(mp.nstr(p))
+        print('Max voltage:', mv[0])
+        print('Max current:', mv[1])
+        print('Max power:', mv[2])
         print('')
 

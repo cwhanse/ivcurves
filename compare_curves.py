@@ -1,10 +1,11 @@
 import pvlib
-from mpmath import mp
 import matplotlib.pyplot as plt
 
 # from ivcurves repo
+import utils
+from utils import mp, diff_lhs_rhs
 from max_power import lambert_i_from_v
-from precise import diff_lhs_rhs, get_precise_i
+from precise import get_precise_i
 
 
 #####################
@@ -569,18 +570,15 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=[], plot_lines=True)
 ######## 
 
 if __name__ == "__main__":
-    mp.dps = 40 # 16*2 rounded up (1e-16 is default tolerance)
-
-    # Boltzmann's const (J/K), electron charge (C), temp (K) 
-    k, q, temp_cell = [1.380649e-23, 1.60217663e-19, 298.15]
-    vth = (k * temp_cell) / q
     num_compare_pts = 10
     num_total_pts = 200
-    atol = 1e-16
 
     # intersecting curves example
-    iv_known = [6.0, 3.8500023e-06, 1.6816000000000002, 8832.800000000005, 1.4200000000000004, 72]
-    iv_fitted = [4.2, 6.500087e-07, 0.9453, 17881.40000000001, 1.6300000000000006, 72]
+    iv_known = list(map(mp.mpmathify, [6.0, 3.8500023e-06, 1.6816000000000002, 8832.800000000005, 1.4200000000000004, 72]))
+    iv_fitted = list(map(mp.mpmathify, [4.2, 6.500087e-07, 0.9453, 17881.40000000001, 1.6300000000000006, 72]))
+
+    constants = utils.constants()
+    vth, atol = constants['vth'], constants['atol']
 
     print("Total score:", total_score(iv_known, iv_fitted, vth, num_compare_pts, atol))
 

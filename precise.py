@@ -1,57 +1,12 @@
 import pvlib
 import numpy as np
 import matplotlib.pyplot as plt
-from mpmath import mp
-from itertools import product
-
-
-def diff_lhs_rhs(v, i, il, io, rs, rsh, n, vth, ns):
-    r"""
-    Calculates the difference between the left hand side and right hand side of
-    the single diode equation.
-
-    Parameters
-    ----------
-    v : numeric
-        Voltage [V]
-
-    i : numeric
-        Current [A]
-
-    il : numeric
-        Light-generated current :math:`I_L` (photocurrent) [A]
-
-    io : numeric
-        Diode saturation :math:`I_0` current under desired IV curve conditions.
-        [A]
-
-    rs : numeric
-        Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
-
-    rsh : numeric
-        Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
-        [ohm]
-
-    n : numeric
-        Diode ideality factor :math:`n`
-
-    vth : numeric
-        Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as
-        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
-        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
-        :math:`q` is the charge of an electron (coulombs). 
-
-    ns : numeric
-        Number of cells in series :math:`N_s`
-
-    Returns
-    -------
-    mpmath float
-        Difference between the left hand and right hand sides of the single
-        diode equation.
-    """
-    return (il - io*mp.expm1((v + i*rs)/(n*ns*vth)) - (v + i*rs)/(rsh) - i)
+import itertools
+import json
+import datetime
+import max_power
+import utils
+from utils import mp, diff_lhs_rhs, mp_nstr_precision_func
 
 
 def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
@@ -106,89 +61,109 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
 
     Returns
     -------
-    (vv, prec_i) : tuple of numpy arrays
-        `vv` is a numpy array of float64 and `prec_i` is a numpy array of
-        mpmath floats. Each array has `num_pts` entries.
+    (vv, precise_i) : tuple of numpy arrays
+        `vv` and `precise_i` are numpy arrays of mpmath floats of
+        length `num_pts`.
 
     Notes
     -----
     Uses pvlib.pvsystem.singlediode to generate solution pairs, then uses
-    mpmath's findroot to sharpen the precision of the solutions if necessary.
+    max_power's `lambert_i_from_v` to sharpen the precision of the solutions
+    if necessary.
     """
-    res = pvlib.pvsystem.singlediode(il, io, rs, rsh, n*vth*ns, num_pts)
-    vv = res['v']
-    ii = res['i']
-    # initialize 'empty' array for new, more precise i's
-    prec_i = np.array([0 for _ in range(ii.shape[0])], dtype=mp.mpf) 
+    # convert mpf to np.float64
+    parameters_npfloat64 = map(lambda x: np.float64(x), [il, io, rs, rsh, n*vth*ns])
+    res = pvlib.pvsystem.singlediode(*parameters_npfloat64, ivcurve_pnts=num_pts)
 
-    assert len(vv) == len(ii)
-    for idx in range(len(vv)):
-        i = mp.mpf(str(ii[idx]))
+    # convert np.float64 to mpf
+    vv = np.fromiter(map(mp.mpmathify, res['v']), dtype=mp.mpf)
+    ii = np.fromiter(map(mp.mpmathify, res['i']), dtype=mp.mpf)
+
+    # allocate array for new, more precise i's
+    precise_i = np.zeros(ii.shape[0], dtype=mp.mpf)
+    i_precise_enough = lambda c: abs(diff_lhs_rhs(v, c, il, io, rs, rsh, n, vth, ns)) < atol
+    for idx, (v, i) in enumerate(zip(vv, ii, strict=True)):
         # check if i val already precise enough
-        if abs(diff_lhs_rhs(vv[idx], i, il, io, rs, rsh, n, vth, ns)) < atol: 
+        if i_precise_enough(i): 
             new_i = i
-
         else:
-            # findroot takes the function whose roots we want to find, a good
-            # guess for where the root is, and a tolerance
-            # default solver uses secant method
-            new_i = mp.findroot(lambda x: diff_lhs_rhs(vv[idx], x, il, io, rs, rsh, n, vth, ns), i, tol=atol**2)
-            # setting tol=atol**2 because findroot checks func(zero)**2 < tol
-
-        # check that mp.findroot did what we wanted 
-        assert abs(diff_lhs_rhs(vv[idx], new_i, il, io, rs, rsh, n, vth, ns)) < atol
+            new_i = max_power.lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns)
+            assert i_precise_enough(new_i), f'Index: {idx}'
 
         # updating array of i's
-        prec_i[idx] = new_i
+        precise_i[idx] = new_i
 
-    # vv is a np.array of float64 and prec_i is a np.array of mp.mpf 
-    return vv, prec_i
+    # find precise v_oc and set as last coordinate
+    precise_i[-1] = mp.mpmathify(0)
+    vv[-1] = max_power.lambert_v_from_i(precise_i[-1], il, io, rs, rsh, n, vth,
+                                        ns)
+
+    assert vv[0] == 0, f'Must be zero: vv[0] = {vv[0]}'
+    assert precise_i[-1] == 0, f'Must be zero: precise_i[-1] = {precise_i[-1]}'
+
+    return vv, precise_i
 
 
-def plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case):
+def plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case_title):
     # plot a single IV curve 
     plt.xlabel('Voltage')
     plt.ylabel('Current')
 
-    if case == 1: plt.title('Case 1')
-    else: plt.title('Case 2') # we're in case 2
+    plt.title(case_title)
 
     v_vals, i_vals = get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts)
     return plt.plot(v_vals, i_vals)
 
 
-
-if __name__ == "__main__":
-    mp.dps = 40 # set precision, 16*2 rounded up
-    num_pts = 100 
-    atol = 1e-16 
-
-    # Boltzmann's const (J/K), electron charge (C), temp (K) 
-    k, q, temp_cell = [1.380649e-23, 1.60217663e-19, 298.15]
-    vth = (k * temp_cell) / q
-
-    case1 = True
-    case = [1 if case1 else 2][0]
-
-    if case1:
-        IL = [1.0, 8.0]
-        IO = [5e-10, 3e-8]
-        RS = [0.1, 1.0]
-        RSH = [300, 3000]
-        N = [1.01, 1.3]
-        ns = 72
-    else: # we're in case 2
-        IL = [0.5, 2.5] 
-        IO = [1e-9, 1e-8]
-        RS = [0.1, 1.0]
-        RSH = [300, 3000]
-        N = [1.3, 1.5]
-        ns = 140
-
+def plot_case_iv_curves(case_title, case_parameter_sets, vth, atol, num_pts):
     plt.style.use('seaborn-darkgrid')
     plot = plt.plot()
-    for il, io, rs, rsh, n in product(IL, IO, RS, RSH, N):
-        plot += plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case)
-    
+    for _, il, io, rs, rsh, n, ns in case_parameter_sets:
+        plot += plotter(il, io, rs, rsh, n, vth, ns, atol, num_pts, case_title)
     plt.show()
+
+
+def write_case_tests(case_filename, case_parameter_sets, vth, temp_cell, atol,
+                     num_pts):
+    case_test_suite = {'Manufacturer': '', 'Sandia ID': '', 'Material': '',
+                       'IV Curves': []}
+    for test_idx, il, io, rs, rsh, n, ns in case_parameter_sets:
+        vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol,
+                               num_pts)
+        v_oc = vv.max()
+        i_sc = ii.max()
+        v_mp, i_mp, p_mp = max_power.max_power_pt_finder(il, io, rs, rsh, n,
+                                                         vth, ns, atol)
+
+        all_mpf = itertools.chain(vv, ii, [v_oc, i_sc, v_mp, i_mp, p_mp])
+        nstr = utils.mp_nstr_precision_func
+
+        vv_str_list = [nstr(x) for x in vv]
+        ii_str_list = [nstr(x) for x in ii]
+        case_test_suite['IV Curves'].append({
+            'Index': test_idx, 'Voltages': vv_str_list,
+            'Currents': ii_str_list, 'v_oc': nstr(v_oc),
+            'i_sc': nstr(i_sc), 'v_mp': nstr(v_mp),
+            'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
+            'Temperature': mp.nstr(temp_cell, n=5), 'Irradiance': None,
+            'Sweep direction': None, 'Datetime': None
+        })
+
+    with open(f'{case_filename}.json', 'w') as file:
+        json.dump(case_test_suite, file, indent=2)
+
+
+if __name__ == "__main__":
+    case_number = 1
+    case_filename = f'tests/case{case_number}'
+    case_title = f'Case {case_number}'
+
+    constants = utils.constants()
+    vth, temp_cell, atol, num_pts = (constants['vth'], constants['temp_cell'],
+                                     constants['atol'], constants['num_pts'])
+    case_parameter_sets = utils.read_case_parameters(case_filename)
+
+    write_case_tests(case_filename, case_parameter_sets, vth, temp_cell, atol,
+                     num_pts)
+    plot_case_iv_curves(case_title, case_parameter_sets, vth, atol, num_pts)
 
