@@ -238,8 +238,8 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
     Parameters
     ----------
     known_curve_params : list
-        A list of parameters representing a given IV curve. They should be
-        passed in the order [il, io, rs, rsh, n, ns].
+        A list of parameters representing a given IV curve. The list items
+        should be in the order [il, io, rs, rsh, n, ns].
 
         il : numeric
             Light-generated current :math:`I_L` (photocurrent) [A]
