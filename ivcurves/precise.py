@@ -657,7 +657,7 @@ if __name__ == '__main__':
     args = get_argparser().parse_args()
 
     if args.test_set_filename:
-        test_set_filenames = [test_set_filename]
+        test_set_filenames = [args.test_set_filename]
     else:
         test_set_filenames = utils.get_filenames_in_directory(utils.TEST_SETS_DIR)
 
