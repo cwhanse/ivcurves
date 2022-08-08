@@ -618,7 +618,6 @@ def write_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
         v_mp, i_mp, p_mp = max_power_pt_finder(il, io, rs, rsh, n,
                                                vth, ns, atol)
 
-        all_mpf = itertools.chain(vv, ii, [v_oc, i_sc, v_mp, i_mp, p_mp])
         nstr = utils.mp_nstr_precision_func
 
         vv_str_list = [nstr(x) for x in vv]
@@ -628,6 +627,7 @@ def write_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
             'Currents': ii_str_list, 'v_oc': nstr(v_oc),
             'i_sc': nstr(i_sc), 'v_mp': nstr(v_mp),
             'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
+            'cells_in_series': str(int(ns)),
             'Temperature': mp.nstr(temp_cell, n=5), 'Irradiance': None,
             'Sweep direction': None, 'Datetime': None
         })

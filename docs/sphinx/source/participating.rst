@@ -108,6 +108,7 @@ In the ``test_sets`` folder, there are multiple JSON files whose contents has th
         "v_mp": "33.9368943991155301",
         "i_mp": "0.8461238606639279",
         "p_mp": "28.7148161079236649",
+        "cells_in_series": "72",
         "Temperature": "298.15",
         "Irradiance": null,
         "Sweep direction": null,
