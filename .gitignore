@@ -1,10 +1,11 @@
 __pycache__
 
-*.csv
-*.json
+**/*.csv
+**/*.json
+!ivcurves/ivcurve_jsonschema.json
+!docs/sphinx/source/scores_database.json
 !test_sets/*.csv
 !test_sets/*.json
-!scores_database.json
 !submissions/**/*.*
 
 docs/sphinx/build

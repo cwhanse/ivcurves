@@ -108,11 +108,11 @@ In the ``test_sets`` folder, there are multiple JSON files whose contents has th
         "v_mp": "33.9368943991155301",
         "i_mp": "0.8461238606639279",
         "p_mp": "28.7148161079236649",
-        "cells_in_series": "72",
+        "cells_in_series": 72,
         "Temperature": "298.15",
         "Irradiance": null,
-        "Sweep direction": null,
-        "Datetime": null
+        "Sweep direction": "",
+        "Datetime": ""
       },
       ...
     ]
@@ -121,7 +121,20 @@ In the ``test_sets`` folder, there are multiple JSON files whose contents has th
 Under the ``"IV Curves"`` key is a list of IV curve data sets each with an ``"Index"`` value.
 The ``"Index"`` value is the test case number of the test set.
 
-For each JSON file ``<test_set_name>.json`` in ``test_sets``, your code must write a CSV file ``<test_set_name>.csv`` in ``submissions/<your_GitHub_username>``.
+The decimal numbers in each test case are calculated at a higher precision than what a 64-bit floating point number can store.
+To be sure that precision is not lost unintentionally when reading the JSON, the numbers are stored in strings.
+The competitor must decide how to parse these numbers in their submission.
+Here are a couple options:
+
+#. Parse the strings containing a number into a Python :py:class:`float`.
+   Any precision that cannot be stored in a 64-bit floating point number will be lost.
+#. Use an arbitrary precision math library to parse the strings containing a number.
+   The library `mpmath`_ was used to calculate the IV curve data in these test sets.
+
+   .. _mpmath: https://mpmath.org/
+
+
+For each JSON file ``<test_set_name>.json`` in ``test_sets``, your code must write a CSV file ``<test_set_name>.csv`` in the folder containing your submission main.
 Each CSV file must have these columns:
 
 .. datatemplate:nodata::
@@ -139,7 +152,8 @@ Each CSV file must have these columns:
      title='<test_set_name>.csv')
   }}
 
-Each row the CSV file will contain your code's fitted parameters for each test case in its corresponding test set.
+Each row of the CSV file will contain your code's fitted parameters for each test case in its corresponding test set.
+The script that scores your submission will read your CSV file and use an arbitrary precision math library to parse your fitted parameters.
 
 
 Here is some Python code that may be useful for getting a set all of the JSON filenames in ``test_sets``:
@@ -183,15 +197,15 @@ The ivcurves documentation uses numpy-sytle docstrings.
          :toctree: generated/
 
          ..
-            write the name of each function in <your_py_filename>.py
+            Write the name of each function in <your_py_filename>.py.
 
          <function_name1>
          <function_name2>
 
    ..
-      note to documentation writer: the rst in the code-block above
+      Note to the documentation writer: the rst in the code-block above
       is still interpreted by Sphinx. To prevent autosummary from executing,
-      it must be substituted in (using sphinx_substitution_extensions)
+      it must be substituted in (using sphinx_substitution_extensions).
 
 #. The following steps are for registering your submission's ``.py`` files that are in subfolders under ``submissions/<your_GitHub_username>``.
 
@@ -208,8 +222,8 @@ The ivcurves documentation uses numpy-sytle docstrings.
             :maxdepth: 2
 
             ..
-               write the name of each .rst file you created here
-               the .rst extension should be ommitted
+               Write the name of each .rst file you created here.
+               The .rst extension should be ommitted.
 
             <your_py_filename1>
             <your_py_filename2>
@@ -225,19 +239,21 @@ The ivcurves documentation uses numpy-sytle docstrings.
          :maxdepth: 2
 
          ..
-            write the name of each .rst file you created for your .py files in the top level of ``submissions/<your_GitHub_username>``
-            the .rst extension should be ommitted
+            Write the name of each .rst file you created for your .py files in
+            the top level of ``submissions/<your_GitHub_username>``.
+            The .rst extension should be ommitted.
 
          <your_py_filename1>
          <your_py_filename2>
 
          ..
-            for each subfolder in ``submissions/<your_GitHub_username>``, write the following lines
+            For each subfolder in ``submissions/<your_GitHub_username>``, write
+            the following lines:
 
          <your_subfolder_name1>/index
          <your_subfolder_name2>/index
 
-#. If your submission had a folder structure like this
+#. Suppose your submission has a folder structure like this:
 
    .. code-block:: bash
 
@@ -248,7 +264,7 @@ The ivcurves documentation uses numpy-sytle docstrings.
           |- <your_subfolder_name1>/
                |- <your_py_filename1>.py
 
-   then after following the previous steps you should have this folder structure:
+   After following the previous steps, your submission's documentation should have a folder structure like this:
 
    .. code-block:: bash
 

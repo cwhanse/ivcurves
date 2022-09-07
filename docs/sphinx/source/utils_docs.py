@@ -5,11 +5,12 @@ Allows useful functions in utils.py to be used by the Sphinx docs scripts.
 import os
 import sys
 
-IVCURVES = '../../../ivcurves'
+IVCURVES = f'{os.path.dirname(__file__)}/../../../ivcurves'
 
 sys.path.insert(0, os.path.abspath(IVCURVES))
 
 import utils # utils.py used by ivcurves scripts
+from utils import mp # same instance of mpmath's mp imported in ivcurves/utils
 
 
 TEST_SETS_DIR = utils.TEST_SETS_DIR

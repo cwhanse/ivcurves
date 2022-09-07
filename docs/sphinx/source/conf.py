@@ -13,7 +13,10 @@
 import os
 import sys
 
+# make repo base directory visible to Sphinx
 sys.path.insert(0, os.path.abspath('../../../'))
+# make contents of hidden folder .github visible to Sphinx
+sys.path.insert(0, os.path.abspath('../../../.github'))
 sys.path.insert(0, os.path.abspath('.'))
 
 import site_data
