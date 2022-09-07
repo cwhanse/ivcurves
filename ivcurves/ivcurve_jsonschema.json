@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/cwhanse/ivcurves/test_sets/ivcurve_jsonschema.json",
+  "$id": "https://github.com/cwhanse/ivcurves/ivcurves/ivcurve_jsonschema.json",
   "title": "IV Curve JSON Schema",
   "description": "",
   "type": "object",
