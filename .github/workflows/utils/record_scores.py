@@ -145,9 +145,11 @@ def write_overall_scores_to_database(database, pr_number, pr_author, pr_closed_d
         strings representing scores.
     """
     # only want strings as dict keys
-    database[str(pr_number)] = {'username': pr_author,
-                           'submission_datetime': pr_closed_datetime,
-                           'test_sets': overall_scores}
+    database[str(pr_number)] = {
+        'username': pr_author,
+        'submission_datetime': pr_closed_datetime,
+        'test_sets': overall_scores
+    }
 
 
 def mark_submission_broken(database, pr_number, validation_msg):
