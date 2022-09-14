@@ -84,7 +84,7 @@ Submission Workflow Diagram
 Submission Requirements
 -----------------------
 
-In the ``test_sets`` folder, there are multiple JSON files whose contents has the following structure:
+The ``test_sets`` folder contains sets of IV curves in JSON files following the :ref:`jsonschema`:
 
 .. code-block::
 

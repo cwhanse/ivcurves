@@ -29,6 +29,9 @@ jobs:
       - name: Generate Sphinx docs test case images
         working-directory: main
         run: python3 ivcurves/precise.py --save-images docs/sphinx/source/_images/test_cases
+      - name: Copy IV Curve JSON Schema to _static files
+        working-directory: main
+        run: cp ivcurves/ivcurve_jsonschema.json docs/sphinx/source/_static/.
       - name: Rebuild Sphinx docs html
         working-directory: main/docs/sphinx
         run: make html

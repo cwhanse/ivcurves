@@ -21,7 +21,7 @@
       "description": "",
       "type": "array",
       "items": {
-          "$ref": "#/$defs/IV Curve"
+          "$ref": "#/$defs/IV%20Curve"
       },
       "minItems": 1,
       "uniqueItems": true
@@ -133,7 +133,7 @@
       ]
     },
     "Number": {
-      "description": "A number, a number in quotes or null.",
+      "description": "A number, or a number in quotes.",
       "oneOf": [
         {
           "type": "number"

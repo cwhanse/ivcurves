@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% set title = _('IV Curve JSON Schema') %}
+{% block extrahead %}
+    <link rel="stylesheet" href="_static/json-schema-view-js/style.min.css">
+    <script src="_static/json-schema-view-js/bundle.min.js"></script>
+    <script src="_static/json-refs/json-refs-min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            // load the ivcurve json schema
+            const response = await fetch("_static/ivcurve_jsonschema.json");
+            const schema = await response.json();
+
+            // resolve the $refs
+            const { resolved: resolvedSchema } = await JsonRefs.resolveRefs(schema, {});
+
+            // create the interactive viewer for the json schema
+            const jsonschemaDiv = document.getElementById("jsonschema");
+            const jsonschemaView = new JSONSchemaView(resolvedSchema);
+            jsonschemaDiv.appendChild(jsonschemaView.render());
+        });
+    </script>
+{% endblock %}
+{% block body %}
+    <h1>IV Curve JSON Schema</h1>
+    <div>
+        <div id="jsonschema"></div>
+    </div>
+{% endblock %}
+

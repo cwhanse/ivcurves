@@ -12,7 +12,8 @@ Build Sphinx Docs
    InstallPython310 --> InstallIVCurvesDependencies(Install ivcurves Python dependencies)
    InstallIVCurvesDependencies --> GenerateTestCasePlotImages(Generate test case plot images)
 
-   GenerateTestCasePlotImages --> BuildSphinx(Build the Sphinx HTML)
+   GenerateTestCasePlotImages --> CopyIntoStaticFiles(Copy ivcurve_jsonschema.json into the _static folder)
+   CopyIntoStaticFiles --> BuildSphinx(Build the Sphinx HTML)
 
    BuildSphinx --> CheckoutGHPages(Checkout ivcurves' gh-pages branch into the folder 'gh-pages')
 
