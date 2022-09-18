@@ -20,11 +20,11 @@ You may as many submissions as you like, and each will be a separate entry on th
 
       {
           "RUN_SCORER": true,
-          "REQUIREMENTS": "<path_to_requirements.txt>",
-          "SUBMISSION_MAIN": "<path_to_submission_entrypoint.py>"
+          "REQUIREMENTS": "<path_to_requirements>.txt",
+          "SUBMISSION_MAIN": "<path_to_submission_entrypoint>.py"
       }
 
-   ``REQUIREMENTS`` and ``SUBMISSION_MAIN`` must be relative paths to ``submissions/<your_GitHub_username>``.
+   ``REQUIREMENTS`` and ``SUBMISSION_MAIN`` must be paths relative to ``submissions/<your_GitHub_username>``.
    For example, if your Pip requirements file is located at ``submissions/<your_GitHub_username>/requirements.txt``, ``REQUIREMENTS`` should be ``./requirements.txt``.
 #. Push your changes to your fork, and then GitHub will automatically run the scorer with your code.
    When it is finished, you will see either a green check mark or red x icon next to your commit indicating whether the scorer succeeded or not.
@@ -32,7 +32,7 @@ You may as many submissions as you like, and each will be a separate entry on th
    The scorer will also provide a CSV file containing your code's score.
 
    .. note::
-      GitHub will execute your ``SUBMISSION_MAIN`` from the same folder that contains it.
+      GitHub will execute your the entrypoint of your submission ``SUBMISSION_MAIN`` from the same folder that contains it.
       Therefore, your code may use relative paths when reading and writing files.
 
 #. When you are ready, and there is a green check mark next to your latest commit, create a pull request into ``cwhanse/ivcurves/main``.
@@ -42,7 +42,7 @@ You may as many submissions as you like, and each will be a separate entry on th
    GitHub will post your GitHub username and score to the leaderboard.
 
 Submission Workflow Diagram
----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. mermaid::
 
@@ -84,7 +84,18 @@ Submission Workflow Diagram
 Submission Requirements
 -----------------------
 
-The ``test_sets`` folder contains sets of IV curves in JSON files following the :ref:`jsonschema`:
+Your code is run with the command ``python3 <filename_of_submission_entrypoint>.py`` from the folder containing the entrypoint of your submission.
+
+**When your code runs, it must:**
+
+#. Read all of the IV curve JSON test sets in the ``test_sets`` folder. See `Reading IV Curve JSON Test Sets`_.
+#. For each test set, write a CSV file containing fitted parameters for every IV curve in the test set. See `Writing Test Set Results to CSV Files`_.
+
+Reading IV Curve JSON Test Sets
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each JSON test set follows the :ref:`jsonschema`.
+Here is an example:
 
 .. code-block::
 
@@ -124,7 +135,7 @@ The ``"Index"`` value is the test case number of the test set.
 The decimal numbers in each test case are calculated at a higher precision than what a 64-bit floating point number can store.
 To be sure that precision is not lost unintentionally when reading the JSON, the numbers are stored in strings.
 The competitor must decide how to parse these numbers in their submission.
-Here are a couple options:
+Here are some options:
 
 #. Parse the strings containing a number into a Python :py:class:`float`.
    Any precision that cannot be stored in a 64-bit floating point number will be lost.
@@ -133,8 +144,31 @@ Here are a couple options:
 
    .. _mpmath: https://mpmath.org/
 
+JSON test sets may be added after you submit your code, so it must not rely on their filename.
+Here is Python code that may be useful for getting a set of all the JSON filenames in ``test_sets`` dynamically:
 
-For each JSON file ``<test_set_name>.json`` in ``test_sets``, your code must write a CSV file ``<test_set_name>.csv`` in the folder containing your submission main.
+.. code-block:: python
+
+   # these modules are part of the Python standard library
+   import json
+   import pathlib
+
+
+   def get_test_set_filenames():
+       path_to_test_sets = pathlib.Path('../../test_sets')
+       return {f'{path_to_test_sets}/{entry.stem}.json'
+               for entry in path_to_test_sets.iterdir()
+               if entry.is_file()}
+
+
+   def json_file_to_dict(filepath):
+       with open(filepath, 'r') as file:
+           return json.load(file)
+
+Writing Test Set Results to CSV Files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For each JSON test set ``<test_set_name>.json`` in ``test_sets``, your code must write a CSV file ``<test_set_name>.csv`` **in the folder containing the entrypoint of your submission.**
 Each CSV file must have these columns:
 
 .. datatemplate:nodata::
@@ -152,28 +186,31 @@ Each CSV file must have these columns:
      title='<test_set_name>.csv')
   }}
 
-Each row of the CSV file will contain your code's fitted parameters for each test case in its corresponding test set.
+The column ``n`` is the diode factor.
+
+Each row of the CSV file will contain your fitted parameters for each test case in its corresponding test set.
 The script that scores your submission will read your CSV file and use an arbitrary precision math library to parse your fitted parameters.
 
+Testing Your Submission
+-----------------------
 
-Here is some Python code that may be useful for getting a set all of the JSON filenames in ``test_sets``:
+The Python scripts used to score your submission are available for you to run locally.
+For example, you may run ``ivcurves/compare_curves.py`` to score your fitted parameters for a test set.
 
-.. code-block:: python
+To run ``ivcurves/compare_curves.py`` for all test sets, run the command
 
-   import json
-   import pathlib
+.. code-block:: bash
 
+   python3 ivcurves/compare_curves.py folder/containing/your/CSV/files/ --csv-ouput-path folder/to/write/your/scores/
 
-   def get_test_set_filenames():
-       path_to_test_sets = pathlib.Path('../../test_sets')
-       return {f'{path_to_test_sets}/{entry.stem}.json' for entry in path_to_test_sets.iterdir()
-                   if entry.is_file()}
+To run ``ivcurves/compare_curves.py`` for a single test set ``<test_set>.json``, run the command
 
+.. code-block:: bash
 
-   def json_file_to_dict(filepath):
-       with open(filepath, 'r') as file:
-           return json.load(file)
+   python3 ivcurves/compare_curves.py folder/containing/your/CSV/files/ --test-set <test_set> --csv-ouput-path folder/to/write/your/scores/
+   # the file extension of the --test-set argument is NOT included
 
+See the :ref:`IV Curves documentation <ivcurves_docs_index>` for more information.
 
 Documenting Your Submission
 ---------------------------

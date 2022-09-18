@@ -14,4 +14,4 @@ Print JSON as ENV
    format_path_variables
    format_variable_values
    print_json_as_env
-   
+

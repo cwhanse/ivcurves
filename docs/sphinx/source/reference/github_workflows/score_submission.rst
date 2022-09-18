@@ -1,7 +1,7 @@
 Score Submission
 ================
 
-.. mermaid:: 
+.. mermaid::
 
    flowchart
    Push(A commit is pushed)
@@ -16,7 +16,7 @@ Score Submission
    CheckoutReadPRConfig --> InstallPython310ReadPRConfig(Install Python 3.10)
 
    InstallPython310ReadPRConfig --> ReadPRConfig(Read and validate the Competitor's pr_config.json)
-   
+
    ReadPRConfig -->|RUN_SCORER is true| StartScoreSubmissionJob(Start the score-submission job)
    ReadPRConfig -->|RUN_SCORER is false| TerminateWorkflow(End the workflow)
 

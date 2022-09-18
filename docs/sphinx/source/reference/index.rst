@@ -1,5 +1,7 @@
-IV Curves
-=========
+.. _ivcurves_docs_index:
+
+Documentation
+=============
 
 .. toctree::
    :maxdepth: 2
