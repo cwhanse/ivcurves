@@ -2,11 +2,11 @@ name: Score submission
 
 on:
   push:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+  workflow_call:
+    outputs:
+      run-scorer:
+        description: 'The pr_config.json says to run the scorer.'
+        value: ${{ jobs.read-pr-config.outputs.run-scorer }}
 
 jobs:
   read-pr-config:
@@ -52,11 +52,6 @@ jobs:
           echo '::set-output name=requirements-path::${{ env.REQUIREMENTS_PATH }}'
           echo '::set-output name=submission-main-filename::${{ env.SUBMISSION_MAIN_FILENAME }}'
           echo '::set-output name=submission-main-path::${{ env.SUBMISSION_MAIN_PATH }}'
-      - name: Upload pr_config.json to artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: pr_config.json
-          path: submissions/${{ env.CONTRIBUTOR }}/pr_config.json
 
   run-scorer:
     name: Run scorer
@@ -80,13 +75,23 @@ jobs:
         run: pip3 install -r ivcurves/requirements.txt
       - name: Install submission requirements
         working-directory: submissions/${{ env.CONTRIBUTOR }}/${{ env.REQUIREMENTS_PATH }}
-        run: pip3 install -r ${{ env.REQUIREMENTS_FILENAME }}
+        run: pip3 install -r "${{ env.REQUIREMENTS_FILENAME }}"
       - name: Run submission
         working-directory: submissions/${{ env.CONTRIBUTOR }}/${{ env.SUBMISSION_MAIN_PATH }}
-        run: python3 ${{ env.SUBMISSION_MAIN_FILENAME }}
+        env:
+          SUBMISSION_TIMEOUT: 2 # minutes
+        # timeout sends a SIGINT after SUBMISSION_TIMEOUT minutes.
+        # if the submission is still running after SIGINT, SIGKILL is sent the next second.
+        run: timeout -k 1s ${{ env.SUBMISSION_TIMEOUT }}m python3 "${{ env.SUBMISSION_MAIN_FILENAME }}"
       - name: Run scorer
         working-directory: submissions/${{ env.CONTRIBUTOR }}
-        run: python3 ../../ivcurves/compare_curves.py . --csv-output-path .
+        # will fail if no CSV output from the submission,
+        # or its CSV files contain very inaccurate results (no intersection between the true and fitted curves can be found)
+        run: python3 ../../ivcurves/compare_curves.py "${{ env.SUBMISSION_MAIN_PATH}}" --csv-output-path .
+      - name: Validate scores
+        run: python3 .github/workflows/utils/record_scores.py
+               --overall-scores-path overall_scores.csv
+               --no-save-database
       - name: Save scores to artifacts
         uses: actions/upload-artifact@v3
         with:

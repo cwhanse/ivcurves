@@ -25,6 +25,8 @@ def load_overall_scores(filename):
     to strings represented scores by reading from a CSV file with these
     columns: test_set, and score.
 
+    Returns an empty dictionary if a FileNotFoundError is raised.
+
     Parameters
     ----------
     filename : str
@@ -33,13 +35,18 @@ def load_overall_scores(filename):
     Returns
     -------
     dict
+        A dictionary and an empty string.
+        If a FileNotFoundError was raised, an empty dictionary is returned.
     """
     overall_scores = {}
-    with open(filename, newline='') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            overall_scores[row['test_set']] = row['score']
-    return overall_scores
+    try:
+        with open(filename, newline='') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                overall_scores[row['test_set']] = row['score']
+        return overall_scores
+    except FileNotFoundError:
+        return {}
 
 
 def test_set_filenames():
@@ -70,6 +77,12 @@ def validate_overall_scores(overall_scores):
     overall_scores : dict
         A dictionary from test set filenames (excluding file extensions) to
         strings representing scores.
+
+    Returns
+    -------
+    bool, str
+        Boolean for whether ``overall_scores`` is valid or not, and a string
+        for an error message.
     """
     overall_scores_keys = set(overall_scores.keys())
 
@@ -78,29 +91,35 @@ def validate_overall_scores(overall_scores):
     missing_test_set_filenames = valid_test_set_filenames - overall_scores_keys
 
     if missing_test_set_filenames:
-        raise ValueError(f'Missing scores from these test sets: {", ".join(missing_test_set_filenames)}')
+        names_list = list(missing_test_set_filenames)
+        names_list.sort() # sort to keep same order in error message
+        return False, f'Missing scores from these test sets: {", ".join(names_list)}'
 
     for name, score_str in overall_scores.items():
         try:
             float(score_str) # validate is a number
         except ValueError:
-            raise ValueError("The score of test set '{name}' must parse to a float: {score_str}")
+            return False, "The score of test set '{name}' must parse to a float: {score_str}"
+
+    return True, ''
 
 
 def write_overall_scores_to_database(database, pr_number, pr_author, pr_closed_datetime, overall_scores):
     """
     Writes an entry in the JSON scores database.
-    Entries are of this form:
+    The scores database has this structure:
 
-    .. code-block:: json
+    .. code-block::
 
-       "<pr_number>": {
-           "username": "<pr_author>",
-           "submission_datetime": "<pr_closed_datetime>",
-           "test_sets": {
-               "<test_set_filename>": "<score>"
-               ...
-           }
+       {
+          "<pr_number>": {
+              "username": "<pr_author>",
+              "submission_datetime": "<pr_closed_datetime>",
+              "test_sets": {
+                  "<test_set_filename>": "<score>",
+                  ...
+              }
+          }
        }
 
     As tables, the database has two tables: submissions, and test_set_scores.
@@ -125,32 +144,73 @@ def write_overall_scores_to_database(database, pr_number, pr_author, pr_closed_d
         A dictionary from test set filenames (excluding file extensions) to
         strings representing scores.
     """
-    database[pr_number] = {'username': pr_author,
-                           'submission_datetime': pr_closed_datetime,
-                           'test_sets': overall_scores}
+    # only want strings as dict keys
+    database[str(pr_number)] = {
+        'username': pr_author,
+        'submission_datetime': pr_closed_datetime,
+        'test_sets': overall_scores
+    }
+
+
+def mark_submission_broken(database, pr_number, validation_msg):
+    """
+    Adds the entry ``"broken": true`` to indicate that the submission does
+    not run will all the test sets.
+
+    See :func:`write_overall_scores_to_database` for more info on ``database``.
+
+    Parameters
+    ----------
+    database : dict
+        The scores database.
+
+    pr_number : int
+        The pull request number.
+    """
+    database[str(pr_number)]['broken'] = validation_msg
 
 
 def get_argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--pr-author', dest='pr_author', type=str,
-                        help='GitHub username of the pull request author')
+                        help='GitHub username of the pull request author.')
     parser.add_argument('--pr-number', dest='pr_number', type=int,
-                        help='GitHub pull request number')
+                        help='GitHub pull request number.')
     parser.add_argument('--pr-closed-at', dest='pr_closed_datetime', type=str,
-                        help='Datetime when the GitHub pull request closed')
+                        help='Datetime when the GitHub pull request closed.')
     parser.add_argument('--overall-scores-path', dest='overall_scores_path',
-                        type=str, help='Path to the CSV of overall scores')
+                        type=str, help='Path to the CSV of overall scores.')
     parser.add_argument('--database-path', dest='database_path', type=str,
-                        help='Path to the JSON scores database')
+                        help='Path to the JSON scores database.')
+    parser.add_argument('--broken-if-invalid', action=argparse.BooleanOptionalAction,
+                        default=False,
+                        help='Mark submission broken instead of raising an exception.')
+    parser.add_argument('--save-database', action=argparse.BooleanOptionalAction,
+                        default=True, help='Save updates to the database.')
     return parser
 
 
-if __name__ == '__main__':
+def record_scores():
     args = get_argparser().parse_args()
 
     overall_scores = load_overall_scores(args.overall_scores_path)
-    scorer_code = validate_overall_scores(overall_scores)
+    has_valid_scores, validation_msg = validate_overall_scores(overall_scores)
+
+    if not args.save_database:
+        return
+
     database = load_json(args.database_path)
-    write_overall_scores_to_database(database, args.pr_number, args.pr_author, args.pr_closed_datetime, overall_scores)
+
+    if has_valid_scores:
+        write_overall_scores_to_database(database, args.pr_number, args.pr_author, args.pr_closed_datetime, overall_scores)
+    elif args.broken_if_invalid:
+        mark_submission_broken(database, args.pr_number, validation_msg)
+    else:
+        raise ValueError(validation_msg)
+
     save_json(database, f'{ROOT_DIR}/{args.database_path}')
+
+
+if __name__ == '__main__':
+    record_scores()
 

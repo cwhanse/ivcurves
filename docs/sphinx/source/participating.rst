@@ -20,11 +20,11 @@ You may as many submissions as you like, and each will be a separate entry on th
 
       {
           "RUN_SCORER": true,
-          "REQUIREMENTS": "<path_to_requirements.txt>",
-          "SUBMISSION_MAIN": "<path_to_submission_entrypoint.py>"
+          "REQUIREMENTS": "<path_to_requirements>.txt",
+          "SUBMISSION_MAIN": "<path_to_submission_entrypoint>.py"
       }
 
-   ``REQUIREMENTS`` and ``SUBMISSION_MAIN`` must be relative paths to ``submissions/<your_GitHub_username>``.
+   ``REQUIREMENTS`` and ``SUBMISSION_MAIN`` must be paths relative to ``submissions/<your_GitHub_username>``.
    For example, if your Pip requirements file is located at ``submissions/<your_GitHub_username>/requirements.txt``, ``REQUIREMENTS`` should be ``./requirements.txt``.
 #. Push your changes to your fork, and then GitHub will automatically run the scorer with your code.
    When it is finished, you will see either a green check mark or red x icon next to your commit indicating whether the scorer succeeded or not.
@@ -32,7 +32,7 @@ You may as many submissions as you like, and each will be a separate entry on th
    The scorer will also provide a CSV file containing your code's score.
 
    .. note::
-      GitHub will execute your ``SUBMISSION_MAIN`` from the same folder that contains it.
+      GitHub will execute your the entrypoint of your submission ``SUBMISSION_MAIN`` from the same folder that contains it.
       Therefore, your code may use relative paths when reading and writing files.
 
 #. When you are ready, and there is a green check mark next to your latest commit, create a pull request into ``cwhanse/ivcurves/main``.
@@ -42,7 +42,7 @@ You may as many submissions as you like, and each will be a separate entry on th
    GitHub will post your GitHub username and score to the leaderboard.
 
 Submission Workflow Diagram
----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. mermaid::
 
@@ -84,7 +84,18 @@ Submission Workflow Diagram
 Submission Requirements
 -----------------------
 
-In the ``test_sets`` folder, there are multiple JSON files whose contents has the following structure:
+Your code is run with the command ``python3 <filename_of_submission_entrypoint>.py`` from the folder containing the entrypoint of your submission.
+
+**When your code runs, it must:**
+
+#. Read all of the IV curve JSON test sets in the ``test_sets`` folder. See `Reading IV Curve JSON Test Sets`_.
+#. For each test set, write a CSV file containing fitted parameters for every IV curve in the test set. See `Writing Test Set Results to CSV Files`_.
+
+Reading IV Curve JSON Test Sets
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each JSON test set follows the :ref:`jsonschema`.
+Here is an example:
 
 .. code-block::
 
@@ -108,11 +119,11 @@ In the ``test_sets`` folder, there are multiple JSON files whose contents has th
         "v_mp": "33.9368943991155301",
         "i_mp": "0.8461238606639279",
         "p_mp": "28.7148161079236649",
-        "cells_in_series": "72",
+        "cells_in_series": 72,
         "Temperature": "298.15",
         "Irradiance": null,
-        "Sweep direction": null,
-        "Datetime": null
+        "Sweep direction": "",
+        "Datetime": ""
       },
       ...
     ]
@@ -121,7 +132,43 @@ In the ``test_sets`` folder, there are multiple JSON files whose contents has th
 Under the ``"IV Curves"`` key is a list of IV curve data sets each with an ``"Index"`` value.
 The ``"Index"`` value is the test case number of the test set.
 
-For each JSON file ``<test_set_name>.json`` in ``test_sets``, your code must write a CSV file ``<test_set_name>.csv`` in ``submissions/<your_GitHub_username>``.
+The decimal numbers in each test case are calculated at a higher precision than what a 64-bit floating point number can store.
+To be sure that precision is not lost unintentionally when reading the JSON, the numbers are stored in strings.
+The competitor must decide how to parse these numbers in their submission.
+Here are some options:
+
+#. Parse the strings containing a number into a Python :py:class:`float`.
+   Any precision that cannot be stored in a 64-bit floating point number will be lost.
+#. Use an arbitrary precision math library to parse the strings containing a number.
+   The library `mpmath`_ was used to calculate the IV curve data in these test sets.
+
+   .. _mpmath: https://mpmath.org/
+
+JSON test sets may be added after you submit your code, so it must not rely on their filename.
+Here is Python code that may be useful for getting a set of all the JSON filenames in ``test_sets`` dynamically:
+
+.. code-block:: python
+
+   # these modules are part of the Python standard library
+   import json
+   import pathlib
+
+
+   def get_test_set_filenames():
+       path_to_test_sets = pathlib.Path('../../test_sets')
+       return {f'{path_to_test_sets}/{entry.stem}.json'
+               for entry in path_to_test_sets.iterdir()
+               if entry.is_file()}
+
+
+   def json_file_to_dict(filepath):
+       with open(filepath, 'r') as file:
+           return json.load(file)
+
+Writing Test Set Results to CSV Files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For each JSON test set ``<test_set_name>.json`` in ``test_sets``, your code must write a CSV file ``<test_set_name>.csv`` **in the folder containing the entrypoint of your submission.**
 Each CSV file must have these columns:
 
 .. datatemplate:nodata::
@@ -139,27 +186,31 @@ Each CSV file must have these columns:
      title='<test_set_name>.csv')
   }}
 
-Each row the CSV file will contain your code's fitted parameters for each test case in its corresponding test set.
+The column ``n`` is the diode factor.
 
+Each row of the CSV file will contain your fitted parameters for each test case in its corresponding test set.
+The script that scores your submission will read your CSV file and use an arbitrary precision math library to parse your fitted parameters.
 
-Here is some Python code that may be useful for getting a set all of the JSON filenames in ``test_sets``:
+Testing Your Submission
+-----------------------
 
-.. code-block:: python
+The Python scripts used to score your submission are available for you to run locally.
+For example, you may run ``ivcurves/compare_curves.py`` to score your fitted parameters for a test set.
 
-   import json
-   import pathlib
+To run ``ivcurves/compare_curves.py`` for all test sets, run the command
 
+.. code-block:: bash
 
-   def get_test_set_filenames():
-       path_to_test_sets = pathlib.Path('../../test_sets')
-       return {f'{path_to_test_sets}/{entry.stem}.json' for entry in path_to_test_sets.iterdir()
-                   if entry.is_file()}
+   python3 ivcurves/compare_curves.py folder/containing/your/CSV/files/ --csv-ouput-path folder/to/write/your/scores/
 
+To run ``ivcurves/compare_curves.py`` for a single test set ``<test_set>.json``, run the command
 
-   def json_file_to_dict(filepath):
-       with open(filepath, 'r') as file:
-           return json.load(file)
+.. code-block:: bash
 
+   python3 ivcurves/compare_curves.py folder/containing/your/CSV/files/ --test-set <test_set> --csv-ouput-path folder/to/write/your/scores/
+   # the file extension of the --test-set argument is NOT included
+
+See the :ref:`IV Curves documentation <ivcurves_docs_index>` for more information.
 
 Documenting Your Submission
 ---------------------------
@@ -183,15 +234,15 @@ The ivcurves documentation uses numpy-sytle docstrings.
          :toctree: generated/
 
          ..
-            write the name of each function in <your_py_filename>.py
+            Write the name of each function in <your_py_filename>.py.
 
          <function_name1>
          <function_name2>
 
    ..
-      note to documentation writer: the rst in the code-block above
+      Note to the documentation writer: the rst in the code-block above
       is still interpreted by Sphinx. To prevent autosummary from executing,
-      it must be substituted in (using sphinx_substitution_extensions)
+      it must be substituted in (using sphinx_substitution_extensions).
 
 #. The following steps are for registering your submission's ``.py`` files that are in subfolders under ``submissions/<your_GitHub_username>``.
 
@@ -208,8 +259,8 @@ The ivcurves documentation uses numpy-sytle docstrings.
             :maxdepth: 2
 
             ..
-               write the name of each .rst file you created here
-               the .rst extension should be ommitted
+               Write the name of each .rst file you created here.
+               The .rst extension should be ommitted.
 
             <your_py_filename1>
             <your_py_filename2>
@@ -225,19 +276,21 @@ The ivcurves documentation uses numpy-sytle docstrings.
          :maxdepth: 2
 
          ..
-            write the name of each .rst file you created for your .py files in the top level of ``submissions/<your_GitHub_username>``
-            the .rst extension should be ommitted
+            Write the name of each .rst file you created for your .py files in
+            the top level of ``submissions/<your_GitHub_username>``.
+            The .rst extension should be ommitted.
 
          <your_py_filename1>
          <your_py_filename2>
 
          ..
-            for each subfolder in ``submissions/<your_GitHub_username>``, write the following lines
+            For each subfolder in ``submissions/<your_GitHub_username>``, write
+            the following lines:
 
          <your_subfolder_name1>/index
          <your_subfolder_name2>/index
 
-#. If your submission had a folder structure like this
+#. Suppose your submission has a folder structure like this:
 
    .. code-block:: bash
 
@@ -248,7 +301,7 @@ The ivcurves documentation uses numpy-sytle docstrings.
           |- <your_subfolder_name1>/
                |- <your_py_filename1>.py
 
-   then after following the previous steps you should have this folder structure:
+   After following the previous steps, your submission's documentation should have a folder structure like this:
 
    .. code-block:: bash
 

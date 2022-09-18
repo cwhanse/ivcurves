@@ -1,7 +1,7 @@
 import pvlib
 import numpy as np
 import matplotlib.pyplot as plt
-from utils import mp
+from utils import mp # same instance of mpmath's mp imported in ivcurves/utils
 import utils
 import argparse
 import itertools
@@ -619,7 +619,6 @@ def write_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
                                                vth, ns, atol)
 
         nstr = utils.mp_nstr_precision_func
-
         vv_str_list = [nstr(x) for x in vv]
         ii_str_list = [nstr(x) for x in ii]
         case_test_suite['IV Curves'].append({
@@ -627,9 +626,9 @@ def write_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
             'Currents': ii_str_list, 'v_oc': nstr(v_oc),
             'i_sc': nstr(i_sc), 'v_mp': nstr(v_mp),
             'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
-            'cells_in_series': str(int(ns)),
+            'cells_in_series': int(ns),
             'Temperature': mp.nstr(temp_cell, n=5), 'Irradiance': None,
-            'Sweep direction': None, 'Datetime': None
+            'Sweep direction': "", 'Datetime': ""
         })
 
     with open(f'{test_set_filename}.json', 'w') as file:

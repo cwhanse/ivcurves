@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # from ivcurves repo
 import utils
-from utils import mp
+from utils import mp # same instance of mpmath's mp imported in ivcurves/utils
 import precise
 
 
@@ -343,7 +343,6 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
     return score
 
 
-
 ########
 # PLOT #
 ########
@@ -641,6 +640,7 @@ def get_argparser():
 # MAIN #
 ########
 
+
 if __name__ == '__main__':
     args = get_argparser().parse_args()
 
@@ -672,4 +672,3 @@ if __name__ == '__main__':
 
     write_test_set_score_per_curve_csvs(scores, args.csv_output_path)
     write_overall_scores_csv(scores, args.csv_output_path)
-

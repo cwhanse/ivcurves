@@ -13,7 +13,10 @@
 import os
 import sys
 
+# make repo base directory visible to Sphinx
 sys.path.insert(0, os.path.abspath('../../../'))
+# make contents of hidden folder .github visible to Sphinx
+sys.path.insert(0, os.path.abspath('../../../.github'))
 sys.path.insert(0, os.path.abspath('.'))
 
 import site_data
@@ -50,6 +53,10 @@ extensions = [
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
+html_additional_pages = {
+    'jsonschema': 'jsonschema.html'
+}
+
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
@@ -68,9 +75,9 @@ html_theme = 'pydata_sphinx_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-# html_css_files = [
-#     'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css'
-# ]
+html_css_files = []
+
+html_js_files = []
 
 html_theme_options = {
     'left_sidebar_end': []
@@ -79,7 +86,8 @@ html_theme_options = {
 html_sidebars = {
     'leaderboard': [],
     'test_cases': [],
-    'participating': []
+    'participating': [],
+    'jsonschema': []
 }
 
 html_context = {

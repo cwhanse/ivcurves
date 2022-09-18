@@ -11,38 +11,14 @@ env:
   PR_AUTHOR: ${{ github.event.pull_request.user.login }}
 
 jobs:
-  read-pr-config:
-    name: Read pull request config
-    runs-on: ubuntu-latest
-    outputs:
-      run-scorer: ${{ steps.save-env.outputs.run-scorer }} # Boolean to run the record-scores job
-    steps:
-      - name: Checkout pull request target
-        uses: actions/checkout@v3
-      - name: Install Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: Download pull request config from score-submission artifacts
-        uses: dawidd6/action-download-artifact@v2.21.1
-        with:
-          workflow: score-submission.yaml
-          pr: ${{ env.PR_NUMBER }}
-          name: pr_config.json
-          path: submissions/${{ env.PR_AUTHOR }}
-      - name: Set pr_config.json entries as environment variables
-        run: python3 .github/workflows/utils/print_json_as_env.py
-               submissions/${{ env.PR_AUTHOR }}/pr_config.json
-               --validate-pr-config >> ${{ github.env }}
-      - name: Save scorer environment to job output
-        id: save-env
-        run: echo '::set-output name=run-scorer::${{ env.RUN_SCORER }}'
+  score-submission:
+    uses: ./.github/workflows/score-submission.yaml
 
   record-scores:
     name: Record scores
     runs-on: ubuntu-latest
-    needs: read-pr-config
-    if: ${{ needs.read-pr-config.outputs.run-scorer == 'true' && github.event.pull_request.merged == true && github.ref_type == 'branch' && github.ref_name == 'main' && github.repository_owner == 'cwhanse' }}
+    needs: score-submission
+    if: ${{ needs.score-submission.outputs.run-scorer == 'true' && github.event.pull_request.merged == true && github.ref_type == 'branch' && github.ref_name == 'main' && github.repository_owner == 'cwhanse' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -51,10 +27,8 @@ jobs:
         with:
           python-version: '3.10'
       - name: Download overall_scores.csv
-        uses: dawidd6/action-download-artifact@v2.21.1
+        uses: actions/download-artifact@v3
         with:
-          workflow: score-submission.yaml
-          pr: ${{ env.PR_NUMBER }}
           name: overall_scores.csv
       - name: Validate and record scores
         run: python3 .github/workflows/utils/record_scores.py
@@ -74,8 +48,8 @@ jobs:
 
   build-sphinx-docs:
     needs:
-      - read-pr-config
+      - score-submission
       - record-scores
-    if: ${{ needs.read-pr-config.outputs.run-scorer == 'true' }}
+    if: ${{ needs.score-submission.outputs.run-scorer == 'true' }}
     uses: ./.github/workflows/build-sphinx-docs.yaml
 

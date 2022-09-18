@@ -1,5 +1,7 @@
-IV Curves
-=========
+.. _ivcurves_docs_index:
+
+Documentation
+=============
 
 .. toctree::
    :maxdepth: 2
@@ -7,4 +9,5 @@ IV Curves
    compare_curves
    precise
    utils
+   github_workflows/index
 
