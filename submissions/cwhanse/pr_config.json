@@ -1,0 +1,5 @@
+{
+    "RUN_SCORER": true,
+    "REQUIREMENTS": "./cwhanse",
+    "SUBMISSION_MAIN": "./cwhanse/sandia_simple.py"
+}
