@@ -1,0 +1,5 @@
+{
+    "RUN_SCORER": true,
+    "REQUIREMENTS": "./requirements.txt",
+    "SUBMISSION_MAIN": "./sandia_simple.py"
+}
