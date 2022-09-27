@@ -9,4 +9,3 @@ cwhanse
       The .rst extension should be ommitted.
 
    sandia_simple
-   <your_py_filename2>

@@ -5,6 +5,3 @@
 
    ..
       Write the name of each function in <your_py_filename>.py.
-
-   <function_name1>
-   <function_name2>
