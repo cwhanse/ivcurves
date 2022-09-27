@@ -35,8 +35,8 @@ def dict_to_df(data):
 
 
 here = Path.cwd()
-filepath1 = here.parent.parent / 'test_sets\case1.json'
-filepath2 = here.parent.parent / 'test_sets\case2.json'
+filepath1 = here.parent.parent / 'test_sets' / 'case1.json'
+filepath2 = here.parent.parent / 'test_sets' / 'case2.json'
 
 case1 = json_file_to_dict(filepath1)
 data1 = dict_to_df(case1['IV Curves'])
