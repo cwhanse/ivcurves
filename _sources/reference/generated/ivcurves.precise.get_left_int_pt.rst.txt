@@ -1,0 +1,6 @@
+﻿ivcurves.precise.get\_left\_int\_pt
+===================================
+
+.. currentmodule:: ivcurves.precise
+
+.. autofunction:: get_left_int_pt

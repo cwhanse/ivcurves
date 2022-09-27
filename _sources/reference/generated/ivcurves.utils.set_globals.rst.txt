@@ -1,0 +1,6 @@
+﻿ivcurves.utils.set\_globals
+===========================
+
+.. currentmodule:: ivcurves.utils
+
+.. autofunction:: set_globals

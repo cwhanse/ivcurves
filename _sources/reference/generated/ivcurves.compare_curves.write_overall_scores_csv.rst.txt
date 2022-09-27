@@ -1,0 +1,6 @@
+﻿ivcurves.compare\_curves.write\_overall\_scores\_csv
+====================================================
+
+.. currentmodule:: ivcurves.compare_curves
+
+.. autofunction:: write_overall_scores_csv

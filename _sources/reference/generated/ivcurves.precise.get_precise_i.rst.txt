@@ -1,0 +1,6 @@
+﻿ivcurves.precise.get\_precise\_i
+================================
+
+.. currentmodule:: ivcurves.precise
+
+.. autofunction:: get_precise_i

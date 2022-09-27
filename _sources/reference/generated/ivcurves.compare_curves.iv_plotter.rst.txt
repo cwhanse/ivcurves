@@ -1,0 +1,6 @@
+﻿ivcurves.compare\_curves.iv\_plotter
+====================================
+
+.. currentmodule:: ivcurves.compare_curves
+
+.. autofunction:: iv_plotter

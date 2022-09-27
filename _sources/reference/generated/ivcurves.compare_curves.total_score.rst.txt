@@ -1,0 +1,6 @@
+﻿ivcurves.compare\_curves.total\_score
+=====================================
+
+.. currentmodule:: ivcurves.compare_curves
+
+.. autofunction:: total_score

@@ -1,0 +1,6 @@
+﻿ivcurves.precise.lambert\_i\_from\_v
+====================================
+
+.. currentmodule:: ivcurves.precise
+
+.. autofunction:: lambert_i_from_v

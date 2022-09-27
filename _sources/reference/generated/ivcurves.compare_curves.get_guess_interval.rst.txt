@@ -1,0 +1,6 @@
+﻿ivcurves.compare\_curves.get\_guess\_interval
+=============================================
+
+.. currentmodule:: ivcurves.compare_curves
+
+.. autofunction:: get_guess_interval

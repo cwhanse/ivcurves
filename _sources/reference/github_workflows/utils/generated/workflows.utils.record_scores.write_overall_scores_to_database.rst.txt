@@ -1,0 +1,6 @@
+﻿workflows.utils.record\_scores.write\_overall\_scores\_to\_database
+===================================================================
+
+.. currentmodule:: workflows.utils.record_scores
+
+.. autofunction:: write_overall_scores_to_database

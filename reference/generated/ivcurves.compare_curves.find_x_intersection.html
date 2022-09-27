@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>ivcurves.compare_curves.find_x_intersection &#8212; ivcurves 1.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ivcurves.compare_curves.get_guess_interval" href="ivcurves.compare_curves.get_guess_interval.html" />
+    <link rel="prev" title="Compare Curves" href="../compare_curves.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">ivcurves 1.0 documentation</p>
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../leaderboard.html">
+  Leaderboard
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../test_cases.html">
+  Test Cases
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../participating.html">
+  How to Participate
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../submissions/index.html">
+  Submissions
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Documentation
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../compare_curves.html">
+   Compare Curves
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     ivcurves.compare_curves.find_x_intersection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.get_guess_interval.html">
+     ivcurves.compare_curves.get_guess_interval
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.find_distance.html">
+     ivcurves.compare_curves.find_distance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.total_score.html">
+     ivcurves.compare_curves.total_score
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.get_curve.html">
+     ivcurves.compare_curves.get_curve
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.iv_plotter.html">
+     ivcurves.compare_curves.iv_plotter
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.get_test_sets_to_score.html">
+     ivcurves.compare_curves.get_test_sets_to_score
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html">
+     ivcurves.compare_curves.write_test_set_score_per_curve_csvs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.write_overall_scores_csv.html">
+     ivcurves.compare_curves.write_overall_scores_csv
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../precise.html">
+   Precise
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.max_power_pt_finder.html">
+     ivcurves.precise.max_power_pt_finder
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.golden_search.html">
+     ivcurves.precise.golden_search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.get_left_int_pt.html">
+     ivcurves.precise.get_left_int_pt
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.get_right_int_pt.html">
+     ivcurves.precise.get_right_int_pt
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.lambert_i_from_v.html">
+     ivcurves.precise.lambert_i_from_v
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.lambert_v_from_i.html">
+     ivcurves.precise.lambert_v_from_i
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.diff_lhs_rhs.html">
+     ivcurves.precise.diff_lhs_rhs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.get_precise_i.html">
+     ivcurves.precise.get_precise_i
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.plot_iv_curves.html">
+     ivcurves.precise.plot_iv_curves
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.precise.write_test_set_json.html">
+     ivcurves.precise.write_test_set_json
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../utils.html">
+   Utils
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.set_globals.html">
+     ivcurves.utils.set_globals
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.constants.html">
+     ivcurves.utils.constants
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.mp_num_digits_left_of_decimal.html">
+     ivcurves.utils.mp_num_digits_left_of_decimal
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.mp_nstr_precision_func.html">
+     ivcurves.utils.mp_nstr_precision_func
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.read_iv_curve_parameter_sets.html">
+     ivcurves.utils.read_iv_curve_parameter_sets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.make_iv_curve_name.html">
+     ivcurves.utils.make_iv_curve_name
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.get_filenames_in_directory.html">
+     ivcurves.utils.get_filenames_in_directory
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../github_workflows/index.html">
+   GitHub Workflows
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../github_workflows/score_submission.html">
+     Score Submission
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../github_workflows/record_scores.html">
+     Record Scores
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../github_workflows/update_scores.html">
+     Update Scores
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../github_workflows/build_sphinx_docs.html">
+     Build Sphinx Docs
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../github_workflows/utils/index.html">
+     Utility Python Scripts
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../github_workflows/utils/print_json_as_env.html">
+       Print JSON as ENV
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.validate_pr_config.html">
+         workflows.utils.print_json_as_env.validate_pr_config
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.format_bool_variables.html">
+         workflows.utils.print_json_as_env.format_bool_variables
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.format_path_variables.html">
+         workflows.utils.print_json_as_env.format_path_variables
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.format_variable_values.html">
+         workflows.utils.print_json_as_env.format_variable_values
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.print_json_as_env.html">
+         workflows.utils.print_json_as_env.print_json_as_env
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../github_workflows/utils/record_scores.html">
+       Record Scores
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+      <label for="toctree-checkbox-7">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.load_overall_scores.html">
+         workflows.utils.record_scores.load_overall_scores
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.test_set_filenames.html">
+         workflows.utils.record_scores.test_set_filenames
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.validate_overall_scores.html">
+         workflows.utils.record_scores.validate_overall_scores
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.write_overall_scores_to_database.html">
+         workflows.utils.record_scores.write_overall_scores_to_database
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ivcurves.compare_curves.find_x_intersection">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     find_x_intersection()
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="ivcurves-compare-curves-find-x-intersection">
+<h1>ivcurves.compare_curves.find_x_intersection<a class="headerlink" href="#ivcurves-compare-curves-find-x-intersection" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="ivcurves.compare_curves.find_x_intersection">
+<span class="sig-prename descclassname"><span class="pre">ivcurves.compare_curves.</span></span><span class="sig-name descname"><span class="pre">find_x_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">single_diode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">known_xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">known_ys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_segments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsteps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.compare_curves.find_x_intersection" title="Permalink to this definition">#</a></dt>
+<dd><p>Finds x-coordinate of the intersection between the known IV curve and the
+line segment from the origin to the given point <span class="math notranslate nohighlight">\((x_p, y_p)\)</span>.</p>
+<p>This is an auxiliary function for <a class="reference internal" href="ivcurves.compare_curves.total_score.html#ivcurves.compare_curves.total_score" title="ivcurves.compare_curves.total_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">total_score()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>single_diode</strong> (<em>function</em>) – The single diode equation with two unknowns (the first being voltage,
+the second being current).</p></li>
+<li><p><strong>known_xs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em> of </em><em>floats</em>) – A list of x-coordinates.</p></li>
+<li><p><strong>known_ys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em> of </em><em>floats</em>) – A list of y-coordinates associated to <code class="docutils literal notranslate"><span class="pre">known_xs</span></code> that lie on the known
+curve.</p></li>
+<li><p><strong>xp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – x-coordinate of point on fitted curve (voltage).</p></li>
+<li><p><strong>yp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – y-coordinate of point on fitted curve (current).</p></li>
+<li><p><strong>num_segments</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of segments to use when approximating known curve. (See
+<a class="reference internal" href="ivcurves.compare_curves.get_guess_interval.html#ivcurves.compare_curves.get_guess_interval" title="ivcurves.compare_curves.get_guess_interval"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_guess_interval()</span></code></a>.)</p></li>
+<li><p><strong>atol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Absolute tolerance of how close the found x-coordiante must be to the
+true x-coordinate of the intersection point.</p></li>
+<li><p><strong>maxsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Maximum number of iterations for <code class="docutils literal notranslate"><span class="pre">mp.findroot</span></code> to find the
+x-coordinate of the intersection point. A <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> is thrown
+if <code class="docutils literal notranslate"><span class="pre">atol</span></code> is not met after <code class="docutils literal notranslate"><span class="pre">maxsteps</span></code> iterations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>x-coordinate of the intersection of known IV curve and line through the
+origin and the given point.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="../compare_curves.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Compare Curves</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="ivcurves.compare_curves.get_guess_interval.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">ivcurves.compare_curves.get_guess_interval</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, ivcurves Development Team.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.2.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

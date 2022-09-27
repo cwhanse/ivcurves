@@ -1,0 +1,6 @@
+﻿ivcurves.utils.make\_iv\_curve\_name
+====================================
+
+.. currentmodule:: ivcurves.utils
+
+.. autofunction:: make_iv_curve_name

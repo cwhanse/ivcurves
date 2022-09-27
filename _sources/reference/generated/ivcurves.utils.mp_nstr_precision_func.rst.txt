@@ -1,0 +1,6 @@
+﻿ivcurves.utils.mp\_nstr\_precision\_func
+========================================
+
+.. currentmodule:: ivcurves.utils
+
+.. autofunction:: mp_nstr_precision_func

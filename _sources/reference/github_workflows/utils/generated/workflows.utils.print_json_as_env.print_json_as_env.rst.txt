@@ -1,0 +1,6 @@
+﻿workflows.utils.print\_json\_as\_env.print\_json\_as\_env
+=========================================================
+
+.. currentmodule:: workflows.utils.print_json_as_env
+
+.. autofunction:: print_json_as_env

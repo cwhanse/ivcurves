@@ -1,0 +1,6 @@
+﻿ivcurves.compare\_curves.get\_curve
+===================================
+
+.. currentmodule:: ivcurves.compare_curves
+
+.. autofunction:: get_curve

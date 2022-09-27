@@ -1,0 +1,1987 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Test Cases &#8212; ivcurves 1.0 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How to Participate" href="participating.html" />
+    <link rel="prev" title="Leaderboard" href="leaderboard.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">ivcurves 1.0 documentation</p>
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="leaderboard.html">
+  Leaderboard
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="current reference internal nav-link" href="#">
+  Test Cases
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="participating.html">
+  How to Participate
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="submissions/index.html">
+  Submissions
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="reference/index.html">
+  Documentation
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<div class="sidebar-primary col-12 col-md-1 col-xl-2 bd-sidebar no-sidebar"></div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-md-block col-md-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-set-case1">
+   Test Set: case1
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-1">
+     Case 1
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-2">
+     Case 2
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-3">
+     Case 3
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-4">
+     Case 4
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-5">
+     Case 5
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-6">
+     Case 6
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-7">
+     Case 7
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-8">
+     Case 8
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-9">
+     Case 9
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-10">
+     Case 10
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-11">
+     Case 11
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-12">
+     Case 12
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-13">
+     Case 13
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-14">
+     Case 14
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-15">
+     Case 15
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-16">
+     Case 16
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-17">
+     Case 17
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-18">
+     Case 18
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-19">
+     Case 19
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-20">
+     Case 20
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-21">
+     Case 21
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-22">
+     Case 22
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-23">
+     Case 23
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-24">
+     Case 24
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-25">
+     Case 25
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-26">
+     Case 26
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-27">
+     Case 27
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-28">
+     Case 28
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-29">
+     Case 29
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-30">
+     Case 30
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-31">
+     Case 31
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-32">
+     Case 32
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-set-case2">
+   Test Set: case2
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Case 1
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Case 2
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Case 3
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Case 4
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Case 5
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     Case 6
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     Case 7
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     Case 8
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     Case 9
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     Case 10
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     Case 11
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     Case 12
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     Case 13
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     Case 14
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id15">
+     Case 15
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     Case 16
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id17">
+     Case 17
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id18">
+     Case 18
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id19">
+     Case 19
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id20">
+     Case 20
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id21">
+     Case 21
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id22">
+     Case 22
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id23">
+     Case 23
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id24">
+     Case 24
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id25">
+     Case 25
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id26">
+     Case 26
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id27">
+     Case 27
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id28">
+     Case 28
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id29">
+     Case 29
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id30">
+     Case 30
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id31">
+     Case 31
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id32">
+     Case 32
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-8">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="test-cases">
+<h1>Test Cases<a class="headerlink" href="#test-cases" title="Permalink to this heading">#</a></h1>
+<section id="test-set-case1">
+<h2>Test Set: case1<a class="headerlink" href="#test-set-case1" title="Permalink to this heading">#</a></h2>
+<section id="case-1">
+<h3>Case 1<a class="headerlink" href="#case-1" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_1.png"><img alt="_images/case1_case_1.png" src="_images/case1_case_1.png" style="width: 600px;" /></a>
+</section>
+<section id="case-2">
+<h3>Case 2<a class="headerlink" href="#case-2" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_2.png"><img alt="_images/case1_case_2.png" src="_images/case1_case_2.png" style="width: 600px;" /></a>
+</section>
+<section id="case-3">
+<h3>Case 3<a class="headerlink" href="#case-3" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_3.png"><img alt="_images/case1_case_3.png" src="_images/case1_case_3.png" style="width: 600px;" /></a>
+</section>
+<section id="case-4">
+<h3>Case 4<a class="headerlink" href="#case-4" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_4.png"><img alt="_images/case1_case_4.png" src="_images/case1_case_4.png" style="width: 600px;" /></a>
+</section>
+<section id="case-5">
+<h3>Case 5<a class="headerlink" href="#case-5" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_5.png"><img alt="_images/case1_case_5.png" src="_images/case1_case_5.png" style="width: 600px;" /></a>
+</section>
+<section id="case-6">
+<h3>Case 6<a class="headerlink" href="#case-6" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_6.png"><img alt="_images/case1_case_6.png" src="_images/case1_case_6.png" style="width: 600px;" /></a>
+</section>
+<section id="case-7">
+<h3>Case 7<a class="headerlink" href="#case-7" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_7.png"><img alt="_images/case1_case_7.png" src="_images/case1_case_7.png" style="width: 600px;" /></a>
+</section>
+<section id="case-8">
+<h3>Case 8<a class="headerlink" href="#case-8" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_8.png"><img alt="_images/case1_case_8.png" src="_images/case1_case_8.png" style="width: 600px;" /></a>
+</section>
+<section id="case-9">
+<h3>Case 9<a class="headerlink" href="#case-9" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_9.png"><img alt="_images/case1_case_9.png" src="_images/case1_case_9.png" style="width: 600px;" /></a>
+</section>
+<section id="case-10">
+<h3>Case 10<a class="headerlink" href="#case-10" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_10.png"><img alt="_images/case1_case_10.png" src="_images/case1_case_10.png" style="width: 600px;" /></a>
+</section>
+<section id="case-11">
+<h3>Case 11<a class="headerlink" href="#case-11" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_11.png"><img alt="_images/case1_case_11.png" src="_images/case1_case_11.png" style="width: 600px;" /></a>
+</section>
+<section id="case-12">
+<h3>Case 12<a class="headerlink" href="#case-12" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_12.png"><img alt="_images/case1_case_12.png" src="_images/case1_case_12.png" style="width: 600px;" /></a>
+</section>
+<section id="case-13">
+<h3>Case 13<a class="headerlink" href="#case-13" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_13.png"><img alt="_images/case1_case_13.png" src="_images/case1_case_13.png" style="width: 600px;" /></a>
+</section>
+<section id="case-14">
+<h3>Case 14<a class="headerlink" href="#case-14" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_14.png"><img alt="_images/case1_case_14.png" src="_images/case1_case_14.png" style="width: 600px;" /></a>
+</section>
+<section id="case-15">
+<h3>Case 15<a class="headerlink" href="#case-15" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_15.png"><img alt="_images/case1_case_15.png" src="_images/case1_case_15.png" style="width: 600px;" /></a>
+</section>
+<section id="case-16">
+<h3>Case 16<a class="headerlink" href="#case-16" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_16.png"><img alt="_images/case1_case_16.png" src="_images/case1_case_16.png" style="width: 600px;" /></a>
+</section>
+<section id="case-17">
+<h3>Case 17<a class="headerlink" href="#case-17" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_17.png"><img alt="_images/case1_case_17.png" src="_images/case1_case_17.png" style="width: 600px;" /></a>
+</section>
+<section id="case-18">
+<h3>Case 18<a class="headerlink" href="#case-18" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_18.png"><img alt="_images/case1_case_18.png" src="_images/case1_case_18.png" style="width: 600px;" /></a>
+</section>
+<section id="case-19">
+<h3>Case 19<a class="headerlink" href="#case-19" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_19.png"><img alt="_images/case1_case_19.png" src="_images/case1_case_19.png" style="width: 600px;" /></a>
+</section>
+<section id="case-20">
+<h3>Case 20<a class="headerlink" href="#case-20" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_20.png"><img alt="_images/case1_case_20.png" src="_images/case1_case_20.png" style="width: 600px;" /></a>
+</section>
+<section id="case-21">
+<h3>Case 21<a class="headerlink" href="#case-21" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_21.png"><img alt="_images/case1_case_21.png" src="_images/case1_case_21.png" style="width: 600px;" /></a>
+</section>
+<section id="case-22">
+<h3>Case 22<a class="headerlink" href="#case-22" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_22.png"><img alt="_images/case1_case_22.png" src="_images/case1_case_22.png" style="width: 600px;" /></a>
+</section>
+<section id="case-23">
+<h3>Case 23<a class="headerlink" href="#case-23" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_23.png"><img alt="_images/case1_case_23.png" src="_images/case1_case_23.png" style="width: 600px;" /></a>
+</section>
+<section id="case-24">
+<h3>Case 24<a class="headerlink" href="#case-24" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>5.0e-10</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_24.png"><img alt="_images/case1_case_24.png" src="_images/case1_case_24.png" style="width: 600px;" /></a>
+</section>
+<section id="case-25">
+<h3>Case 25<a class="headerlink" href="#case-25" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_25.png"><img alt="_images/case1_case_25.png" src="_images/case1_case_25.png" style="width: 600px;" /></a>
+</section>
+<section id="case-26">
+<h3>Case 26<a class="headerlink" href="#case-26" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_26.png"><img alt="_images/case1_case_26.png" src="_images/case1_case_26.png" style="width: 600px;" /></a>
+</section>
+<section id="case-27">
+<h3>Case 27<a class="headerlink" href="#case-27" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_27.png"><img alt="_images/case1_case_27.png" src="_images/case1_case_27.png" style="width: 600px;" /></a>
+</section>
+<section id="case-28">
+<h3>Case 28<a class="headerlink" href="#case-28" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_28.png"><img alt="_images/case1_case_28.png" src="_images/case1_case_28.png" style="width: 600px;" /></a>
+</section>
+<section id="case-29">
+<h3>Case 29<a class="headerlink" href="#case-29" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_29.png"><img alt="_images/case1_case_29.png" src="_images/case1_case_29.png" style="width: 600px;" /></a>
+</section>
+<section id="case-30">
+<h3>Case 30<a class="headerlink" href="#case-30" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_30.png"><img alt="_images/case1_case_30.png" src="_images/case1_case_30.png" style="width: 600px;" /></a>
+</section>
+<section id="case-31">
+<h3>Case 31<a class="headerlink" href="#case-31" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.01</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_31.png"><img alt="_images/case1_case_31.png" src="_images/case1_case_31.png" style="width: 600px;" /></a>
+</section>
+<section id="case-32">
+<h3>Case 32<a class="headerlink" href="#case-32" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>8.0</p></td>
+<td><p>3.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case1_case_32.png"><img alt="_images/case1_case_32.png" src="_images/case1_case_32.png" style="width: 600px;" /></a>
+</section>
+</section>
+<section id="test-set-case2">
+<h2>Test Set: case2<a class="headerlink" href="#test-set-case2" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h3>Case 1<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_1.png"><img alt="_images/case2_case_1.png" src="_images/case2_case_1.png" style="width: 600px;" /></a>
+</section>
+<section id="id2">
+<h3>Case 2<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_2.png"><img alt="_images/case2_case_2.png" src="_images/case2_case_2.png" style="width: 600px;" /></a>
+</section>
+<section id="id3">
+<h3>Case 3<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_3.png"><img alt="_images/case2_case_3.png" src="_images/case2_case_3.png" style="width: 600px;" /></a>
+</section>
+<section id="id4">
+<h3>Case 4<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_4.png"><img alt="_images/case2_case_4.png" src="_images/case2_case_4.png" style="width: 600px;" /></a>
+</section>
+<section id="id5">
+<h3>Case 5<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_5.png"><img alt="_images/case2_case_5.png" src="_images/case2_case_5.png" style="width: 600px;" /></a>
+</section>
+<section id="id6">
+<h3>Case 6<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_6.png"><img alt="_images/case2_case_6.png" src="_images/case2_case_6.png" style="width: 600px;" /></a>
+</section>
+<section id="id7">
+<h3>Case 7<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_7.png"><img alt="_images/case2_case_7.png" src="_images/case2_case_7.png" style="width: 600px;" /></a>
+</section>
+<section id="id8">
+<h3>Case 8<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_8.png"><img alt="_images/case2_case_8.png" src="_images/case2_case_8.png" style="width: 600px;" /></a>
+</section>
+<section id="id9">
+<h3>Case 9<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_9.png"><img alt="_images/case2_case_9.png" src="_images/case2_case_9.png" style="width: 600px;" /></a>
+</section>
+<section id="id10">
+<h3>Case 10<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_10.png"><img alt="_images/case2_case_10.png" src="_images/case2_case_10.png" style="width: 600px;" /></a>
+</section>
+<section id="id11">
+<h3>Case 11<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_11.png"><img alt="_images/case2_case_11.png" src="_images/case2_case_11.png" style="width: 600px;" /></a>
+</section>
+<section id="id12">
+<h3>Case 12<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_12.png"><img alt="_images/case2_case_12.png" src="_images/case2_case_12.png" style="width: 600px;" /></a>
+</section>
+<section id="id13">
+<h3>Case 13<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_13.png"><img alt="_images/case2_case_13.png" src="_images/case2_case_13.png" style="width: 600px;" /></a>
+</section>
+<section id="id14">
+<h3>Case 14<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_14.png"><img alt="_images/case2_case_14.png" src="_images/case2_case_14.png" style="width: 600px;" /></a>
+</section>
+<section id="id15">
+<h3>Case 15<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_15.png"><img alt="_images/case2_case_15.png" src="_images/case2_case_15.png" style="width: 600px;" /></a>
+</section>
+<section id="id16">
+<h3>Case 16<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_16.png"><img alt="_images/case2_case_16.png" src="_images/case2_case_16.png" style="width: 600px;" /></a>
+</section>
+<section id="id17">
+<h3>Case 17<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_17.png"><img alt="_images/case2_case_17.png" src="_images/case2_case_17.png" style="width: 600px;" /></a>
+</section>
+<section id="id18">
+<h3>Case 18<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_18.png"><img alt="_images/case2_case_18.png" src="_images/case2_case_18.png" style="width: 600px;" /></a>
+</section>
+<section id="id19">
+<h3>Case 19<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_19.png"><img alt="_images/case2_case_19.png" src="_images/case2_case_19.png" style="width: 600px;" /></a>
+</section>
+<section id="id20">
+<h3>Case 20<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_20.png"><img alt="_images/case2_case_20.png" src="_images/case2_case_20.png" style="width: 600px;" /></a>
+</section>
+<section id="id21">
+<h3>Case 21<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_21.png"><img alt="_images/case2_case_21.png" src="_images/case2_case_21.png" style="width: 600px;" /></a>
+</section>
+<section id="id22">
+<h3>Case 22<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_22.png"><img alt="_images/case2_case_22.png" src="_images/case2_case_22.png" style="width: 600px;" /></a>
+</section>
+<section id="id23">
+<h3>Case 23<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_23.png"><img alt="_images/case2_case_23.png" src="_images/case2_case_23.png" style="width: 600px;" /></a>
+</section>
+<section id="id24">
+<h3>Case 24<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-9</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_24.png"><img alt="_images/case2_case_24.png" src="_images/case2_case_24.png" style="width: 600px;" /></a>
+</section>
+<section id="id25">
+<h3>Case 25<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_25.png"><img alt="_images/case2_case_25.png" src="_images/case2_case_25.png" style="width: 600px;" /></a>
+</section>
+<section id="id26">
+<h3>Case 26<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>300.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_26.png"><img alt="_images/case2_case_26.png" src="_images/case2_case_26.png" style="width: 600px;" /></a>
+</section>
+<section id="id27">
+<h3>Case 27<a class="headerlink" href="#id27" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_27.png"><img alt="_images/case2_case_27.png" src="_images/case2_case_27.png" style="width: 600px;" /></a>
+</section>
+<section id="id28">
+<h3>Case 28<a class="headerlink" href="#id28" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>0.1</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_28.png"><img alt="_images/case2_case_28.png" src="_images/case2_case_28.png" style="width: 600px;" /></a>
+</section>
+<section id="id29">
+<h3>Case 29<a class="headerlink" href="#id29" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_29.png"><img alt="_images/case2_case_29.png" src="_images/case2_case_29.png" style="width: 600px;" /></a>
+</section>
+<section id="id30">
+<h3>Case 30<a class="headerlink" href="#id30" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>300.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_30.png"><img alt="_images/case2_case_30.png" src="_images/case2_case_30.png" style="width: 600px;" /></a>
+</section>
+<section id="id31">
+<h3>Case 31<a class="headerlink" href="#id31" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.3</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_31.png"><img alt="_images/case2_case_31.png" src="_images/case2_case_31.png" style="width: 600px;" /></a>
+</section>
+<section id="id32">
+<h3>Case 32<a class="headerlink" href="#id32" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Photocurrent (A)</p></th>
+<th class="head"><p>Saturation Current (A)</p></th>
+<th class="head"><p>Series Resistance (Ω)</p></th>
+<th class="head"><p>Shunt Resistance (Ω)</p></th>
+<th class="head"><p>Diode Factor (-)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>1.0</p></td>
+<td><p>3000.0</p></td>
+<td><p>1.5</p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/case2_case_32.png"><img alt="_images/case2_case_32.png" src="_images/case2_case_32.png" style="width: 600px;" /></a>
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="leaderboard.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Leaderboard</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="participating.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">How to Participate</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, ivcurves Development Team.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.2.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

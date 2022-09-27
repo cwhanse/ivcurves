@@ -1,0 +1,6 @@
+﻿workflows.utils.print\_json\_as\_env.validate\_pr\_config
+=========================================================
+
+.. currentmodule:: workflows.utils.print_json_as_env
+
+.. autofunction:: validate_pr_config
