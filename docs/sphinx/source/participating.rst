@@ -154,14 +154,48 @@ Here is Python code that may be useful for getting a set of all the JSON filenam
    import pathlib
 
 
-   def get_test_set_filenames():
-       path_to_test_sets = pathlib.Path('../../test_sets')
-       return {f'{path_to_test_sets}/{entry.stem}.json'
+   def get_test_set_filepaths():
+       """
+       Returns a set of pathlib.Path objects pointing to the JSON test set
+       files. pathlib.Path objects can be passed directly to Python's ``open``
+       function to open the JSON file.
+       """
+       path_to_test_sets = pathlib.Path.cwd() / '..' / '..' / 'test_sets'
+       return {path_to_test_sets / f'{entry.stem}.json'
                for entry in path_to_test_sets.iterdir()
                if entry.is_file()}
 
 
+   def get_test_set_name(filepath):
+       """
+       Gets a test set filename from a filepath.
+
+       Parameters
+       ----------
+       filepath : pathlib.Path
+           A filepath pointing to a JSON test set file.
+       
+       Returns
+       -------
+           The test set name given a pathlib.Path object pointing to a JSON
+           test set file.
+       """
+       return filepath.stem
+
+
    def json_file_to_dict(filepath):
+       """
+       Returns a Python dict of the contents of a JSON file.
+
+       Parameters
+       ----------
+       filepath : pathlib.Path
+           The filepath pointing to a JSON file.
+       
+       Returns
+       -------
+           A Python dict
+       """
        with open(filepath, 'r') as file:
            return json.load(file)
 
