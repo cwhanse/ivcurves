@@ -216,12 +216,12 @@ Here is Python code that may be useful for getting a set of all the JSON filenam
         df = df.set_index('Index')
       
         # convert Voltages and Currents from string array to float array
-        for s in ['Voltages', 'Currents']:
-            df[s] = df[s].apply(lambda a: np.asarray(a, dtype=np.float64))
+        arrs = ['Voltages', 'Currents']
+        df[arrs] = df[arrs].applymap(lambda a: np.asarray(a, dtype=np.float64))
       
         # convert from string to float
-        for d in ['v_oc', 'i_sc', 'v_mp', 'i_mp', 'p_mp', 'Temperature']:
-            df[d] = df[d].apply(np.float64)
+        nums = ['v_oc', 'i_sc', 'v_mp', 'i_mp', 'p_mp', 'Temperature']
+        df[nums] = df[nums].applymap(np.float64)
       
         return df
 
