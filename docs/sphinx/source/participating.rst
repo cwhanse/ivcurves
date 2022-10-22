@@ -1,5 +1,13 @@
 .. _participating:
 
+..
+   Note to the documentation writer: the rst in the code-block blocks below
+   are still interpreted by Sphinx. To prevent autodoc from executing,
+   it must be substituted in (using sphinx_substitution_extensions).
+
+.. |autodoc| replace:: autodoc
+
+
 How to Participate
 ==================
 
@@ -222,32 +230,32 @@ The ivcurves documentation uses numpy-sytle docstrings.
    All documentation files you create will go in this folder.
 #. For each of your submission's ``.py`` files in the top level of the ``submissions/<your_GitHub_username>`` folder, create a file ``<your_py_filename.py>.rst`` containing the following:
 
-   .. |autosummary| replace:: autosummary
-
    .. code-block:: rst
       :substitutions:
 
+      <your_py_filename>
+      ==================
 
-      .. currentmodule:: submissions.<your_GitHub_username>.<your_py_filename>
-
-      .. |autosummary|::
-         :toctree: generated/
-
-         ..
-            Write the name of each function in <your_py_filename>.py.
-
-         <function_name1>
-         <function_name2>
-
-   ..
-      Note to the documentation writer: the rst in the code-block above
-      is still interpreted by Sphinx. To prevent autosummary from executing,
-      it must be substituted in (using sphinx_substitution_extensions).
+      .. |autodoc|:: submissions.<your_GitHub_username>.<your_py_filename>
+         :members:
 
 #. The following steps are for registering your submission's ``.py`` files that are in subfolders under ``submissions/<your_GitHub_username>``.
 
    #. Create a folder ``<your_subfolder_name>``. This will contain all the documentation files you create in this set of steps.
    #. Inside that folder, for each ``.py`` file under ``submissions/<your_GitHub_username>/<your_subfolder_name>`` create a file ``<your_py_filename.py>.rst``.
+
+      .. code-block:: rst
+         :substitutions:
+         :emphasize-lines: 4
+
+         <your_py_filename>
+         ==================
+
+         .. |autodoc|:: submissions.<your_GitHub_username>.<your_subfolder_name>.<your_py_filename>
+            :members:
+
+      **<your_subfolder_name> is included in the path given to autodoc.**
+
    #. Create a file ``index.rst`` containing the following:
 
       .. code-block:: rst
