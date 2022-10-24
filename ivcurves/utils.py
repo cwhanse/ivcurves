@@ -67,8 +67,12 @@ def mp_num_digits_left_of_decimal(num_mpf):
         # force mpf to string in decimal format, no scientific notation
         # mpf string will have precision*2 significant digits
         # all leading zeros are stripped
-        return mp.nstr(num_mpf, n=precision*2, min_fixed=-mp.inf,
-                       max_fixed=mp.inf).find('.')
+        res = mp.nstr(num_mpf, n=precision*2, min_fixed=-mp.inf,
+                      max_fixed=mp.inf).find('.')
+        if num_mpf < 0:
+            return res - 1 # ignore negative sign '-'
+        else:
+            return res
 
 
 def mp_nstr_precision_func(num_mpf):

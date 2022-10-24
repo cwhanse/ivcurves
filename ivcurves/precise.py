@@ -577,7 +577,7 @@ def plot_iv_curves(test_set_filename, case_parameter_sets, vth, atol, num_pts,
         plt.show()
 
 
-def write_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
+def build_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
                         atol, num_pts):
     """
     Write JSON files of IV curve data.
@@ -631,9 +631,6 @@ def write_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
             'Sweep direction': "", 'Datetime': ""
         })
 
-    with open(f'{test_set_filename}.json', 'w') as file:
-        json.dump(case_test_suite, file, indent=2)
-
 
 def get_argparser():
     parser = argparse.ArgumentParser(
@@ -666,7 +663,8 @@ if __name__ == '__main__':
     for name in test_set_filenames:
         case_parameter_sets = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
         if args.save_json_path:
-            write_test_set_json(f'{args.save_json_path}/{name}', case_parameter_sets, vth, temp_cell, atol, num_pts)
+            with open(f'{test_set_filename}.json', 'w') as file:
+                json.dump(build_test_set_json(f'{args.save_json_path}/{name}', case_parameter_sets, vth, temp_cell, atol, num_pts), file, indent=2)
         if args.save_images_path:
             plot_iv_curves(f'{args.save_images_path}/{name}',
                            case_parameter_sets, vth, atol, num_pts, show=False,
