@@ -99,7 +99,7 @@ def mp_nstr_precision_func(num_mpf):
 def read_iv_curve_parameter_sets(filename):
     r"""
     Returns a dictionary of indices to a list of these values:
-    Index, photocurrent, saturation_current, resistance_series,
+    photocurrent, saturation_current, resistance_series,
     resistance_shunt, n, and cells_in_series.
     The indices and values are read from the CSV file at ``filename``.
 
@@ -120,7 +120,7 @@ def read_iv_curve_parameter_sets(filename):
         mapping = {}
         for row in reader:
             mapping[int(row['Index'])] = [mp.mpmathify(row[col])
-                                            for col in IV_PARAMETER_NAMES]
+                                          for col in IV_PARAMETER_NAMES]
         return mapping
 
 

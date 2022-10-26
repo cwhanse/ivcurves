@@ -1,8 +1,8 @@
 import pvlib
 import numpy as np
 import matplotlib.pyplot as plt
-from utils import mp # same instance of mpmath's mp imported in ivcurves/utils
-import utils
+from ivcurves.utils import mp # same instance of mpmath's mp imported in ivcurves/utils
+import ivcurves.utils as utils
 import argparse
 import itertools
 import json
@@ -608,7 +608,7 @@ def build_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
     num_pts : int
         Number of points calculated on IV curve.
     """
-    case_test_suite = {'Manufacturer': '', 'Sandia ID': '', 'Material': '',
+    test_set_json = {'Manufacturer': '', 'Sandia ID': '', 'Material': '',
                        'IV Curves': []}
     for test_idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
         vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol,
@@ -621,7 +621,7 @@ def build_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
         nstr = utils.mp_nstr_precision_func
         vv_str_list = [nstr(x) for x in vv]
         ii_str_list = [nstr(x) for x in ii]
-        case_test_suite['IV Curves'].append({
+        test_set_json['IV Curves'].append({
             'Index': test_idx, 'Voltages': vv_str_list,
             'Currents': ii_str_list, 'v_oc': nstr(v_oc),
             'i_sc': nstr(i_sc), 'v_mp': nstr(v_mp),
@@ -630,6 +630,8 @@ def build_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
             'Temperature': mp.nstr(temp_cell, n=5), 'Irradiance': None,
             'Sweep direction': "", 'Datetime': ""
         })
+
+    return test_set_json
 
 
 def get_argparser():
