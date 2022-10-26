@@ -149,21 +149,99 @@ Here is Python code that may be useful for getting a set of all the JSON filenam
 
 .. code-block:: python
 
-   # these modules are part of the Python standard library
-   import json
-   import pathlib
+    # these modules are part of the Python standard library
+    import json
+    import pathlib
+
+    # these modules are installed
+    import numpy as np
+    import pandas as pd
 
 
-   def get_test_set_filenames():
-       path_to_test_sets = pathlib.Path('../../test_sets')
-       return {f'{path_to_test_sets}/{entry.stem}.json'
-               for entry in path_to_test_sets.iterdir()
-               if entry.is_file()}
+    def get_test_set_filepaths():
+        """
+        Returns a sorted list of pathlib.Path objects pointing to the JSON test set
+        files. pathlib.Path objects can be passed directly to Python's ``open``
+        function to open the JSON file.
+
+        Returns
+        -------
+            A list.
+        """
+        path_to_test_sets = pathlib.Path.cwd() / '..' / '..' / 'test_sets'
+        file_entries = list({path_to_test_sets / f'{entry.stem}.json'
+                             for entry in path_to_test_sets.iterdir()
+                             if entry.is_file()})
+        file_entries.sort()
+        return file_entries
 
 
-   def json_file_to_dict(filepath):
-       with open(filepath, 'r') as file:
-           return json.load(file)
+    def get_test_set_name(filepath):
+        """
+        Gets a test set filename from a filepath.
+
+        Parameters
+        ----------
+        filepath : pathlib.Path
+            A filepath pointing to a JSON test set file.
+
+        Returns
+        -------
+            The test set name given a pathlib.Path object pointing to a JSON
+            test set file.
+        """
+        return filepath.stem
+
+
+    def json_file_to_df(filepath):
+        """
+        Creates a pandas DataFrame from an IV Curve JSON file.
+        All of the numerical values stored as strings in the JSON as parsed to
+        np.float64.
+
+        Parameters
+        ----------
+        filepath : pathlib.Path
+            A Path object pointing to the JSON file.
+
+        Returns
+        -------
+            A pandas DataFrame.
+        """
+        df = pd.read_json(filepath)
+        df = pd.DataFrame(df['IV Curves'].values.tolist())
+      
+        # set up index
+        df['Index'] = df['Index'].astype(int)
+        df = df.set_index('Index')
+      
+        # convert Voltages and Currents from string array to float array.
+        # this truncates from precise values to 64-bit precision.
+        arrs = ['Voltages', 'Currents']
+        df[arrs] = df[arrs].applymap(lambda a: np.asarray(a, dtype=np.float64))
+      
+        # convert from string to float
+        nums = ['v_oc', 'i_sc', 'v_mp', 'i_mp', 'p_mp', 'Temperature']
+        df[nums] = df[nums].applymap(np.float64)
+      
+        return df
+
+
+    def json_file_to_dict(filepath):
+        """
+        Returns a Python dict of the contents of a JSON file.
+
+        Parameters
+        ----------
+        filepath : pathlib.Path
+            The filepath pointing to a JSON file.
+
+        Returns
+        -------
+            A Python dict.
+        """
+        with open(filepath, 'r') as file:
+            return json.load(file)
 
 Writing Test Set Results to CSV Files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
