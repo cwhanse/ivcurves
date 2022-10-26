@@ -215,7 +215,8 @@ Here is Python code that may be useful for getting a set of all the JSON filenam
         df['Index'] = df['Index'].astype(int)
         df = df.set_index('Index')
       
-        # convert Voltages and Currents from string array to float array
+        # convert Voltages and Currents from string array to float array.
+        # this truncates from precise values to 64-bit precision.
         arrs = ['Voltages', 'Currents']
         df[arrs] = df[arrs].applymap(lambda a: np.asarray(a, dtype=np.float64))
       
