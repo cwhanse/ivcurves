@@ -1,5 +1,13 @@
 .. _participating:
 
+..
+   Note to the documentation writer: the rst in the code-block blocks below
+   are still interpreted by Sphinx. To prevent autodoc from executing,
+   it must be substituted in (using sphinx_substitution_extensions).
+
+.. |autodoc| replace:: autodoc
+
+
 How to Participate
 ==================
 
@@ -149,21 +157,99 @@ Here is Python code that may be useful for getting a set of all the JSON filenam
 
 .. code-block:: python
 
-   # these modules are part of the Python standard library
-   import json
-   import pathlib
+    # these modules are part of the Python standard library
+    import json
+    import pathlib
+
+    # these modules are installed
+    import numpy as np
+    import pandas as pd
 
 
-   def get_test_set_filenames():
-       path_to_test_sets = pathlib.Path('../../test_sets')
-       return {f'{path_to_test_sets}/{entry.stem}.json'
-               for entry in path_to_test_sets.iterdir()
-               if entry.is_file()}
+    def get_test_set_filepaths():
+        """
+        Returns a sorted list of pathlib.Path objects pointing to the JSON test set
+        files. pathlib.Path objects can be passed directly to Python's ``open``
+        function to open the JSON file.
+
+        Returns
+        -------
+            A list.
+        """
+        path_to_test_sets = pathlib.Path.cwd() / '..' / '..' / 'test_sets'
+        file_entries = list({path_to_test_sets / f'{entry.stem}.json'
+                             for entry in path_to_test_sets.iterdir()
+                             if entry.is_file()})
+        file_entries.sort()
+        return file_entries
 
 
-   def json_file_to_dict(filepath):
-       with open(filepath, 'r') as file:
-           return json.load(file)
+    def get_test_set_name(filepath):
+        """
+        Gets a test set filename from a filepath.
+
+        Parameters
+        ----------
+        filepath : pathlib.Path
+            A filepath pointing to a JSON test set file.
+
+        Returns
+        -------
+            The test set name given a pathlib.Path object pointing to a JSON
+            test set file.
+        """
+        return filepath.stem
+
+
+    def json_file_to_df(filepath):
+        """
+        Creates a pandas DataFrame from an IV Curve JSON file.
+        All of the numerical values stored as strings in the JSON as parsed to
+        np.float64.
+
+        Parameters
+        ----------
+        filepath : pathlib.Path
+            A Path object pointing to the JSON file.
+
+        Returns
+        -------
+            A pandas DataFrame.
+        """
+        df = pd.read_json(filepath)
+        df = pd.DataFrame(df['IV Curves'].values.tolist())
+      
+        # set up index
+        df['Index'] = df['Index'].astype(int)
+        df = df.set_index('Index')
+      
+        # convert Voltages and Currents from string array to float array.
+        # this truncates from precise values to 64-bit precision.
+        arrs = ['Voltages', 'Currents']
+        df[arrs] = df[arrs].applymap(lambda a: np.asarray(a, dtype=np.float64))
+      
+        # convert from string to float
+        nums = ['v_oc', 'i_sc', 'v_mp', 'i_mp', 'p_mp', 'Temperature']
+        df[nums] = df[nums].applymap(np.float64)
+      
+        return df
+
+
+    def json_file_to_dict(filepath):
+        """
+        Returns a Python dict of the contents of a JSON file.
+
+        Parameters
+        ----------
+        filepath : pathlib.Path
+            The filepath pointing to a JSON file.
+
+        Returns
+        -------
+            A Python dict.
+        """
+        with open(filepath, 'r') as file:
+            return json.load(file)
 
 Writing Test Set Results to CSV Files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -222,32 +308,32 @@ The ivcurves documentation uses numpy-sytle docstrings.
    All documentation files you create will go in this folder.
 #. For each of your submission's ``.py`` files in the top level of the ``submissions/<your_GitHub_username>`` folder, create a file ``<your_py_filename.py>.rst`` containing the following:
 
-   .. |autosummary| replace:: autosummary
-
    .. code-block:: rst
       :substitutions:
 
+      <your_py_filename>
+      ==================
 
-      .. currentmodule:: submissions.<your_GitHub_username>.<your_py_filename>
-
-      .. |autosummary|::
-         :toctree: generated/
-
-         ..
-            Write the name of each function in <your_py_filename>.py.
-
-         <function_name1>
-         <function_name2>
-
-   ..
-      Note to the documentation writer: the rst in the code-block above
-      is still interpreted by Sphinx. To prevent autosummary from executing,
-      it must be substituted in (using sphinx_substitution_extensions).
+      .. |autodoc|:: submissions.<your_GitHub_username>.<your_py_filename>
+         :members:
 
 #. The following steps are for registering your submission's ``.py`` files that are in subfolders under ``submissions/<your_GitHub_username>``.
 
    #. Create a folder ``<your_subfolder_name>``. This will contain all the documentation files you create in this set of steps.
    #. Inside that folder, for each ``.py`` file under ``submissions/<your_GitHub_username>/<your_subfolder_name>`` create a file ``<your_py_filename.py>.rst``.
+
+      .. code-block:: rst
+         :substitutions:
+         :emphasize-lines: 4
+
+         <your_py_filename>
+         ==================
+
+         .. |autodoc|:: submissions.<your_GitHub_username>.<your_subfolder_name>.<your_py_filename>
+            :members:
+
+      **<your_subfolder_name> is included in the path given to autodoc.**
+
    #. Create a file ``index.rst`` containing the following:
 
       .. code-block:: rst

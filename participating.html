@@ -219,8 +219,8 @@
               
               <article class="bd-article" role="main">
                 
-  <section id="how-to-participate">
-<span id="participating"></span><h1>How to Participate<a class="headerlink" href="#how-to-participate" title="Permalink to this heading">#</a></h1>
+  <span class="target" id="participating"></span><section id="how-to-participate">
+<h1>How to Participate<a class="headerlink" href="#how-to-participate" title="Permalink to this heading">#</a></h1>
 <section id="submission-workflow">
 <h2>Submission Workflow<a class="headerlink" href="#submission-workflow" title="Permalink to this heading">#</a></h2>
 <p>These are the steps to make a submission as a competitor.
@@ -345,7 +345,7 @@ To be sure that precision is not lost unintentionally when reading the JSON, the
 The competitor must decide how to parse these numbers in their submission.
 Here are some options:</p>
 <ol class="arabic simple">
-<li><p>Parse the strings containing a number into a Python <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.
+<li><p>Parse the strings containing a number into a Python <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.
 Any precision that cannot be stored in a 64-bit floating point number will be lost.</p></li>
 <li><p>Use an arbitrary precision math library to parse the strings containing a number.
 The library <a class="reference external" href="https://mpmath.org/">mpmath</a> was used to calculate the IV curve data in these test sets.</p>
@@ -357,15 +357,93 @@ Here is Python code that may be useful for getting a set of all the JSON filenam
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
 
+<span class="c1"># these modules are installed</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="k">def</span> <span class="nf">get_test_set_filenames</span><span class="p">():</span>
-    <span class="n">path_to_test_sets</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../../test_sets&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">path_to_test_sets</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s1">.json&#39;</span>
-            <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">path_to_test_sets</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">is_file</span><span class="p">()}</span>
+
+<span class="k">def</span> <span class="nf">get_test_set_filepaths</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a sorted list of pathlib.Path objects pointing to the JSON test set</span>
+<span class="sd">    files. pathlib.Path objects can be passed directly to Python&#39;s ``open``</span>
+<span class="sd">    function to open the JSON file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        A list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path_to_test_sets</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s1">&#39;..&#39;</span> <span class="o">/</span> <span class="s1">&#39;..&#39;</span> <span class="o">/</span> <span class="s1">&#39;test_sets&#39;</span>
+    <span class="n">file_entries</span> <span class="o">=</span> <span class="nb">list</span><span class="p">({</span><span class="n">path_to_test_sets</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s1">.json&#39;</span>
+                         <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">path_to_test_sets</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span>
+                         <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">is_file</span><span class="p">()})</span>
+    <span class="n">file_entries</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">file_entries</span>
+
+
+<span class="k">def</span> <span class="nf">get_test_set_name</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets a test set filename from a filepath.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : pathlib.Path</span>
+<span class="sd">        A filepath pointing to a JSON test set file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        The test set name given a pathlib.Path object pointing to a JSON</span>
+<span class="sd">        test set file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">filepath</span><span class="o">.</span><span class="n">stem</span>
+
+
+<span class="k">def</span> <span class="nf">json_file_to_df</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a pandas DataFrame from an IV Curve JSON file.</span>
+<span class="sd">    All of the numerical values stored as strings in the JSON as parsed to</span>
+<span class="sd">    np.float64.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : pathlib.Path</span>
+<span class="sd">        A Path object pointing to the JSON file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        A pandas DataFrame.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;IV Curves&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+    <span class="c1"># set up index</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Index&#39;</span><span class="p">)</span>
+
+    <span class="c1"># convert Voltages and Currents from string array to float array.</span>
+    <span class="c1"># this truncates from precise values to 64-bit precision.</span>
+    <span class="n">arrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Voltages&#39;</span><span class="p">,</span> <span class="s1">&#39;Currents&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">arrs</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">arrs</span><span class="p">]</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+
+    <span class="c1"># convert from string to float</span>
+    <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;v_oc&#39;</span><span class="p">,</span> <span class="s1">&#39;i_sc&#39;</span><span class="p">,</span> <span class="s1">&#39;v_mp&#39;</span><span class="p">,</span> <span class="s1">&#39;i_mp&#39;</span><span class="p">,</span> <span class="s1">&#39;p_mp&#39;</span><span class="p">,</span> <span class="s1">&#39;Temperature&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">nums</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">nums</span><span class="p">]</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
 
 
 <span class="k">def</span> <span class="nf">json_file_to_dict</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a Python dict of the contents of a JSON file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : pathlib.Path</span>
+<span class="sd">        The filepath pointing to a JSON file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        A Python dict.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 </pre></div>
@@ -426,23 +504,27 @@ The ivcurves documentation uses numpy-sytle docstrings.</p>
 <li><p>In the <code class="docutils literal notranslate"><span class="pre">docs/sphinx/source/submissions</span></code> folder, make a new folder <code class="docutils literal notranslate"><span class="pre">&lt;your_GitHub_username&gt;</span></code>.
 All documentation files you create will go in this folder.</p></li>
 <li><p>For each of your submission’s <code class="docutils literal notranslate"><span class="pre">.py</span></code> files in the top level of the <code class="docutils literal notranslate"><span class="pre">submissions/&lt;your_GitHub_username&gt;</span></code> folder, create a file <code class="docutils literal notranslate"><span class="pre">&lt;your_py_filename.py&gt;.rst</span></code> containing the following:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">currentmodule</span><span class="p">::</span> submissions.&lt;your_GitHub_username&gt;.&lt;your_py_filename&gt;
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">&lt;your_py_filename&gt;</span>
+<span class="gh">==================</span>
 
-<span class="p">..</span> <span class="ow">autosummary</span><span class="p">::</span>
-   <span class="nc">:toctree:</span> generated/
-
-<span class="cp">   ..</span>
-<span class="cp">      Write the name of each function in &lt;your_py_filename&gt;.py.</span>
-
-<span class="cp">   &lt;function_name1&gt;</span>
-<span class="cp">   &lt;function_name2&gt;</span>
+<span class="p">..</span> <span class="ow">autodoc</span><span class="p">::</span> submissions.&lt;your_GitHub_username&gt;.&lt;your_py_filename&gt;
+   <span class="nc">:members:</span>
 </pre></div>
 </div>
 </li>
 <li><p>The following steps are for registering your submission’s <code class="docutils literal notranslate"><span class="pre">.py</span></code> files that are in subfolders under <code class="docutils literal notranslate"><span class="pre">submissions/&lt;your_GitHub_username&gt;</span></code>.</p>
 <ol class="arabic">
 <li><p>Create a folder <code class="docutils literal notranslate"><span class="pre">&lt;your_subfolder_name&gt;</span></code>. This will contain all the documentation files you create in this set of steps.</p></li>
-<li><p>Inside that folder, for each <code class="docutils literal notranslate"><span class="pre">.py</span></code> file under <code class="docutils literal notranslate"><span class="pre">submissions/&lt;your_GitHub_username&gt;/&lt;your_subfolder_name&gt;</span></code> create a file <code class="docutils literal notranslate"><span class="pre">&lt;your_py_filename.py&gt;.rst</span></code>.</p></li>
+<li><p>Inside that folder, for each <code class="docutils literal notranslate"><span class="pre">.py</span></code> file under <code class="docutils literal notranslate"><span class="pre">submissions/&lt;your_GitHub_username&gt;/&lt;your_subfolder_name&gt;</span></code> create a file <code class="docutils literal notranslate"><span class="pre">&lt;your_py_filename.py&gt;.rst</span></code>.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">&lt;your_py_filename&gt;</span>
+<span class="gh">==================</span>
+
+<span class="hll"><span class="p">..</span> <span class="ow">autodoc</span><span class="p">::</span> submissions.&lt;your_GitHub_username&gt;.&lt;your_subfolder_name&gt;.&lt;your_py_filename&gt;
+</span>   <span class="nc">:members:</span>
+</pre></div>
+</div>
+<p><strong>&lt;your_subfolder_name&gt; is included in the path given to autodoc.</strong></p>
+</li>
 <li><p>Create a file <code class="docutils literal notranslate"><span class="pre">index.rst</span></code> containing the following:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">&lt;your_subfolder_name&gt;</span>
 <span class="gh">=====================</span>
@@ -582,7 +664,7 @@ Link to <span class="s">`Sphinx documentation`_</span>.
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   

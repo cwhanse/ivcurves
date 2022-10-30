@@ -497,16 +497,16 @@ line segment from the origin to the given point <span class="math notranslate no
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>single_diode</strong> (<em>function</em>) – The single diode equation with two unknowns (the first being voltage,
 the second being current).</p></li>
-<li><p><strong>known_xs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em> of </em><em>floats</em>) – A list of x-coordinates.</p></li>
-<li><p><strong>known_ys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em> of </em><em>floats</em>) – A list of y-coordinates associated to <code class="docutils literal notranslate"><span class="pre">known_xs</span></code> that lie on the known
+<li><p><strong>known_xs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em> of </em><em>floats</em>) – A list of x-coordinates.</p></li>
+<li><p><strong>known_ys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em> of </em><em>floats</em>) – A list of y-coordinates associated to <code class="docutils literal notranslate"><span class="pre">known_xs</span></code> that lie on the known
 curve.</p></li>
-<li><p><strong>xp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – x-coordinate of point on fitted curve (voltage).</p></li>
-<li><p><strong>yp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – y-coordinate of point on fitted curve (current).</p></li>
-<li><p><strong>num_segments</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of segments to use when approximating known curve. (See
+<li><p><strong>xp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – x-coordinate of point on fitted curve (voltage).</p></li>
+<li><p><strong>yp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – y-coordinate of point on fitted curve (current).</p></li>
+<li><p><strong>num_segments</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of segments to use when approximating known curve. (See
 <a class="reference internal" href="ivcurves.compare_curves.get_guess_interval.html#ivcurves.compare_curves.get_guess_interval" title="ivcurves.compare_curves.get_guess_interval"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_guess_interval()</span></code></a>.)</p></li>
-<li><p><strong>atol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Absolute tolerance of how close the found x-coordiante must be to the
+<li><p><strong>atol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Absolute tolerance of how close the found x-coordiante must be to the
 true x-coordinate of the intersection point.</p></li>
-<li><p><strong>maxsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Maximum number of iterations for <code class="docutils literal notranslate"><span class="pre">mp.findroot</span></code> to find the
+<li><p><strong>maxsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Maximum number of iterations for <code class="docutils literal notranslate"><span class="pre">mp.findroot</span></code> to find the
 x-coordinate of the intersection point. A <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> is thrown
 if <code class="docutils literal notranslate"><span class="pre">atol</span></code> is not met after <code class="docutils literal notranslate"><span class="pre">maxsteps</span></code> iterations.</p></li>
 </ul>
@@ -516,7 +516,7 @@ if <code class="docutils literal notranslate"><span class="pre">atol</span></cod
 origin and the given point.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -568,7 +568,7 @@ origin and the given point.</p>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   

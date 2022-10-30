@@ -493,7 +493,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>curve_parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – <p>A list of parameters representing a given IV curve. Should be passed in
+<li><p><strong>curve_parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – <p>A list of parameters representing a given IV curve. Should be passed in
 the order [il, io, rs, rsh, n, ns].</p>
 <dl class="simple">
 <dt>il<span class="classifier">numeric</span></dt><dd><p>Light-generated current <span class="math notranslate nohighlight">\(I_L\)</span> (photocurrent) [A]</p>
@@ -517,8 +517,8 @@ The thermal voltage of the cell (in volts) may be calculated as
 <span class="math notranslate nohighlight">\(k_B T_c / q\)</span>, where <span class="math notranslate nohighlight">\(k_B\)</span> is Boltzmann’s constant (J/K),
 <span class="math notranslate nohighlight">\(T_c\)</span> is the temperature of the p-n junction in Kelvin, and
 <span class="math notranslate nohighlight">\(q\)</span> is the charge of an electron (coulombs).</p></li>
-<li><p><strong>num_pts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of points to calculate on the given curve.</p></li>
-<li><p><strong>atol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The error of each of the solution pairs found is at most <code class="docutils literal notranslate"><span class="pre">atol</span></code>.
+<li><p><strong>num_pts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of points to calculate on the given curve.</p></li>
+<li><p><strong>atol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The error of each of the solution pairs found is at most <code class="docutils literal notranslate"><span class="pre">atol</span></code>.
 (See <code class="xref py py-func docutils literal notranslate"><span class="pre">precise.get_precise_i()</span></code>.) Each solution pair is a point
 on the curve.</p></li>
 </ul>
@@ -528,7 +528,7 @@ on the curve.</p></li>
 mpmath floats. Each array has <code class="docutils literal notranslate"><span class="pre">num_pts</span></code> entries.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)">tuple</a> of numpy arrays</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a> of numpy arrays</p>
 </dd>
 </dl>
 </dd></dl>
@@ -580,7 +580,7 @@ mpmath floats. Each array has <code class="docutils literal notranslate"><span c
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   

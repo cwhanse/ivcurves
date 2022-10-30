@@ -493,9 +493,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>test_set_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The name of the test set CSV file that <code class="docutils literal notranslate"><span class="pre">case_parameter_sets</span></code> was
+<li><p><strong>test_set_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the test set CSV file that <code class="docutils literal notranslate"><span class="pre">case_parameter_sets</span></code> was
 loaded from. The filename must exclude its file extension.</p></li>
-<li><p><strong>case_parameter_sets</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – A mapping of test case indices to a list of test case parameters.
+<li><p><strong>case_parameter_sets</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – A mapping of test case indices to a list of test case parameters.
 (See <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.read_iv_curve_parameter_sets()</span></code>)</p></li>
 <li><p><strong>vth</strong> (<em>numeric</em>) – Thermal voltage of the cell <span class="math notranslate nohighlight">\(V_{th}\)</span> [V]
 The thermal voltage of the cell (in volts) may be calculated as
@@ -504,10 +504,10 @@ The thermal voltage of the cell (in volts) may be calculated as
 <span class="math notranslate nohighlight">\(q\)</span> is the charge of an electron (coulombs).</p></li>
 <li><p><strong>atol</strong> (<em>numeric</em>) – The absolute tolerance allowed when generating the IV curve data
 from the test case’s parameters.</p></li>
-<li><p><strong>num_pts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of points calculated on IV curve.</p></li>
-<li><p><strong>show</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>default True</em>) – Display the plot.</p></li>
-<li><p><strong>savefig</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>default False</em>) – Save the plot as a PNG image.</p></li>
-<li><p><strong>stack_plots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>default True</em>) – Plot all of the IV curves generated from the parameters in
+<li><p><strong>num_pts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of points calculated on IV curve.</p></li>
+<li><p><strong>show</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default True</em>) – Display the plot.</p></li>
+<li><p><strong>savefig</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default False</em>) – Save the plot as a PNG image.</p></li>
+<li><p><strong>stack_plots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default True</em>) – Plot all of the IV curves generated from the parameters in
 <code class="docutils literal notranslate"><span class="pre">case_parameter_sets</span></code> on a single plot. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, only
 the last IV curve generated will be plotted.</p></li>
 </ul>
@@ -562,7 +562,7 @@ the last IV curve generated will be plotted.</p></li>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   
