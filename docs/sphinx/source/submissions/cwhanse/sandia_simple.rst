@@ -1,7 +1,6 @@
-.. currentmodule:: submissions.cwhanse.sandia_simple
+sandia_simple
+=============
 
-.. autosummary::
-   :toctree: generated/
+.. automodule:: submissions.cwhanse.sandia_simple
+   :members:
 
-   ..
-      Write the name of each function in <your_py_filename>.py.
