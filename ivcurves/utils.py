@@ -77,7 +77,7 @@ def mp_num_digits_left_of_decimal(num_mpf):
 
 def mp_nstr_precision_func(num_mpf):
     r"""
-    Converts an mpmath float to a string with 16 significant digits
+    Converts an mpmath float to a string with at least 16 significant digits
     after the decimal place.
 
     Parameters
@@ -88,12 +88,22 @@ def mp_nstr_precision_func(num_mpf):
     Returns
     -------
     str
-        A string representation of ``num_mpf`` with 16 significant digits
-        after the decimal place.
+        A string representation of ``num_mpf`` with at least 16 significant
+        digits after the decimal place.
     """
     precision = constants()['precision']
     ldigits = mp_num_digits_left_of_decimal(num_mpf)
-    return mp.nstr(num_mpf, n=ldigits+precision, strip_zeros=False)
+
+    # Stringifying to 16 significant digits truncates or rounds the mp.mpf
+    # value. The lost precision can cause significant error (greater than
+    # 1e-16) when converted back into an mp.mpf from a string. This occurs
+    # when calculating the difference between the left and right side of the
+    # single diode equation. The required sigfigs in the string is increased by
+    # 3 to ensure the JSON test set values are still precise enough when
+    # parsed back into mp.mpf values. The required sigfigs may need to be
+    # increased when new JSON test sets are added.
+    sigfigs = ldigits + precision + 3
+    return mp.nstr(num_mpf, n=sigfigs, strip_zeros=False)
 
 
 def read_iv_curve_parameter_sets(filename):

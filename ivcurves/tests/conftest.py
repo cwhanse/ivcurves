@@ -38,8 +38,8 @@ def test_set_to_pandas_df(test_set_parameter_sets, test_set_json):
     -------
         A pandas DataFrame.
     """
-    params = pd.DataFrame([[k] + v for k, v in test_set_parameter_sets.items()],
-                            columns=['Index'] + utils.IV_PARAMETER_NAMES)
+    params = pd.DataFrame([[Index] + params for Index, params in test_set_parameter_sets.items()],
+                          columns=['Index'] + utils.IV_PARAMETER_NAMES)
     curves = pd.DataFrame(test_set_json['IV Curves'])
 
     # set up index
