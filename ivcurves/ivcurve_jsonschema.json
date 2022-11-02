@@ -9,13 +9,29 @@
       "description": "",
       "type": "string"
     },
-    "Sandia ID": {
+    "Model": {
+      "description": "",
+      "type": "string"
+    },
+    "Serial Number": {
+      "description": "",
+      "type": "string"
+    },
+    "Module ID": {
+      "description": "",
+      "type": "string"
+    },
+    "Description": {
       "description": "",
       "type": "string"
     },
     "Material": {
       "description": "",
       "type": "string"
+    },
+    "cells_in_series": {
+      "description": "",
+      "type": "integer"
     },
     "IV Curves": {
       "description": "",
@@ -29,8 +45,12 @@
   },
   "required": [
     "Manufacturer",
-    "Sandia ID",
+    "Model",
+    "Serial Number",
+    "Module ID",
+    "Description",
     "Material",
+    "cells_in_series",
     "IV Curves"
   ],
   "$defs": {
@@ -96,12 +116,9 @@
           "description": "",
           "$ref": "#/$defs/Number"
         },
-        "cells_in_series": {
+        "Temperature": {
           "description": "",
-          "type": [
-            "integer",
-            "null"
-          ]
+          "#/$defs/Number"
         },
         "Irradiance": {
           "description": "",
@@ -126,7 +143,7 @@
         "v_mp",
         "i_mp",
         "p_mp",
-        "cells_in_series",
+        "Temperature",
         "Irradiance",
         "Sweep direction",
         "Datetime"

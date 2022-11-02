@@ -1,11 +1,12 @@
-import pvlib
-import numpy as np
-import matplotlib.pyplot as plt
-from ivcurves.utils import mp # same instance of mpmath's mp imported in ivcurves/utils
-import ivcurves.utils as utils
 import argparse
 import itertools
 import json
+import pvlib
+import numpy as np
+import matplotlib.pyplot as plt
+
+from ivcurves.utils import mp # same instance of mpmath's mp imported in ivcurves/utils
+import ivcurves.utils as utils
 
 
 ###################
@@ -577,17 +578,12 @@ def plot_iv_curves(test_set_filename, case_parameter_sets, vth, atol, num_pts,
         plt.show()
 
 
-def build_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
-                        atol, num_pts):
+def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
     """
-    Write JSON files of IV curve data.
+    Builds a dict of IV curve data compliant with the IV Curve JSON schema.
 
     Parameters
     ----------
-    test_set_filename : str
-        The filename of the test set CSV file that ``case_parameter_sets`` was
-        loaded from. The filename must exclude its file extension.
-
     case_parameter_sets : dict
         A mapping of test case indices to a list of test case parameters.
 
@@ -607,29 +603,39 @@ def build_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
 
     num_pts : int
         Number of points calculated on IV curve.
+
+    Returns
+    -------
+        dict
     """
-    test_set_json = {'Manufacturer': '', 'Sandia ID': '', 'Material': '',
-                       'IV Curves': []}
+    ivcurves = []
+
+    # this is set in the loop below, and is the same for every iv curve
+    cells_in_series = None
+
     for test_idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
-        vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol,
-                               num_pts)
+        cells_in_series = int(ns)
+
+        vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts)
         v_oc = vv.max()
         i_sc = ii.max()
-        v_mp, i_mp, p_mp = max_power_pt_finder(il, io, rs, rsh, n,
-                                               vth, ns, atol)
+        v_mp, i_mp, p_mp = max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol)
 
         nstr = utils.mp_nstr_precision_func
         vv_str_list = [nstr(x) for x in vv]
         ii_str_list = [nstr(x) for x in ii]
-        test_set_json['IV Curves'].append({
+        ivcurves.append({
             'Index': test_idx, 'Voltages': vv_str_list,
             'Currents': ii_str_list, 'v_oc': nstr(v_oc),
             'i_sc': nstr(i_sc), 'v_mp': nstr(v_mp),
             'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
-            'cells_in_series': int(ns),
             'Temperature': mp.nstr(temp_cell, n=5), 'Irradiance': None,
-            'Sweep direction': "", 'Datetime': ""
+            'Sweep direction': '', 'Datetime': '1970-01-01T00:00:00Z'
         })
+
+    test_set_json = {'Manufacturer': '', 'Model': '', 'Serial Number': '',
+                     'Module ID': '',  'Description': '', 'Material': '',
+                     'cells_in_series': cells_in_series, 'IV Curves': ivcurves}
 
     return test_set_json
 
@@ -665,8 +671,8 @@ if __name__ == '__main__':
     for name in test_set_filenames:
         case_parameter_sets = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
         if args.save_json_path:
-            with open(f'{test_set_filename}.json', 'w') as file:
-                json.dump(build_test_set_json(f'{args.save_json_path}/{name}', case_parameter_sets, vth, temp_cell, atol, num_pts), file, indent=2)
+            with open(f'{args.save_json_path}/{name}.json', 'w') as file:
+                json.dump(build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts), file, indent=2)
         if args.save_images_path:
             plot_iv_curves(f'{args.save_images_path}/{name}',
                            case_parameter_sets, vth, atol, num_pts, show=False,

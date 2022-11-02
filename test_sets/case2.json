@@ -1,7 +1,11 @@
 {
   "Manufacturer": "",
-  "Sandia ID": "",
+  "Model": "",
+  "Serial Number": "",
+  "Module ID": "",
+  "Description": "",
   "Material": "",
+  "cells_in_series": 140,
   "IV Curves": [
     {
       "Index": 1,
@@ -214,11 +218,10 @@
       "v_mp": "68.9638288515163213",
       "i_mp": "0.2674752173882867",
       "p_mp": "18.4461151139879282",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 2,
@@ -431,11 +434,10 @@
       "v_mp": "73.2657702004496406",
       "i_mp": "0.2549025267227750",
       "p_mp": "18.6756299463848058",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 3,
@@ -648,11 +650,10 @@
       "v_mp": "79.5749018651040270",
       "i_mp": "0.4486404886170567",
       "p_mp": "35.7005228544146100",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 4,
@@ -865,11 +866,10 @@
       "v_mp": "91.7301690912092600",
       "i_mp": "0.4450188279487023",
       "p_mp": "40.8216523365062254",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 5,
@@ -1082,11 +1082,10 @@
       "v_mp": "68.8409320452556551",
       "i_mp": "0.2670189927349314",
       "p_mp": "18.3818363336580290",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 6,
@@ -1299,11 +1298,10 @@
       "v_mp": "73.2142365595496917",
       "i_mp": "0.2542851608843812",
       "p_mp": "18.6172939225722396",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 7,
@@ -1516,11 +1514,10 @@
       "v_mp": "79.2163894926556295",
       "i_mp": "0.4483854327962956",
       "p_mp": "35.5194750872243189",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 8,
@@ -1733,11 +1730,10 @@
       "v_mp": "91.3749366261362005",
       "i_mp": "0.4447992413424353",
       "p_mp": "40.6435024890184826",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 9,
@@ -1950,11 +1946,10 @@
       "v_mp": "62.1725428291746564",
       "i_mp": "0.2866782155015248",
       "p_mp": "17.8235136314599155",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 10,
@@ -2167,11 +2162,10 @@
       "v_mp": "68.3982555045352493",
       "i_mp": "0.2686971668498619",
       "p_mp": "18.3784174715415963",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 11,
@@ -2384,11 +2378,10 @@
       "v_mp": "69.4752906893506385",
       "i_mp": "0.4481996738854350",
       "p_mp": "31.1388026300627551",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 12,
@@ -2601,11 +2594,10 @@
       "v_mp": "80.0903609732212986",
       "i_mp": "0.4450861107854286",
       "p_mp": "35.6471072769721407",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 13,
@@ -2818,11 +2810,10 @@
       "v_mp": "62.0053329119752912",
       "i_mp": "0.2862601439394754",
       "p_mp": "17.7496555243971391",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 14,
@@ -3035,11 +3026,10 @@
       "v_mp": "68.2795036558229958",
       "i_mp": "0.2682145434219129",
       "p_mp": "18.3135558981213969",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 15,
@@ -3252,11 +3242,10 @@
       "v_mp": "69.1225925428917231",
       "i_mp": "0.4478729487533793",
       "p_mp": "30.9581393476632643",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 16,
@@ -3469,11 +3458,10 @@
       "v_mp": "79.7404645771831887",
       "i_mp": "0.4448046349636074",
       "p_mp": "35.4689282380824332",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 17,
@@ -3686,11 +3674,10 @@
       "v_mp": "85.9113962429896592",
       "i_mp": "2.1132082223710636",
       "p_mp": "181.5486689360642530",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 18,
@@ -3903,11 +3890,10 @@
       "v_mp": "98.9250785173490740",
       "i_mp": "2.0741783484071349",
       "p_mp": "205.1882559751612445",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 19,
@@ -4120,11 +4106,10 @@
       "v_mp": "86.9432103753722946",
       "i_mp": "2.3459844254436828",
       "p_mp": "203.9674174386970110",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 20,
@@ -4337,11 +4322,10 @@
       "v_mp": "100.3332270848325913",
       "i_mp": "2.3420377311958344",
       "p_mp": "234.9842035253177666",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 21,
@@ -4554,11 +4538,10 @@
       "v_mp": "84.2308794761928281",
       "i_mp": "2.1077756024361775",
       "p_mp": "177.5397927316613934",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 22,
@@ -4771,11 +4754,10 @@
       "v_mp": "97.2799018757503805",
       "i_mp": "2.0695418704289834",
       "p_mp": "201.3248300830884168",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 23,
@@ -4988,11 +4970,10 @@
       "v_mp": "85.0493554583674906",
       "i_mp": "2.3401273998570173",
       "p_mp": "199.0263270483047368",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 24,
@@ -5205,11 +5186,10 @@
       "v_mp": "98.4414899210918385",
       "i_mp": "2.3370030014025399",
       "p_mp": "230.0580574081295081",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 25,
@@ -5422,11 +5402,10 @@
       "v_mp": "75.8543383536136488",
       "i_mp": "2.1303343699996410",
       "p_mp": "161.5951041082851362",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 26,
@@ -5639,11 +5618,10 @@
       "v_mp": "87.3565274643693221",
       "i_mp": "2.0963107570307849",
       "p_mp": "183.1264282204126035",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 27,
@@ -5856,11 +5834,10 @@
       "v_mp": "76.7437895574491758",
       "i_mp": "2.3332967847767911",
       "p_mp": "179.0660374259828359",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 28,
@@ -6073,11 +6050,10 @@
       "v_mp": "88.5663716557582219",
       "i_mp": "2.3298881191590833",
       "p_mp": "206.3497370777788674",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 29,
@@ -6290,11 +6266,10 @@
       "v_mp": "74.1832845313632165",
       "i_mp": "2.1234386302319244",
       "p_mp": "157.5236520913830156",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 30,
@@ -6507,11 +6482,10 @@
       "v_mp": "85.7157476676219074",
       "i_mp": "2.0904249595919246",
       "p_mp": "179.1823383544801329",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 31,
@@ -6724,11 +6698,10 @@
       "v_mp": "74.8867562352065196",
       "i_mp": "2.3259307842142929",
       "p_mp": "174.1814116574184902",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 32,
@@ -6941,11 +6914,10 @@
       "v_mp": "86.7106232856459952",
       "i_mp": "2.3235593998424188",
       "p_mp": "201.4772838015576707",
-      "cells_in_series": 140,
       "Temperature": "298.15",
       "Irradiance": null,
       "Sweep direction": "",
-      "Datetime": ""
+      "Datetime": "1970-01-01T00:00:00Z"
     }
   ]
 }
