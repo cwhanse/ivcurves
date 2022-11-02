@@ -118,7 +118,7 @@
         },
         "Temperature": {
           "description": "",
-          "#/$defs/Number"
+          "type": "#/$defs/Number"
         },
         "Irradiance": {
           "description": "",
