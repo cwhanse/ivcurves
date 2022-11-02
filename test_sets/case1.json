@@ -5,6 +5,7 @@
   "Module ID": "",
   "Description": "",
   "Material": "",
+  "cells_in_series": 72,
   "IV Curves": [
     {
       "Index": 1,
@@ -6918,6 +6919,5 @@
       "Sweep direction": "",
       "Datetime": "1970-01-01T00:00:00Z"
     }
-  ],
-  "cells_in_series": 72
+  ]
 }

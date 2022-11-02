@@ -109,8 +109,12 @@ Here is an example:
 
   {
     "Manufacturer": "",
-    "Sandia ID": "",
+    "Model": "",
+    "Serial Number": "",
+    "Module ID": "",
+    "Description": "",
     "Material": "",
+    "cells_in_series": 72,
     "IV Curves": [
       {
         "Index": 1,
@@ -127,11 +131,10 @@ Here is an example:
         "v_mp": "33.9368943991155301",
         "i_mp": "0.8461238606639279",
         "p_mp": "28.7148161079236649",
-        "cells_in_series": 72,
         "Temperature": "298.15",
         "Irradiance": null,
         "Sweep direction": "",
-        "Datetime": ""
+        "Datetime": "1970-01-01T00:00:00Z"
       },
       ...
     ]
