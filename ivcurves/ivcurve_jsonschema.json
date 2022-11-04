@@ -96,6 +96,23 @@
             }
           ]
         },
+        "diode_voltage": {
+          "description": "",
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/NumberQuoted"
+              }
+            }
+          ]
+        },
         "v_oc": {
           "description": "",
           "$ref": "#/$defs/Number"
@@ -137,6 +154,7 @@
       "required": [
         "Voltages",
         "Currents",
+        "diode_voltage",
         "Index",
         "v_oc",
         "i_sc",

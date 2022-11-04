@@ -624,11 +624,12 @@ def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
         nstr = utils.mp_nstr_precision_func
         vv_str_list = [nstr(x) for x in vv]
         ii_str_list = [nstr(x) for x in ii]
+        diode_voltage_list = [nstr(dv) for dv in vv + rs * ii]
         ivcurves.append({
             'Index': test_idx, 'Voltages': vv_str_list,
-            'Currents': ii_str_list, 'v_oc': nstr(v_oc),
-            'i_sc': nstr(i_sc), 'v_mp': nstr(v_mp),
-            'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
+            'Currents': ii_str_list, 'diode_voltage': diode_voltage_list,
+            'v_oc': nstr(v_oc), 'i_sc': nstr(i_sc),
+            'v_mp': nstr(v_mp), 'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
             'Temperature': mp.nstr(temp_cell, n=5), 'Irradiance': None,
             'Sweep direction': '', 'Datetime': '1970-01-01T00:00:00Z'
         })
