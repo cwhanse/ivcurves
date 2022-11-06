@@ -608,28 +608,36 @@ def write_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
     num_pts : int
         Number of points calculated on IV curve.
     """
-    case_test_suite = {'Manufacturer': '', 'Sandia ID': '', 'Material': '',
-                       'IV Curves': []}
+    ivcurves = []
+
+    # this is set in the loop below, and is the same for every iv curve
+    cells_in_series = None
+
     for test_idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
-        vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol,
-                               num_pts)
+        cells_in_series = int(ns)
+
+        vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts)
         v_oc = vv.max()
         i_sc = ii.max()
-        v_mp, i_mp, p_mp = max_power_pt_finder(il, io, rs, rsh, n,
-                                               vth, ns, atol)
+        v_mp, i_mp, p_mp = max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol)
 
         nstr = utils.mp_nstr_precision_func
         vv_str_list = [nstr(x) for x in vv]
         ii_str_list = [nstr(x) for x in ii]
-        case_test_suite['IV Curves'].append({
+        diode_voltage_list = [nstr(dv) for dv in vv + rs * ii]
+        ivcurves.append({
             'Index': test_idx, 'Voltages': vv_str_list,
-            'Currents': ii_str_list, 'v_oc': nstr(v_oc),
-            'i_sc': nstr(i_sc), 'v_mp': nstr(v_mp),
-            'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
-            'cells_in_series': int(ns),
+            'Currents': ii_str_list, 'diode_voltage': diode_voltage_list,
+            'v_oc': nstr(v_oc), 'i_sc': nstr(i_sc),
+            'v_mp': nstr(v_mp), 'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
             'Temperature': mp.nstr(temp_cell, n=5), 'Irradiance': None,
-            'Sweep direction': "", 'Datetime': ""
+            'Sweep direction': '', 'Datetime': '1970-01-01T00:00:00Z'
         })
+
+    case_test_suite = {'Manufacturer': '', 'Model': '', 'Serial Number': '',
+                       'Module ID': '',  'Description': '', 'Material': '',
+                       'cells_in_series': cells_in_series,
+                       'IV Curves': ivcurves}
 
     with open(f'{test_set_filename}.json', 'w') as file:
         json.dump(case_test_suite, file, indent=2)
