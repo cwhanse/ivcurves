@@ -1,6 +1,6 @@
 import argparse
 import json
-import pathlib
+from pathlib import Path
 
 
 def load_json(filename):
@@ -11,10 +11,9 @@ def load_json(filename):
 def validate_pr_config(pr_config_json):
     """
     Validates that ``RUN_SCORER`` is a Boolean, and ``REQUIREMENTS`` and
-    ``SUBMISSION_MAIN`` are paths that point to existing files.
-
-    This can throw a ``ValueError``, ``FileNotFoundError``,
-    or ``RuntimeError``.
+    ``SUBMISSION_MAIN`` are paths that point to existing files, and converts
+    the values of ``REQUIREMENTS`` and ``SUBMISSION_MAIN`` to ``pathlib.Path``.
+    A ``ValueError`` is raised if the validation fails.
 
     Parameters
     ----------
@@ -26,20 +25,32 @@ def validate_pr_config(pr_config_json):
     dict
         A validated mapping from environment variables to to their values.
     """
-    pr_config_validated = {}
-    valid_keys_to_value_types = {'RUN_SCORER': bool,
-                                 'REQUIREMENTS': pathlib.Path,
-                                 'SUBMISSION_MAIN': pathlib.Path}
+    defn = lambda value_type, validator, error_msg: {
+        'value_type': value_type,
+        'validator': validator,
+        'error_msg': error_msg
+    }
+    schema = {
+        'RUN_SCORER': defn(bool, lambda v: isinstance(v, bool), 'must be a Boolean'),
+        'REQUIREMENTS': defn(Path, lambda v: Path(v).exists(), 'path does not exist'),
+        'SUBMISSION_MAIN': defn(Path, lambda v: Path(v).exists(), 'path does not exist')
+    }
 
-    for key, value_type in valid_keys_to_value_types.items():
-        pr_config_validated[key] = value_type(pr_config_json[key])
+    missing_keys = set(schema.keys()) - set(pr_config_json.keys())
+    if missing_keys:
+        raise ValueError(f'Missing required keys in pr_config: {missing_keys}')
+    extra_keys = set(pr_config_json.keys()) - set(schema.keys())
+    if extra_keys:
+        raise ValueError(f'Unknown keys in pr_config: {extra_keys}')
 
-    for k, v in valid_keys_to_value_types.items():
-        if isinstance(v, pathlib.Path):
-            valid_keys_to_value_types[k] = f"'{v}'"
-            valid_keys_to_value_types[f'{k}_PATH'] = f"'{v.parent}'"
+    for key, defn in schema.items():
+        value_type, validator, error_msg = (
+            defn['value_type'], defn['validator'], defn['error_msg']
+        )
+        if not validator(pr_config_json[key]):
+            raise ValueError(f'{key}: {error_msg}')
 
-    return pr_config_validated
+        pr_config_json[key] = value_type(pr_config_json[key])
 
 
 def format_bool_variables(key, validated_dict, options):
@@ -107,7 +118,7 @@ def format_path_variables(key, validated_dict, options):
         format_path = str_path
 
     value = validated_dict[key]
-    if isinstance(value, pathlib.Path):
+    if isinstance(value, Path):
         validated_dict[key] = format_path(value)
         if options.get('split_path_variables', False):
             validated_dict[f'{key}_FILENAME'] = format_path(value.name)
@@ -117,7 +128,7 @@ def format_path_variables(key, validated_dict, options):
 def format_variable_values(validated_dict, options):
     """
     Iterates through the keys of ``validated_dict`` and runs functions to
-    modify their corresponding values.It allows for new keys to be added to
+    modify their corresponding values. It allows for new keys to be added to
     ``validated_dict`` by the functions, but any new keys will not be iterated
     over.
 
@@ -173,7 +184,7 @@ if __name__ == '__main__':
     flat_json = load_json(args.path)
 
     if args.validate_pr_config:
-        flat_json = validate_pr_config(flat_json)
+        validate_pr_config(flat_json)
 
     # Run bash environment variable formatting
     format_variable_values(flat_json, args.__dict__)
