@@ -14,7 +14,7 @@ def test_test_sets_pass_jsonschema_validation(test_set_json,
     assert validation_messages['valid']
 
 
-def test_test_sets_ivcurve_current_precision(test_set_as_pandas_df, constants):
+def test_test_sets_precision(test_set_as_pandas_df, constants):
     vth, atol = constants['vth'], constants['atol']
     df = test_set_as_pandas_df
 
@@ -22,8 +22,15 @@ def test_test_sets_ivcurve_current_precision(test_set_as_pandas_df, constants):
         il, io, rs, rsh, n, ns = row[utils.IV_PARAMETER_NAMES]
         diff = lambda v, i: abs(precise.diff_lhs_rhs(v, i, il, io, rs, rsh, n, vth, ns))
 
+        assert len(row['Voltages']) == len(row['Currents'])
         for v, i in zip(row['Voltages'], row['Currents']):
             assert diff(v, i) < atol
+
+        # diode_voltage may be an empty array
+        if len(row['diode_voltage']) > 0:
+            assert len(row['diode_voltage']) == len(row['Currents'])
+            for vd, i in zip(row['diode_voltage'], row['Currents']):
+                assert diff(vd - rs * i, i) < atol
 
         assert diff(row['v_oc'], 0) < atol
         assert diff(0, row['i_sc']) < atol

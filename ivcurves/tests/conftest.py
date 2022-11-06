@@ -49,7 +49,7 @@ def test_set_to_pandas_df(test_set_parameter_sets, test_set_json):
     curves = curves.set_index('Index')
 
     # convert Voltages and Currents from string array to mp.mpf array
-    arrays = ['Voltages', 'Currents']
+    arrays = ['Voltages', 'Currents', 'diode_voltage']
     curves[arrays] = curves[arrays].applymap(
         lambda a: np.fromiter(map(mp.mpmathify, a), dtype=mp.mpf)
     )
