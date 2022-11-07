@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cwhanse/ivcurves/docs/sphinx/source/scores_database_jsonschema.json",
+  "title": "ivcruves Competition Database JSON Schema",
+  "description": "",
+  "type": "object",
+  "patternProperties": {
+    "^[0-9]+$": {
+      "$ref": "#/$defs/Submission"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Submission": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "username": {
+          "description": "The GitHub username of the sumbission author.",
+          "type": "string"
+        },
+        "submission_datetime": {
+          "description": "The datetime the submission was merged.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "test_sets": {
+          "description": "",
+          "type": "object",
+          "patternProperties": {
+            "^[0-9a-zA-Z_]+$": {
+              "$ref": "#/$defs/NumberQuoted"
+            }
+          },
+          "minProperties": 2,
+          "maxProperties": 2
+        }
+      },
+      "required": [
+        "username",
+        "submission_datetime",
+        "test_sets"
+      ],
+      "additionalProperties": false
+    },
+    "NumberQuoted": {
+      "description": "Match a quoted number in decimal or exponential form. Pattern source: https://www.regular-expressions.info/floatingpoint.html",
+      "type": "string",
+      "pattern": "(^[-+]?[0-9]*[.]?[0-9]+$)|(^[-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?$)"
+    }
+  }
+}

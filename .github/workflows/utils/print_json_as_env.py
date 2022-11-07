@@ -53,7 +53,7 @@ def validate_pr_config(pr_config_json):
         pr_config_json[key] = value_type(pr_config_json[key])
 
 
-def format_bool_variables(key, validated_dict, options):
+def format_bool_variables(key, validated_dict, **options):
     """
     Converts ``validated_dict[key]`` from a bool to a bash-style Boolean
     string. This modifies ``validated_dict``. If ``validated_dict[key]`` is
@@ -70,7 +70,7 @@ def format_bool_variables(key, validated_dict, options):
         A dict with key ``key`` where ``validated_dict[key]`` is possibly
         a bool.
 
-    options : dict
+    options : kwargs
         A dict containing options that affect the behavior of the functions
         called during the iteration.
     """
@@ -79,7 +79,7 @@ def format_bool_variables(key, validated_dict, options):
         validated_dict[key] = 'true' if value else 'false'
 
 
-def format_path_variables(key, validated_dict, options):
+def format_path_variables(key, validated_dict, **options):
     """
     Converts ``validated_dict[key]`` from a ``pathlib.Path`` to a string
     containing the path in quotes. This modifies ``validated_dict``. If
@@ -106,7 +106,7 @@ def format_path_variables(key, validated_dict, options):
         A dict with key ``key`` where ``validated_dict[key]`` is possibly
         a ``pathlib.Path``.
 
-    options : dict
+    options : kwargs
         A dict containing options that affect the behavior of the functions
         called during the iteration.
     """
@@ -125,7 +125,7 @@ def format_path_variables(key, validated_dict, options):
             validated_dict[f'{key}_PATH'] = format_path(value.parent)
 
 
-def format_variable_values(validated_dict, options):
+def format_variable_values(validated_dict, **options):
     """
     Iterates through the keys of ``validated_dict`` and runs functions to
     modify their corresponding values. It allows for new keys to be added to
@@ -143,7 +143,7 @@ def format_variable_values(validated_dict, options):
     validated_dict : dict
         A dict.
 
-    options : dict
+    options : kwargs
         A dict containing options that affect the behavior of the functions
         called during the iteration.
     """
@@ -153,7 +153,7 @@ def format_variable_values(validated_dict, options):
     ]
     for k in list(validated_dict.keys()):
         for f in functions:
-            f(k, validated_dict, options)
+            f(k, validated_dict, **options)
 
 
 def print_json_as_env(validated_dict):
@@ -187,7 +187,7 @@ if __name__ == '__main__':
         validate_pr_config(flat_json)
 
     # Run bash environment variable formatting
-    format_variable_values(flat_json, args.__dict__)
+    format_variable_values(flat_json, **args.__dict__)
 
     print_json_as_env(flat_json)
 
