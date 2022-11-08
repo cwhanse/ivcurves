@@ -16,6 +16,7 @@ import ivcurves.precise as precise
 
 TEST_DIR = Path(__file__).parent
 IVCURVES_DIR = TEST_DIR / '..'
+DOCS_DIR = IVCURVES_DIR / '..' / 'docs' / 'sphinx' / 'source'
 mp.dps = 40
 
 
@@ -65,6 +66,23 @@ def test_set_to_pandas_df(test_set_parameter_sets, test_set_json):
     return joined
 
 
+def load_json(path):
+    """
+    Returns a dict of JSON at ``path``.
+
+    Parameters
+    ----------
+    path : pathlib.Path, str
+        The path to the JSON file.
+
+    Returns
+    -------
+        dict
+    """
+    with open(path) as f:
+        return json.load(f)
+
+
 @pytest.fixture()
 def constants():
     """
@@ -86,8 +104,7 @@ def constants():
 
 @pytest.fixture()
 def ivcurve_jsonschema():
-    with open(f'{IVCURVES_DIR}/ivcurve_jsonschema.json') as f:
-        return json.load(f)
+    return load_json(IVCURVES_DIR / 'ivcurve_jsonschema.json')
 
 
 @pytest.fixture()
@@ -126,4 +143,21 @@ def test_set_json(test_set_csv_info_and_json):
 def test_set_as_pandas_df(test_set_csv_info_and_json):
     (_, parameter_sets), test_set_json = test_set_csv_info_and_json
     return test_set_to_pandas_df(parameter_sets, test_set_json)
+
+
+@pytest.fixture()
+def scores_database_json():
+    return load_json(DOCS_DIR / 'scores_database.json')
+
+
+@pytest.fixture()
+def scores_database_jsonschema():
+    return load_json(DOCS_DIR / 'scores_database_jsonschema.json')
+
+
+@pytest.fixture()
+def scores_database_jsonschema_validator(scores_database_jsonschema):
+    jschon.create_catalog('2020-12') # identify the JSON Schema version used
+    schema_validator = jschon.JSONSchema(scores_database_jsonschema)
+    return schema_validator
 

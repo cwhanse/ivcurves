@@ -25,15 +25,25 @@
           "format": "date-time"
         },
         "test_sets": {
-          "description": "",
+          "description": "The scores for each test set.",
           "type": "object",
-          "patternProperties": {
-            "^[0-9a-zA-Z_]+$": {
+          "properties": {
+            "case1": {
+              "$ref": "#/$defs/NumberQuoted"
+            },
+            "case2": {
               "$ref": "#/$defs/NumberQuoted"
             }
           },
-          "minProperties": 2,
-          "maxProperties": 2
+          "required": [
+            "case1",
+            "case2"
+          ],
+          "additionalProperties": false
+        },
+        "broken": {
+          "description": "The submission's code has some error.",
+          "type": "boolean"
         }
       },
       "required": [

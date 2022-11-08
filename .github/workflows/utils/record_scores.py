@@ -99,7 +99,7 @@ def validate_overall_scores(overall_scores):
         try:
             float(score_str) # validate is a number
         except ValueError:
-            return False, "The score of test set '{name}' must parse to a float: {score_str}"
+            return False, f"The score of test set '{name}' must parse to a float: {score_str}"
 
     return True, ''
 
