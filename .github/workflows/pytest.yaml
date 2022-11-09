@@ -1,4 +1,4 @@
-name: Run Pytest
+name: Pytest
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install ivcurves testing dependencies
-        run: pip3 install .[test]
+        run: pip3 install .[testing]
       - name: Run Pytest
         run: pytest ivcurves/tests
 
