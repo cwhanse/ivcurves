@@ -8,6 +8,7 @@ Contents
    :maxdepth: 1
 
    leaderboard
+   compare_submissions
    test_cases
    participating
    submissions/index

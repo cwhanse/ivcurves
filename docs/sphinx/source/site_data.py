@@ -31,12 +31,15 @@ def leaderboard_entry_list():
         if 'broken' in submission_data.keys():
             continue
 
-        leaderboard_entries.append({
+        entry = {
             'pr_number': to_pull(pr_number),
             'username': to_ghuser(submission_data['username']),
             'overall_score': sum(mp.mpmathify(v) for v in submission_data['test_sets'].values()),
             'submission_date': date_from_github_datetime_str(submission_data['submission_datetime'])
-        })
+        }
+        for name, score in submission_data['test_sets'].items():
+            entry[name] = mp.mpmathify(score)
+        leaderboard_entries.append(entry)
 
     # order entries from lowest score to highest
     leaderboard_entries.sort(key=lambda l: l['overall_score'])
@@ -44,6 +47,8 @@ def leaderboard_entry_list():
     for idx, entry in enumerate(leaderboard_entries):
         entry['rank'] = f'#{idx + 1}'
         entry['overall_score'] = mp.nstr(entry['overall_score'])
+        for name in submission_data['test_sets'].keys():
+            entry[name] = mp.nstr(entry[name])
 
     return leaderboard_entries
 
