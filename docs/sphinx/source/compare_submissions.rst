@@ -1,13 +1,15 @@
+:orphan:
+
 .. _compare_submissions:
 
 Compare Submissions
 ===================
 
 .. datatemplate:nodata::
-   :class: datatable
 
    {{ make_list_table_from_mappings([
          ('Pull Request', 'pr_number'),
+         ('Username', 'username'),
          ('Case 1', 'case1'),
          ('Case 2', 'case2'),
          ('Case 3', 'case3'),
@@ -17,7 +19,7 @@ Compare Submissions
          ('Case 7', 'case7'),
          ('Case 8', 'case8')
       ],
-      config.html_context.leaderboard.leaderboard_entries,
+      config.html_context.compare_submissions.entries,
       title='')
    }}
 

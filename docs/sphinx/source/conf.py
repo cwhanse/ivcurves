@@ -99,10 +99,10 @@ html_sidebars = {
 
 html_context = {
     'leaderboard': {
-        'leaderboard_entries': site_data.leaderboard_entry_list()
+        'entries': site_data.leaderboard_entry_list()
     },
     'compare_submissions': {
-        'leaderboard_entries': site_data.leaderboard_entry_list()
+        'entries': site_data.compare_submissions_entry_list()
     },
     'test_cases': {
         'test_case_data': site_data.test_set_name_to_parameters_and_image()

@@ -6,7 +6,7 @@ $.extend($.fn.dataTable.defaults, {
     searching: false
 });
 
-$(document).ready( function () {
+$(document).ready(() => {
     // Enable ordering for leaderboard and compare-submissions tables
     $('#leaderboard > table').DataTable({ ordering: true });
     $('#compare-submissions > table').DataTable({ ordering: true });
@@ -15,5 +15,5 @@ $(document).ready( function () {
     // following line is ok. If this is not the case anymore, swap this line
     // with the previous two lines.
     $('table').DataTable();
-} );
+});
 
