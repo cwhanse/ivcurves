@@ -36,7 +36,8 @@ def json_to_df(filepath):
     # set up index
     df['Index'] = df['Index'].astype(int)
     df = df.set_index('Index')
-    
+    # add cells_in_series to df
+    df['cells_in_series'] = data['cells_in_series']
     # convert Voltages and Currents from string to float
     for s in ['Voltages', 'Currents']:
         df[s] = df[s].astype(object)
@@ -46,45 +47,47 @@ def json_to_df(filepath):
     return df
 
 
-test_files = get_test_set_filenames()
+if __name__ == "__main__":
 
-# set up dataframe to hold results
-cols = ['photocurrent', 'saturation_current', 'resistance_series',
-        'resistance_shunt', 'n', 'cells_in_series']
-
-# physical constants
-k = 1.38066E-23  # Boltzman J/K
-q = 1.60218E-19  # elementary charge (Coulomb)
-
-# fit each IV curve in data1 and data2
-
-for filen in test_files:
-    # extract case name and make output file name
-    casename = Path(filen).name.strip('.json')
-    outname = casename + '.csv'
-    # read IV curves for this case
-    data = json_to_df(filen)
-    # set up Dataframe to contain each curve's diode equation parameters
-    results = pd.DataFrame(index=data.index, columns=cols)
-    # process each IV curve
-    for d in data.index:
-        il, io, rs, rsh, nNsVth = pvlib.ivtools.sde.fit_sandia_simple(
-            voltage=data.loc[d, 'Voltages'][0],
-            current=data.loc[d, 'Currents'][0],
-            v_oc=data.loc[d, 'v_oc'],
-            i_sc=data.loc[d, 'i_sc'],
-            v_mp_i_mp=(data.loc[d, 'v_mp'], data.loc[d, 'v_mp'])
-            )
-        vth = k / q * data.loc[d, 'Temperature']
-        n = nNsVth / data.loc[d, 'cells_in_series'] / vth
-        results.loc[d, 'photocurrent'] = il
-        results.loc[d, 'saturation_current'] = io
-        results.loc[d, 'resistance_series'] = rs
-        results.loc[d, 'resistance_shunt'] = rsh
-        results.loc[d, 'n'] = n
-        results.loc[d, 'cells_in_series'] = data.loc[d, 'cells_in_series']
-
-
-    outfilen = Path.cwd() / outname
-    with open(outfilen, 'w') as outfile:
-        results.to_csv(outfile)
+    test_files = get_test_set_filenames()
+    
+    # set up dataframe to hold results
+    cols = ['photocurrent', 'saturation_current', 'resistance_series',
+            'resistance_shunt', 'n', 'cells_in_series']
+    
+    # physical constants
+    k = 1.38066E-23  # Boltzman J/K
+    q = 1.60218E-19  # elementary charge (Coulomb)
+    
+    # fit each IV curve in data1 and data2
+    
+    for filen in test_files:
+        # extract case name and make output file name
+        casename = Path(filen).name.strip('.json')
+        outname = casename + '.csv'
+        # read IV curves for this case
+        data = json_to_df(filen)
+        # set up Dataframe to contain each curve's diode equation parameters
+        results = pd.DataFrame(index=data.index, columns=cols)
+        # process each IV curve
+        for d in data.index:
+            il, io, rs, rsh, nNsVth = pvlib.ivtools.sde.fit_sandia_simple(
+                voltage=data.loc[d, 'Voltages'][0],
+                current=data.loc[d, 'Currents'][0],
+                v_oc=data.loc[d, 'v_oc'],
+                i_sc=data.loc[d, 'i_sc'],
+                v_mp_i_mp=(data.loc[d, 'v_mp'], data.loc[d, 'v_mp'])
+                )
+            vth = k / q * data.loc[d, 'Temperature']
+            n = nNsVth / data.loc[d, 'cells_in_series'] / vth
+            results.loc[d, 'photocurrent'] = il
+            results.loc[d, 'saturation_current'] = io
+            results.loc[d, 'resistance_series'] = rs
+            results.loc[d, 'resistance_shunt'] = rsh
+            results.loc[d, 'n'] = n
+            results.loc[d, 'cells_in_series'] = data.loc[d, 'cells_in_series']
+    
+    
+        outfilen = Path.cwd() / outname
+        with open(outfilen, 'w') as outfile:
+            results.to_csv(outfile)
