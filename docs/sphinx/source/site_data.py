@@ -31,9 +31,8 @@ def to_pull(pr_number):
     return f':pull:`{pr_number}`'
 
 
-def date_from_github_datetime_str(ghdatetime_str):
-    ghdatetime = datetime.datetime.strptime(ghdatetime_str, '%Y-%m-%dT%H:%M:%SZ')
-    return ghdatetime.strftime('%m/%d/%Y')
+def datetime_from_github_datetime_str(ghdatetime_str):
+    return datetime.datetime.strptime(ghdatetime_str, '%Y-%m-%dT%H:%M:%SZ')
 
 
 def leaderboard_entry_list():
@@ -44,15 +43,18 @@ def leaderboard_entry_list():
             'pr_number': to_pull(pr_number),
             'username': to_ghuser(submission_data['username']),
             'overall_score': sum(mp.mpmathify(v) for v in submission_data['test_sets'].values()),
-            'submission_date': date_from_github_datetime_str(submission_data['submission_datetime'])
+            'submission_datetime': datetime_from_github_datetime_str(submission_data['submission_datetime'])
         })
 
-    # order entries from lowest score to highest
+    # order entries from lowest score to highest, and then by submission datetime
+    entries.sort(key=lambda l: l['submission_datetime'])
     entries.sort(key=lambda l: l['overall_score'])
 
     for idx, entry in enumerate(entries):
         entry['rank'] = f'#{idx + 1}'
         entry['overall_score'] = mp.nstr(entry['overall_score'])
+        # use the submission date instead of datetime
+        entry['submission_date'] = entry['submission_datetime'].strftime('%m/%d/%Y')
 
     return entries
 
