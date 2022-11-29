@@ -3,7 +3,8 @@
 $.extend($.fn.dataTable.defaults, {
     ordering: false,
     paging:  false,
-    searching: false
+    searching: false,
+    bInfo: false
 });
 
 $(document).ready(() => {
