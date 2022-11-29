@@ -10,7 +10,7 @@ To see how the submissions rank for the each test set, see :ref:`compare_submiss
 
    {{ make_list_table_from_mappings([
          ('Rank', 'rank'),
-         ('Pull Request', 'pr_number'),
+         ('Submission', 'submission'),
          ('Username', 'username'),
          ('Overall Score', 'overall_score'),
          ('Submission Date', 'submission_date')

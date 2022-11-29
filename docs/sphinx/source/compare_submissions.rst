@@ -8,7 +8,7 @@ Compare Submissions
 .. datatemplate:nodata::
 
    {{ make_list_table_from_mappings([
-         ('Pull Request', 'pr_number'),
+         ('Submission', 'submission'),
          ('Username', 'username'),
          ('Case 1', 'case1'),
          ('Case 2', 'case2'),
