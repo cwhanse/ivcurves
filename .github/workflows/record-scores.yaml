@@ -31,6 +31,8 @@ jobs:
         with:
           name: overall_scores.csv
       - name: Validate and record scores
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 .github/workflows/utils/record_scores.py
                --pr-author ${{ env.PR_AUTHOR }}
                --pr-number ${{ env.PR_NUMBER }}

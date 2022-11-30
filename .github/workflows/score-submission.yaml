@@ -20,6 +20,7 @@ jobs:
       run-scorer: ${{ steps.save-env.outputs.run-scorer }} # Boolean to run the run-scorer job
       requirements-filename: ${{ steps.save-env.outputs.requirements-filename }} # filename of the submission's Pip requirements file (usually requirements.txt)
       requirements-path: ${{ steps.save-env.outputs.requirements-path }} # path to the parent directory that contains requirements-filename
+      submission-main: ${{ steps.save-env.outputs.submission-main }} # SUBMISSION_MAIN of the pr_config.json
       submission-main-filename: ${{ steps.save-env.outputs.submission-main-filename }} # filename of the file that should be executed by run-scorer
       submission-main-path: ${{ steps.save-env.outputs.submission-main-path }} # path to the parent directory that contains submission-main-filename
     steps:
