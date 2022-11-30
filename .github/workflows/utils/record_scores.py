@@ -104,7 +104,9 @@ def validate_overall_scores(overall_scores):
     return True, ''
 
 
-def write_overall_scores_to_database(database, pr_number, pr_author, pr_closed_datetime, overall_scores):
+def write_overall_scores_to_database(database, pr_number, pr_author,
+                                     pr_closed_datetime, merge_commit,
+                                     submission_main, overall_scores):
     """
     Writes an entry in the JSON scores database.
     The scores database has this structure:
@@ -115,6 +117,8 @@ def write_overall_scores_to_database(database, pr_number, pr_author, pr_closed_d
           "<pr_number>": {
               "username": "<pr_author>",
               "submission_datetime": "<pr_closed_datetime>",
+              "merge_commit": "<pr_merge_commit_sha>",
+              "submission_main": "<SUBMISSION_MAIN_from_pr_config.json>",
               "test_sets": {
                   "<test_set_filename>": "<score>",
                   ...
@@ -140,6 +144,15 @@ def write_overall_scores_to_database(database, pr_number, pr_author, pr_closed_d
     pr_author : str
         The author of the pull request.
 
+    pr_closed_datetime : str
+        The datetime the pull request was closed.
+
+    merge_commit : str
+        The SHA of the commit when the pull request was merged.
+
+    submission_main : str
+        SUBMISSION_MAIN from the submission's pr_config.json.
+
     overall_scores : dict
         A dictionary from test set filenames (excluding file extensions) to
         strings representing scores.
@@ -148,6 +161,8 @@ def write_overall_scores_to_database(database, pr_number, pr_author, pr_closed_d
     database[str(pr_number)] = {
         'username': pr_author,
         'submission_datetime': pr_closed_datetime,
+        'merge_commit': merge_commit,
+        'submission_main': submission_main,
         'test_sets': overall_scores
     }
 
@@ -178,6 +193,10 @@ def get_argparser():
                         help='GitHub pull request number.')
     parser.add_argument('--pr-closed-at', dest='pr_closed_datetime', type=str,
                         help='Datetime when the GitHub pull request closed.')
+    parser.add_argument('--merge-commit', dest='merge_commit',
+                        help='The commit created when the pull request was merged.')
+    parser.add_argument('--submission-main', dest='submission_main',
+                        help="The SUBMISSION_MAIN of the submission's pr_config.json")
     parser.add_argument('--overall-scores-path', dest='overall_scores_path',
                         type=str, help='Path to the CSV of overall scores.')
     parser.add_argument('--database-path', dest='database_path', type=str,
@@ -202,7 +221,10 @@ def record_scores():
     database = load_json(args.database_path)
 
     if has_valid_scores:
-        write_overall_scores_to_database(database, args.pr_number, args.pr_author, args.pr_closed_datetime, overall_scores)
+        write_overall_scores_to_database(
+            database, args.pr_number, args.pr_author, args.pr_closed_datetime,
+            args.merge_commit, args.submission_main, overall_scores
+        )
     elif args.broken_if_invalid:
         mark_submission_broken(database, args.pr_number, validation_msg)
     else:

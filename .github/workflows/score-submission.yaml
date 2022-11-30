@@ -7,6 +7,9 @@ on:
       run-scorer:
         description: 'The pr_config.json says to run the scorer.'
         value: ${{ jobs.read-pr-config.outputs.run-scorer }}
+      submission-main:
+        description: 'SUBMISSION_MAIN in the pr_config.json.'
+        value: ${{ jobs.read-pr-config.outputs.submission-main }}
 
 jobs:
   read-pr-config:
@@ -50,6 +53,7 @@ jobs:
           echo '::set-output name=run-scorer::${{ env.RUN_SCORER }}'
           echo '::set-output name=requirements-filename::${{ env.REQUIREMENTS_FILENAME }}'
           echo '::set-output name=requirements-path::${{ env.REQUIREMENTS_PATH }}'
+          echo '::set-output name=submission-main::${{ env.SUBMISSION_MAIN }}'
           echo '::set-output name=submission-main-filename::${{ env.SUBMISSION_MAIN_FILENAME }}'
           echo '::set-output name=submission-main-path::${{ env.SUBMISSION_MAIN_PATH }}'
 

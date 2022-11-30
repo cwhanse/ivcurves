@@ -2,8 +2,8 @@
   "16": {
     "username": "cwhanse",
     "submission_datetime": "2022-11-16T16:18:10Z",
-    "submission_main": "sandia_simple.py",
     "merge_commit": "0406e3e59828ee4ff555229b878c56d5307a9d98",
+    "submission_main": "sandia_simple.py",
     "test_sets": {
       "case1": "32.0007537115150760",
       "case2": "52.0007537115150760",
@@ -18,8 +18,8 @@
   "8": {
     "username": "cwhanse",
     "submission_datetime": "2022-09-28T20:34:38Z",
-    "submission_main": "sandia_simple.py",
     "merge_commit": "59fcd69ed3430fecd38d94b78aa7a9bfa6c71bba",
+    "submission_main": "sandia_simple.py",
     "test_sets": {
       "case1": "31.0007537115150760",
       "case2": "53.0007537115150760",

@@ -35,6 +35,8 @@ jobs:
                --pr-author ${{ env.PR_AUTHOR }}
                --pr-number ${{ env.PR_NUMBER }}
                --pr-closed-at ${{ github.event.pull_request.closed_at }}
+               --merge-commit $(gh pr view ${{ env.PR_NUMBER }} -q .mergeCommit.oid --json mergeCommit)
+               --submission-main ${{ needs.score-submission.outputs.submission-main }}
                --overall-scores-path overall_scores.csv
                --database-path docs/sphinx/source/scores_database.json
       - name: Commit and push scores database
