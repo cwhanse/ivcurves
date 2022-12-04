@@ -1,5 +1,6 @@
 import datetime
 import json
+from pathlib import Path
 import utils_docs as utils
 from utils_docs import mp # same instance of mpmath's mp imported in ivcurves/utils
 
@@ -31,8 +32,12 @@ def to_pull(pr_number):
     return f':pull:`{pr_number}`'
 
 
-def link_to_submission_main_at_commit(commit, username, submission_main):
+def link_to_submission_code(commit, username, submission_main):
     return f'https://github.com/cwhanse/ivcurves/tree/{commit}/submissions/{username}/{submission_main}'
+
+
+def link_to_submission_docs(username, submission_main):
+    return f'submissions/{username}/{Path(submission_main).stem}.html'
 
 
 def datetime_from_github_datetime_str(ghdatetime_str):
@@ -43,16 +48,20 @@ def leaderboard_entry_list():
     entries = []
 
     for pr_number, submission_data in submissions().items():
-        submission_link = link_to_submission_main_at_commit(
-            submission_data["merge_commit"],
-            submission_data["username"],
-            submission_data["submission_main"]
+        code_link = link_to_submission_code(
+            submission_data['merge_commit'],
+            submission_data['username'],
+            submission_data['submission_main']
+        )
+        docs_link = link_to_submission_docs(
+            submission_data['username'],
+            submission_data['submission_main']
         )
         entries.append({
-            'submission': f'`#{pr_number} <{submission_link}>`_',
-            'username': to_ghuser(submission_data['username']),
+            'submission': f'{to_ghuser(submission_data["username"])} ({to_pull(pr_number)})',
             'overall_score': sum(mp.mpmathify(v) for v in submission_data['test_sets'].values()),
-            'submission_datetime': datetime_from_github_datetime_str(submission_data['submission_datetime'])
+            'submission_datetime': datetime_from_github_datetime_str(submission_data['submission_datetime']),
+            'links':  f'`Code <{code_link}>`__, `Docs <{docs_link}>`__'
         })
 
     # order entries from lowest score to highest, and then by submission datetime
@@ -72,14 +81,18 @@ def compare_submissions_entry_list():
     entries = []
 
     for pr_number, submission_data in submissions().items():
-        submission_link = link_to_submission_main_at_commit(
+        code_link = link_to_submission_code(
             submission_data["merge_commit"],
             submission_data["username"],
             submission_data["submission_main"]
         )
+        docs_link = link_to_submission_docs(
+            submission_data['username'],
+            submission_data['submission_main']
+        )
         entry = {
-            'submission': f'`#{pr_number} <{submission_link}>`_',
-            'username': to_ghuser(submission_data['username'])
+            'submission': f'{to_ghuser(submission_data["username"])} ({to_pull(pr_number)})',
+            'links':  f'`Code <{code_link}>`__, `Docs <{docs_link}>`__'
         }
         for name, score in submission_data['test_sets'].items():
             entry[name] = mp.nstr(mp.mpmathify(score))
