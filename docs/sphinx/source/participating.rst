@@ -327,7 +327,7 @@ To generate the .rst files, run the command
 
    .. code-block:: bash
 
-      python3 docs/sphinx/source/gen_submission_rst.py submissions/<your_GitHub_username>
+      python3 docs/sphinx/source/gen_submission_rst.py submissions/<your_GitHub_username>/pr_config.json
 
 It will print out a file tree of the .rst files created.
 The .rst files named after a Python file in your submission will have contents similar to
