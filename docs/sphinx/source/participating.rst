@@ -208,7 +208,7 @@ Here is Python code that may be useful for getting a set of all the JSON filenam
         return filepath.stem
 
 
-    def json_file_to_df(filepath):
+    def json_to_df(filepath):
         """
         Creates a pandas DataFrame from an IV Curve JSON file.
         All of the numerical values stored as strings in the JSON as parsed to
@@ -223,23 +223,26 @@ Here is Python code that may be useful for getting a set of all the JSON filenam
         -------
             A pandas DataFrame.
         """
-        df = pd.read_json(filepath)
-        df = pd.DataFrame(df['IV Curves'].values.tolist())
+        curves_metadata = pd.read_json(filepath)
+        curves = pd.DataFrame(curves_metadata['IV Curves'].values.tolist())
+        curves['cells_in_series'] = curves_metadata['cells_in_series']
       
         # set up index
-        df['Index'] = df['Index'].astype(int)
-        df = df.set_index('Index')
+        curves['Index'] = curves['Index'].astype(int)
+        curves = curves.set_index('Index')
       
-        # convert Voltages and Currents from string array to float array.
-        # this truncates from precise values to 64-bit precision.
-        arrs = ['Voltages', 'Currents']
-        df[arrs] = df[arrs].applymap(lambda a: np.asarray(a, dtype=np.float64))
+        # convert Voltages, Currents, and diode_voltage from string arrays to
+        # float arrays. This truncates from precise values to 64-bit precision.
+        is_array = ['Voltages', 'Currents', 'diode_voltage']
+        curves[is_array] = curves[is_array].applymap(
+            lambda a: np.asarray(a, dtype=np.float64)
+        )
       
         # convert from string to float
-        nums = ['v_oc', 'i_sc', 'v_mp', 'i_mp', 'p_mp', 'Temperature']
-        df[nums] = df[nums].applymap(np.float64)
+        is_number = ['v_oc', 'i_sc', 'v_mp', 'i_mp', 'p_mp', 'Temperature']
+        curves[is_number] = curves[is_number].applymap(np.float64)
       
-        return df
+        return curves
 
 
     def json_file_to_dict(filepath):
