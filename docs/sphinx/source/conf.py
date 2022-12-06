@@ -47,8 +47,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinxcontrib.datatemplates',
     'sphinxcontrib.autoprogram',
-    'sphinxcontrib.mermaid',
-    'sphinx_substitution_extensions'
+    'sphinxcontrib.mermaid'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

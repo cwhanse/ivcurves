@@ -1,12 +1,5 @@
 .. _participating:
 
-..
-   Note to the documentation writer: the rst in the code-block blocks below
-   are still interpreted by Sphinx. To prevent autodoc from executing,
-   it must be substituted in (using sphinx_substitution_extensions).
-
-.. |autodoc| replace:: autodoc
-
 
 How to Participate
 ==================
@@ -16,7 +9,7 @@ Submission Workflow
 -------------------
 
 These are the steps to make a submission as a competitor.
-You may as many submissions as you like, and each will be a separate entry on the leaderboard.
+You may make as many submissions as you like, and each will be a separate entry on the leaderboard.
 
 #. Create a fork of the ivcurves repository.
 #. Create a new folder ``submissions/<your_GitHub_username>``.
@@ -226,22 +219,22 @@ Here is Python code that may be useful for getting a set of all the JSON filenam
         curves_metadata = pd.read_json(filepath)
         curves = pd.DataFrame(curves_metadata['IV Curves'].values.tolist())
         curves['cells_in_series'] = curves_metadata['cells_in_series']
-      
+
         # set up index
         curves['Index'] = curves['Index'].astype(int)
         curves = curves.set_index('Index')
-      
+
         # convert Voltages, Currents, and diode_voltage from string arrays to
         # float arrays. This truncates from precise values to 64-bit precision.
         is_array = ['Voltages', 'Currents', 'diode_voltage']
         curves[is_array] = curves[is_array].applymap(
             lambda a: np.asarray(a, dtype=np.float64)
         )
-      
+
         # convert from string to float
         is_number = ['v_oc', 'i_sc', 'v_mp', 'i_mp', 'p_mp', 'Temperature']
         curves[is_number] = curves[is_number].applymap(np.float64)
-      
+
         return curves
 
 
@@ -306,125 +299,14 @@ To run ``ivcurves/compare_curves.py`` for a single test set ``<test_set>.json``,
    python3 ivcurves/compare_curves.py folder/containing/your/CSV/files/ --test-set <test_set> --csv-ouput-path folder/to/write/your/scores/
    # the file extension of the --test-set argument is NOT included
 
-See the :ref:`IV Curves documentation <ivcurves_docs_index>` for more information.
+See the `Compare Curves documentation <reference/compare_curves.html>`_ for more information.
 
 Documenting Your Submission
 ---------------------------
 
-These steps will cover how to add your submission to the ivcurves Submissions documentation.
-The ivcurves documentation uses numpy-sytle docstrings.
-
-#. In the ``docs/sphinx/source/submissions`` folder, make a new folder ``<your_GitHub_username>``.
-   All documentation files you create will go in this folder.
-#. For each of your submission's ``.py`` files in the top level of the ``submissions/<your_GitHub_username>`` folder, create a file ``<your_py_filename.py>.rst`` containing the following:
-
-   .. code-block:: rst
-      :substitutions:
-
-      <your_py_filename>
-      ==================
-
-      .. |autodoc|:: submissions.<your_GitHub_username>.<your_py_filename>
-         :members:
-
-#. The following steps are for registering your submission's ``.py`` files that are in subfolders under ``submissions/<your_GitHub_username>``.
-
-   #. Create a folder ``<your_subfolder_name>``. This will contain all the documentation files you create in this set of steps.
-   #. Inside that folder, for each ``.py`` file under ``submissions/<your_GitHub_username>/<your_subfolder_name>`` create a file ``<your_py_filename.py>.rst``.
-
-      .. code-block:: rst
-         :substitutions:
-         :emphasize-lines: 4
-
-         <your_py_filename>
-         ==================
-
-         .. |autodoc|:: submissions.<your_GitHub_username>.<your_subfolder_name>.<your_py_filename>
-            :members:
-
-      **<your_subfolder_name> is included in the path given to autodoc.**
-
-   #. Create a file ``index.rst`` containing the following:
-
-      .. code-block:: rst
-
-         <your_subfolder_name>
-         =====================
-
-         .. toctree::
-            :maxdepth: 2
-
-            ..
-               Write the name of each .rst file you created here.
-               The .rst extension should be ommitted.
-
-            <your_py_filename1>
-            <your_py_filename2>
-
-#. Back in ``docs/sphinx/source/submissions/<your_GitHub_username>``, create a file ``index.rst`` containing the following:
-
-   .. code-block:: rst
-
-      <your_GitHub_username>
-      ======================
-
-      .. toctree::
-         :maxdepth: 2
-
-         ..
-            Write the name of each .rst file you created for your .py files in
-            the top level of ``submissions/<your_GitHub_username>``.
-            The .rst extension should be ommitted.
-
-         <your_py_filename1>
-         <your_py_filename2>
-
-         ..
-            For each subfolder in ``submissions/<your_GitHub_username>``, write
-            the following lines:
-
-         <your_subfolder_name1>/index
-         <your_subfolder_name2>/index
-
-#. Suppose your submission has a folder structure like this:
-
-   .. code-block:: bash
-
-      submissions/<your_GitHub_username>
-          |- pr_config.json
-          |- requirements.txt
-          |- <your_py_filename1>.py
-          |- <your_subfolder_name1>/
-               |- <your_py_filename1>.py
-
-   After following the previous steps, your submission's documentation should have a folder structure like this:
-
-   .. code-block:: bash
-
-      docs/sphinx/source/submissions/
-        |- index.rst
-        |- <your_GitHub_username>/
-             |- index.rst
-             |- <your_py_filename1>.rst
-             |- <your_subfolder_name1>/
-                  |- index.rst
-                  |- <your_py_filename1>.rst
-
-#. Finally, inside ``submissions/index.rst`` like in the highlighted line:
-
-   .. code-block:: rst
-      :emphasize-lines: 8
-
-      Submissions
-      ===========
-
-      .. toctree::
-         :maxdepth: 2
-
-         <other_GitHub_username1>/index
-         <your_GitHub_username>/index
-
-To help describe or contextualize your code, you may create links to external sites using this Sphinx rst directive in your docstrings:
+These steps will cover how to add documentation to your submission, and display it on the ivcurves Submissions page.
+The ivcurves documentation uses numpy-sytle docstrings, so your module and function docstrings should follow that style.
+In your docstrings, you may create links to external sites to help describe or contextualize your code using this Sphinx rst directive:
 
    .. code-block:: rst
 
@@ -438,4 +320,27 @@ To help describe or contextualize your code, you may create links to external si
       Link to `Sphinx documentation`_.
 
       .. _Sphinx documentation: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#hyperlinks
+
+After writing docstrings for your submission, you need to generate Sphinx .rst files for your submission using a command line program provided in ivcurves.
+First, ensure that none of your submission's Python files are named ``index.py`` because ``index`` is reversed for the Sphinx documentation.
+To generate the .rst files, run the command
+
+   .. code-block:: bash
+
+      python3 docs/sphinx/source/gen_submission_rst.py submissions/<your_GitHub_username>
+
+It will print out a file tree of the .rst files created.
+The .rst files named after a Python file in your submission will have contents similar to
+
+   .. code-block:: rst
+      :emphasize-lines: 1
+
+      <your_py_filename>
+      ==================
+
+      .. automodule:: submissions.<your_GitHub_username>.<your_py_filename>
+         :members:
+
+The highlighted line above is the title of the documentation page for that Python file.
+You may change it, but make sure your entire title is underlined by the equal signs on the line below.
 
