@@ -9,6 +9,8 @@ $.extend($.fn.dataTable.defaults, {
 
 $(document).ready(() => {
     // Enable ordering compare-submissions table
-    $('#compare-submissions > table').DataTable({ ordering: true });
+    cs_t = $('#compare-submissions > table').DataTable({ ordering: true });
+    // Sort the compare-submissions table by the first column
+    cs_t.column(1).order('asc').draw();
 });
 
