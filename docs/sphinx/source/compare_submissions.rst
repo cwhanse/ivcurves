@@ -7,19 +7,13 @@ Compare Submissions
 
 .. datatemplate:nodata::
 
-   {{ make_list_table_from_mappings([
-         ('Submission', 'submission'),
-         ('Case 1', 'case1'),
-         ('Case 2', 'case2'),
-         ('Case 3', 'case3'),
-         ('Case 4', 'case4'),
-         ('Case 5', 'case5'),
-         ('Case 6', 'case6'),
-         ('Case 7', 'case7'),
-         ('Case 8', 'case8'),
-         ('Links', 'links')
-      ],
-      config.html_context.compare_submissions.entries,
-      title='')
-   }}
+   .. list-table::
+      :header-rows: 1
+
+   {% for row in config.html_context.compare_submissions.table_rows %}
+      * - {{ row[0] }}
+        {% for val in row[1:] %}
+        - {{ val }}
+        {% endfor %}
+   {% endfor %}
 

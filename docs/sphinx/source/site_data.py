@@ -77,29 +77,38 @@ def leaderboard_entry_list():
     return entries
 
 
-def compare_submissions_entry_list():
+def compare_submissions_table_rows():
     entries = []
 
     for pr_number, submission_data in submissions().items():
         code_link = link_to_submission_code(
-            submission_data["merge_commit"],
-            submission_data["username"],
-            submission_data["submission_main"]
+            submission_data['merge_commit'],
+            submission_data['username'],
+            submission_data['submission_main']
         )
         docs_link = link_to_submission_docs(
             submission_data['username'],
             submission_data['submission_main']
         )
-        entry = {
-            'submission': f'{to_ghuser(submission_data["username"])} ({to_pull(pr_number)})',
-            'links':  f'`Code <{code_link}>`__, `Docs <{docs_link}>`__'
-        }
+
+        entry = {'Submission': f'{to_ghuser(submission_data["username"])} ({to_pull(pr_number)})'}
+
+        # per case scores
         for name, score in submission_data['test_sets'].items():
             entry[name] = mp.nstr(mp.mpmathify(score))
 
+        entry['Links'] = f'`Code <{code_link}>`__, `Docs <{docs_link}>`__'
+
         entries.append(entry)
 
-    return entries
+    # convert entries to a table with the keys of an entry as its columns
+    table_rows = []
+    table_rows.append(list(entries[0].keys()))
+
+    for entry in entries:
+        table_rows.append(list(entry.values()))
+
+    return table_rows
 
 
 def test_set_name_to_parameters_and_image():

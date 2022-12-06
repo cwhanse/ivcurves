@@ -101,7 +101,7 @@ html_context = {
         'entries': site_data.leaderboard_entry_list()
     },
     'compare_submissions': {
-        'entries': site_data.compare_submissions_entry_list()
+        'table_rows': site_data.compare_submissions_table_rows()
     },
     'test_cases': {
         'test_case_data': site_data.test_set_name_to_parameters_and_image()

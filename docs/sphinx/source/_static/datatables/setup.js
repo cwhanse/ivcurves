@@ -8,8 +8,7 @@ $.extend($.fn.dataTable.defaults, {
 });
 
 $(document).ready(() => {
-    // Enable ordering for leaderboard and compare-submissions tables
-    $('#leaderboard > table').DataTable({ ordering: true });
+    // Enable ordering compare-submissions table
     $('#compare-submissions > table').DataTable({ ordering: true });
 });
 
