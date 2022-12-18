@@ -84,10 +84,12 @@ def add_to_submissions_index(gh_username):
     """
     index_entry = f'{gh_username}/index'
     with open(DOCS_SUBMISSIONS / 'index.rst') as f:
-        contents = f.read()
-    if index_entry not in contents:
-        with open(DOCS_SUBMISSIONS / 'index.rst', 'a') as f:
-            f.write(f'   {index_entry}\n\n')
+        lines = f.readlines()
+    if all(index_entry != l.strip() for l in lines):
+        # the last line is a new line character
+        lines[-1] = f'   {index_entry}\n\n'
+        with open(DOCS_SUBMISSIONS / 'index.rst', 'w') as f:
+            f.write(''.join(lines))
 
 
 def tree(dir_path: Path, prefix: str=''):
@@ -127,20 +129,7 @@ def tree(dir_path: Path, prefix: str=''):
             yield from tree(path, prefix=prefix+extension)
 
 
-def get_argparser():
-    parser = argparse.ArgumentParser(
-        description='Generates .rst files for documenting a submission.'
-                    'Note a .rst file is not created if it already exists,'
-                    'unless it is index.rst.'
-    )
-    parser.add_argument('pr_config_path', type=Path,
-                        help='The path to the pr_config.json of a submission.')
-    return parser
-
-
-if __name__ == '__main__':
-    args = get_argparser().parse_args()
-
+def generate_docs(args):
     # resolve path to ensure 'submissions/<GitHub_username>' are in the path
     pr_cfg = args.pr_config_path.resolve()
 
@@ -155,6 +144,11 @@ if __name__ == '__main__':
     gh_username_idx = len(submissions_gh.parts) - 1
 
     py_files = sorted(submissions_gh.rglob('*.py'))
+
+    if len(py_files) == 0:
+        print('No Python files found.')
+        return
+
     # create a list of rst files to be created, excluding index.rst files
     rst_files = []
     for f in py_files:
@@ -176,6 +170,21 @@ if __name__ == '__main__':
     # add entry to 'submissions/index.rst'
     add_to_submissions_index(gh_username)
 
-    if len(rst_files) != 0:
-        print('\n'.join(tree(DOCS_SUBMISSIONS / gh_username)))
+    print('\n'.join(tree(DOCS_SUBMISSIONS / gh_username)))
+
+
+def get_argparser():
+    parser = argparse.ArgumentParser(
+        description='Generates .rst files for documenting a submission.'
+                    'Note a .rst file is not created if it already exists,'
+                    'unless it is index.rst.'
+    )
+    parser.add_argument('pr_config_path', type=Path,
+                        help='The path to the pr_config.json of a submission.')
+    return parser
+
+
+if __name__ == '__main__':
+    args = get_argparser().parse_args()
+    generate_docs(args)
 
