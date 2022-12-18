@@ -29,13 +29,22 @@ def set_globals():
 def constants():
     r"""
     Commonly used constants of the ivcurves scripts.
+
+    The Boltzmann's constant and electron/elementary charge are from [1]_.
+
+    References
+    ----------
+    .. [1] BIPM. Le Système international d’unités / The International System
+       of Units (‘The SI Brochure’).
+       Bureau international des poids et mesures, ninth edition, 2019.
+       URL https://www.bipm.org/en/publications/si-brochure, ISBN 978-92-822-2272-0.
     """
     num_pts = 100
     precision = 16
     atol = mp.mpmathify(1e-16)
 
     # Boltzmann's const (J/K), electron charge (C), temp (K)
-    k, q, temp_cell = map(mp.mpmathify, [1.380649e-23, 1.60217663e-19, 298.15])
+    k, q, temp_cell = map(mp.mpmathify, [1.380649e-23, 1.602176634e-19, 298.15])
     vth = (k * temp_cell) / q
 
     return {'k': k, 'q': q, 'temp_cell': temp_cell, 'vth': vth, 'atol': atol,
@@ -95,12 +104,11 @@ def mp_nstr_precision_func(num_mpf):
     ldigits = mp_num_digits_left_of_decimal(num_mpf)
 
     # Stringifying to 16 significant digits truncates or rounds the mp.mpf
-    # value. The lost precision can cause significant error (greater than
-    # 1e-16) when converted back into an mp.mpf from a string. This occurs
-    # when calculating the difference between the left and right side of the
-    # single diode equation. The required sigfigs in the string is increased by
-    # 3 to ensure the JSON test set values are still precise enough when
-    # parsed back into mp.mpf values. The required sigfigs may need to be
+    # value. The lost precision can cause error greater than 1e-16 when
+    # calculating the difference between the left and right side of the single
+    # diode equation. The number of required sigfigs in the string is increased
+    # by 3 to ensure the JSON test set values are still precise enough when
+    # converted into mp.mpf values. The required sigfigs may need to be
     # increased when new JSON test sets are added.
     sigfigs = ldigits + precision + 3
     return mp.nstr(num_mpf, n=sigfigs, strip_zeros=False)
