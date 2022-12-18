@@ -95,6 +95,7 @@ def compare_submissions_table_rows():
 
         # per case scores
         for name, score in submission_data['test_sets'].items():
+            entry['Overall Score'] = mp.nstr(sum(mp.mpmathify(v) for v in submission_data['test_sets'].values()))
             entry[name] = mp.nstr(mp.mpmathify(score))
 
         entry['Links'] = f'`Code <{code_link}>`__, `Docs <{docs_link}>`__'

@@ -322,7 +322,7 @@ In your docstrings, you may create links to external sites to help describe or c
       .. _Sphinx documentation: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#hyperlinks
 
 After writing docstrings for your submission, you need to generate Sphinx .rst files for your submission using a command line program provided in ivcurves.
-First, ensure that none of your submission's Python files are named ``index.py`` because ``index`` is reversed for the Sphinx documentation.
+First, ensure that none of your submission's Python files are named ``index.py`` because ``index`` is reserved for the Sphinx documentation.
 To generate the .rst files, run the command
 
    .. code-block:: bash
