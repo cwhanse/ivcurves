@@ -343,4 +343,5 @@ The .rst files named after a Python file in your submission will have contents s
 
 The highlighted line above is the title of the documentation page for that Python file.
 You may change it, but make sure your entire title is underlined by the equal signs on the line below.
+If you change the title of the documentation page for ``SUBMISSION_MAIN``, this title will be displayed on the leaderboard under the **Method Name** column.
 
