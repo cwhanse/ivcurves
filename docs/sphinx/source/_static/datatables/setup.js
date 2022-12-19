@@ -11,6 +11,6 @@ $(document).ready(() => {
     // Enable ordering compare-submissions table
     cs_t = $('#compare-submissions > table').DataTable({ ordering: true });
     // Sort the compare-submissions table by the first column
-    cs_t.column(1).order('asc').draw();
+    cs_t.column(2).order('asc').draw();
 });
 

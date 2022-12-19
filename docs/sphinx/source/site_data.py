@@ -24,6 +24,10 @@ def submissions():
             if 'broken' not in submission_data.keys()}
 
 
+def to_doc(link):
+    return f':doc:`{link}`'
+
+
 def to_ghuser(username):
     return f':ghuser:`{username}`'
 
@@ -37,7 +41,7 @@ def link_to_submission_code(commit, username, submission_main):
 
 
 def link_to_submission_docs(username, submission_main):
-    return f'submissions/{username}/{Path(submission_main).stem}.html'
+    return f'submissions/{username}/{Path(submission_main).stem}'
 
 
 def datetime_from_github_datetime_str(ghdatetime_str):
@@ -59,9 +63,10 @@ def leaderboard_entry_list():
         )
         entries.append({
             'submission': f'{to_ghuser(submission_data["username"])} ({to_pull(pr_number)})',
+            'method_name': to_doc(docs_link),
             'overall_score': sum(mp.mpmathify(v) for v in submission_data['test_sets'].values()),
             'submission_datetime': datetime_from_github_datetime_str(submission_data['submission_datetime']),
-            'links':  f'`Code <{code_link}>`__, `Docs <{docs_link}>`__'
+            'links':  f'`Code <{code_link}>`__'
         })
 
     # order entries from lowest score to highest, and then by submission datetime
@@ -91,14 +96,17 @@ def compare_submissions_table_rows():
             submission_data['submission_main']
         )
 
-        entry = {'Submission': f'{to_ghuser(submission_data["username"])} ({to_pull(pr_number)})'}
+        entry = {
+            'Submission': f'{to_ghuser(submission_data["username"])} ({to_pull(pr_number)})',
+            'Method Name': to_doc(docs_link)
+        }
 
         # per case scores
         for name, score in submission_data['test_sets'].items():
             entry['Overall Score'] = mp.nstr(sum(mp.mpmathify(v) for v in submission_data['test_sets'].values()))
             entry[name] = mp.nstr(mp.mpmathify(score))
 
-        entry['Links'] = f'`Code <{code_link}>`__, `Docs <{docs_link}>`__'
+        entry['Links'] = f'`Code <{code_link}>`__'
 
         entries.append(entry)
 
