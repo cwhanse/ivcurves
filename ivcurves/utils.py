@@ -29,15 +29,6 @@ def set_globals():
 def constants():
     r"""
     Commonly used constants of the ivcurves scripts.
-
-    The Boltzmann's constant and electron/elementary charge are from [1]_.
-
-    References
-    ----------
-    .. [1] BIPM. Le Système international d’unités / The International System
-       of Units ('The SI Brochure').
-       Bureau international des poids et mesures, ninth edition, 2019.
-       URL https://www.bipm.org/en/publications/si-brochure, ISBN 978-92-822-2272-0.
     """
     num_pts = 100
     precision = 16
