@@ -1,6 +1,6 @@
-import os
 import csv
 import pathlib
+import scipy
 from mpmath import mp
 
 
@@ -35,7 +35,7 @@ def constants():
     References
     ----------
     .. [1] BIPM. Le Système international d’unités / The International System
-       of Units (‘The SI Brochure’).
+       of Units ('The SI Brochure').
        Bureau international des poids et mesures, ninth edition, 2019.
        URL https://www.bipm.org/en/publications/si-brochure, ISBN 978-92-822-2272-0.
     """
@@ -44,7 +44,11 @@ def constants():
     atol = mp.mpmathify(1e-16)
 
     # Boltzmann's const (J/K), electron charge (C), temp (K)
-    k, q, temp_cell = map(mp.mpmathify, [1.380649e-23, 1.602176634e-19, 298.15])
+    k, q, temp_cell = map(mp.mpmathify, [
+        scipy.constants.Boltzmann,
+        scipy.constants.elementary_charge,
+        298.15
+    ])
     vth = (k * temp_cell) / q
 
     return {'k': k, 'q': q, 'temp_cell': temp_cell, 'vth': vth, 'atol': atol,
