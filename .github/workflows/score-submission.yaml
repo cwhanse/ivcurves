@@ -28,11 +28,11 @@ jobs:
           python-version: '3.10'
       - name: Save pull request contributor username
         id: save-pr-author
-        run: echo '::set-output name=contributor::${{ github.event.pull_request.user.login }}'
+        run: echo 'contributor=${{ github.event.pull_request.user.login }}' >> $GITHUB_OUTPUT
       - name: Save GitHub actor username
         id: save-github-actor
         if: ${{ steps.save-pr-author.outputs.contributor == '' }}
-        run: echo '::set-output name=contributor::${{ github.actor }}'
+        run: echo 'contributor=${{ github.actor }}' >> $GITHUB_OUTPUT
       - name: Set the contributor environment variable
         env:
           CONTRIBUTOR: ${{ join(steps.*.outputs.contributor, '') }}
@@ -46,12 +46,12 @@ jobs:
       - name: Save scorer environment to job output
         id: save-env
         run: |
-          echo '::set-output name=contributor::${{ env.CONTRIBUTOR }}'
-          echo '::set-output name=run-scorer::${{ env.RUN_SCORER }}'
-          echo '::set-output name=requirements-filename::${{ env.REQUIREMENTS_FILENAME }}'
-          echo '::set-output name=requirements-path::${{ env.REQUIREMENTS_PATH }}'
-          echo '::set-output name=submission-main-filename::${{ env.SUBMISSION_MAIN_FILENAME }}'
-          echo '::set-output name=submission-main-path::${{ env.SUBMISSION_MAIN_PATH }}'
+          echo 'contributor=${{ env.CONTRIBUTOR }}' >> $GITHUB_OUTPUT
+          echo 'run-scorer=${{ env.RUN_SCORER }}' >> $GITHUB_OUTPUT
+          echo 'requirements-filename=${{ env.REQUIREMENTS_FILENAME }}' >> $GITHUB_OUTPUT
+          echo 'requirements-path=${{ env.REQUIREMENTS_PATH }}' >> $GITHUB_OUTPUT
+          echo 'submission-main-filename=${{ env.SUBMISSION_MAIN_FILENAME }}' >> $GITHUB_OUTPUT
+          echo 'submission-main-path=${{ env.SUBMISSION_MAIN_PATH }}' >> $GITHUB_OUTPUT
 
   run-scorer:
     name: Run scorer
