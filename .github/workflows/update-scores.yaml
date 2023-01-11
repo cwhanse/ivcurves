@@ -32,7 +32,7 @@ jobs:
                   continue
               pair = [pr_number, data['username'], data['submission_datetime']]
               pr_data.append(pair)
-          print(pr_data)
+          print(json.dumps(pr_data))
           ")
           echo PR_DATA=$PR_DATA >> ${{ github.env }}
       - name: Set pull request data output
@@ -99,6 +99,7 @@ jobs:
           path: submissions
       - name: Run all submissions
         env:
+          GH_TOKEN: ${{ github.token }}
           SUBMISSION_TIMEOUT: 2 # minutes
         run: |
           #               PR_DATA
