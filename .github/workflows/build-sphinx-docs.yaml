@@ -24,7 +24,7 @@ jobs:
       - name: Install Sphinx docs requirements
         working-directory: main/docs/sphinx
         run: |
-          pip3 install -U sphinx
+          pip3 install -U sphinx==5.0.2
           pip3 install -r requirements.txt
       - name: Generate Sphinx docs test case images
         working-directory: main
