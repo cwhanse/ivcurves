@@ -620,6 +620,8 @@ def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
         v_oc = vv.max()
         i_sc = ii.max()
         v_mp, i_mp, p_mp = max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol)
+        i_x = lambert_i_from_v(v_oc / 2, il, io, rs, rsh, n, vth, ns)
+        i_xx = lambert_i_from_v((v_oc + v_mp) / 2, il, io, rs, rsh, n, vth, ns)
 
         nstr = utils.mp_nstr_precision_func
         vv_str_list = [nstr(x) for x in vv]
@@ -630,6 +632,7 @@ def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
             'Currents': ii_str_list, 'diode_voltage': diode_voltage_list,
             'v_oc': nstr(v_oc), 'i_sc': nstr(i_sc),
             'v_mp': nstr(v_mp), 'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
+            'i_x': nstr(i_x), 'i_xx': nstr(i_xx),
             'Temperature': mp.nstr(temp_cell, n=5), 'Irradiance': None,
             'Sweep direction': '', 'Datetime': '1970-01-01T00:00:00Z'
         })

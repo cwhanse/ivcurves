@@ -42,4 +42,3 @@ def test_test_sets_precision(test_set_as_pandas_df, constants):
         assert diff(row['v_mp'], i_mp) < atol
         assert diff(v_mp, row['i_mp']) < atol
         assert abs(row['p_mp'] - p_mp) < atol
-

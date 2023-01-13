@@ -157,7 +157,6 @@ def scores_database_jsonschema():
 
 @pytest.fixture()
 def scores_database_jsonschema_validator(scores_database_jsonschema):
-    jschon.create_catalog('2020-12') # identify the JSON Schema version used
+    jschon.create_catalog('2020-12')  # identify the JSON Schema version used
     schema_validator = jschon.JSONSchema(scores_database_jsonschema)
     return schema_validator
-
