@@ -56,33 +56,28 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
         A good approximation for the voltage :math:`V`, current :math:`I`, and
         power :math:`P` of the maximum power point of the given IV curve.
     """
-    # function we want to maximize
-    power_func = lambda v : v * lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns)
-
-    v_oc = lambert_v_from_i(0, il, io, rs, rsh, n, vth, ns)
-
-    # run golden search on power function with above starting interval
-    if v_oc < atol:  # this will cause problems when defining iterlimit
-        # means xr == xl (roughly)
-        # shouldn't happen unless both xr and xl are basically zero
-        assert mp.chop(v_oc) == 0
+    params = il, io, rs, rsh, n, vth, ns
+    v_oc = lambert_v_from_i(0, *params)
+    if v_oc < atol:
+        # means v_oc ~ 0 which causes problems when defining max_iters
         # this should only ever happen for very extreme parameters
+        assert mp.chop(v_oc) == 0
         return 0, 0, 0
-    else:
-        iterlimit = int(1 + mp.log(atol / v_oc) / mp.log((mp.sqrt(5) - 1) / 2))
 
-    max_voltage, max_power = golden_search(0, v_oc, power_func, atol, iterlimit)
+    max_iters = int(1 + mp.log(atol / v_oc) / mp.log((mp.sqrt(5) - 1) / 2))
 
-    # find current associated to max_voltage
-    max_current = lambert_i_from_v(max_voltage, il, io, rs, rsh, n, vth, ns)
+    power_func = lambda v : v * lambert_i_from_v(v, *params)
 
-    # check that current, voltage pair is still a precise solution to single diode eq
-    # if not precise enough, make precise using findroot
-    dff = diff_lhs_rhs(max_voltage, max_current, il, io, rs, rsh, n, vth, ns)
-    if abs(dff) > atol:
-        max_current = mp.findroot(lambda x: diff_lhs_rhs(max_voltage, x, il, io, rs, rsh, n, vth, ns), max_current, tol=atol**2)
+    max_voltage = golden_search(0, v_oc, power_func, atol, max_iters)
+    max_current = lambert_i_from_v(max_voltage, *params)
+
+    # check max current and voltage is a precise solution to single diode eq
+    diff = lambda v, i: diff_lhs_rhs(v, i, *params)
+    if abs(diff(max_voltage, max_current)) >= atol:
+        max_current = mp.findroot(lambda i: diff(max_voltage, i), max_current, tol=atol**2)
         # setting tol=atol**2 because findroot checks func(zero)**2 < tol
 
+    max_power = max_current * max_voltage
     return max_voltage, max_current, max_power
 
 
@@ -91,9 +86,9 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
 ########################
 
 
-def golden_search(a, b, func, atol, iterlimit):
+def golden_search(a, b, func, atol, max_iters):
     r"""
-    Finds a local maximizer of a function on an interval :math:`[a, b]`with at
+    Finds a local maximizer of a function on an interval :math:`[a, b]` with at
     most ``atol`` error using golden-section serach.
 
     Parameters
@@ -110,16 +105,13 @@ def golden_search(a, b, func, atol, iterlimit):
     atol : float
         The absolute tolerance between the true and calculated maximizer.
 
-    iterlimit : int
+    max_iters : int
         Maximum number of iterations golden-section search before failing.
 
     Returns
     -------
-    tuple of ints
-        Coordinates of a point whose y-coordinate is a good approximation for
-        the true maximum, and whose x-coordinate is within ``atol`` of the
-        x-coordinate that yields the true maximum of ``func`` on the given
-        interval.
+    float
+        The calculated maximizer.
 
     Notes
     -----
@@ -128,19 +120,17 @@ def golden_search(a, b, func, atol, iterlimit):
     """
     # overflow ? FIXME
     rho = (1/2) * (3 - mp.sqrt(5))  # this value for rho is equivalent to using golden ratio
-    for _ in range(iterlimit):
+    for _ in range(max_iters):
         x_internal = lambda frac: a + frac * (b - a)
         xlx = x_internal(rho)
-        xly = func(xlx)
         xrx = x_internal(1 - rho)
-        xry = func(xrx)
-        if xly > xry:
+        if func(xlx) > func(xrx):
             if abs(xrx - a) < atol:
-                return xlx, xly
+                return xlx
             b = xrx
         else:
             if abs(b - xlx) < atol:
-                return xrx, xry
+                return xrx
             a = xlx
     raise RuntimeError('Golden Search: maximum iteration count exceeded.')
 
@@ -381,8 +371,8 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     solutions if necessary.
     """
     # convert mpf to np.float64
-    parameters_npfloat64 = map(lambda x: np.float64(x), [il, io, rs, rsh, n*vth*ns])
-    res = pvlib.pvsystem.singlediode(*parameters_npfloat64, ivcurve_pnts=num_pts)
+    params_npfloat64 = map(lambda x: np.float64(x), [il, io, rs, rsh, n*vth*ns])
+    res = pvlib.pvsystem.singlediode(*params_npfloat64, ivcurve_pnts=num_pts)
 
     # convert np.float64 to mpf
     vv = np.fromiter(map(mp.mpmathify, res['v']), dtype=mp.mpf)
@@ -390,22 +380,22 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
 
     # allocate array for new, more precise i's
     precise_i = np.zeros(ii.shape[0], dtype=mp.mpf)
-    i_precise_enough = lambda c: abs(diff_lhs_rhs(v, c, il, io, rs, rsh, n, vth, ns)) < atol
+    params = il, io, rs, rsh, n, vth, ns
+    diff = lambda i: diff_lhs_rhs(v, i, *params)
     for idx, (v, i) in enumerate(zip(vv, ii)):
         # check if i val already precise enough
-        if i_precise_enough(i):
+        if abs(diff(i)) < atol:
             new_i = i
         else:
-            new_i = lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns)
-            assert i_precise_enough(new_i), f'Index: {idx}'
+            new_i = lambert_i_from_v(v, *params)
+            assert abs(diff(new_i)) < atol, f'Index: {idx}'
 
         # updating array of i's
         precise_i[idx] = new_i
 
     # find precise v_oc and set as last coordinate
     precise_i[-1] = mp.mpmathify(0)
-    vv[-1] = lambert_v_from_i(precise_i[-1], il, io, rs, rsh, n, vth,
-                              ns)
+    vv[-1] = lambert_v_from_i(precise_i[-1], *params)
 
     assert vv[0] == 0, f'Must be zero: vv[0] = {vv[0]}'
     assert precise_i[-1] == 0, f'Must be zero: precise_i[-1] = {precise_i[-1]}'
@@ -454,10 +444,10 @@ def plot_iv_curves(test_set_filename, case_parameter_sets, vth, atol, num_pts,
         the last IV curve generated will be plotted.
     """
     plt.style.use('seaborn-darkgrid')
-    for idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
+    for idx, params in case_parameter_sets.items():
         plt.xlabel('Voltage')
         plt.ylabel('Current')
-        v_vals, i_vals = get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts)
+        v_vals, i_vals = get_precise_i(*params, atol=atol, num_pts=num_pts)
         plt.plot(v_vals, i_vals)
         if savefig:
             plt.savefig(utils.make_iv_curve_name(test_set_filename, idx),
@@ -504,22 +494,24 @@ def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
     cells_in_series = None
 
     for test_idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
-        cells_in_series = int(ns)
+        params = il, io, rs, rsh, n, vth, ns
+        cells_in_series = int(params[-1])
+        rs = params[2]
 
-        vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts)
+        vv, ii = get_precise_i(*params, atol=atol, num_pts=num_pts)
         v_oc = vv[-1]
         i_sc = ii[0]
-        v_mp, i_mp, p_mp = max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol)
-        i_x = lambert_i_from_v(v_oc / 2, il, io, rs, rsh, n, vth, ns)
-        i_xx = lambert_i_from_v((v_oc + v_mp) / 2, il, io, rs, rsh, n, vth, ns)
+        v_mp, i_mp, p_mp = max_power_pt_finder(*params, atol=atol)
+        i_x = lambert_i_from_v(v_oc / 2, *params)
+        i_xx = lambert_i_from_v((v_oc + v_mp) / 2, *params)
 
         nstr = utils.mp_nstr_precision_func
-        vv_str_list = [nstr(x) for x in vv]
-        ii_str_list = [nstr(x) for x in ii]
+        vv_list = [nstr(x) for x in vv]
+        ii_list = [nstr(x) for x in ii]
         diode_voltage_list = [nstr(dv) for dv in vv + rs * ii]
         ivcurves.append({
-            'Index': test_idx, 'Voltages': vv_str_list,
-            'Currents': ii_str_list, 'diode_voltage': diode_voltage_list,
+            'Index': test_idx, 'Voltages': vv_list,
+            'Currents': ii_list, 'diode_voltage': diode_voltage_list,
             'v_oc': nstr(v_oc), 'i_sc': nstr(i_sc),
             'v_mp': nstr(v_mp), 'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
             'i_x': nstr(i_x), 'i_xx': nstr(i_xx),
