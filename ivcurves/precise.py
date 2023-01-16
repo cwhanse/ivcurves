@@ -118,7 +118,6 @@ def golden_search(a, b, func, atol, max_iters):
     For more information on the algorithm, see
     http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf.
     """
-    # overflow ? FIXME
     rho = (1/2) * (3 - mp.sqrt(5))  # this value for rho is equivalent to using golden ratio
     for _ in range(max_iters):
         x_internal = lambda frac: a + frac * (b - a)
