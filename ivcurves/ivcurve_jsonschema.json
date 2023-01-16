@@ -133,6 +133,14 @@
           "description": "",
           "$ref": "#/$defs/Number"
         },
+        "i_x": {
+          "description": "",
+          "$ref": "#/$defs/Number"
+        },
+        "i_xx": {
+          "description": "",
+          "$ref": "#/$defs/Number"
+        },
         "Temperature": {
           "description": "",
           "$ref": "#/$defs/Number"

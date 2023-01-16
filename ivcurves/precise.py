@@ -515,7 +515,7 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     # find precise v_oc and set as last coordinate
     precise_i[-1] = mp.mpmathify(0)
     vv[-1] = lambert_v_from_i(precise_i[-1], il, io, rs, rsh, n, vth,
-                                        ns)
+                              ns)
 
     assert vv[0] == 0, f'Must be zero: vv[0] = {vv[0]}'
     assert precise_i[-1] == 0, f'Must be zero: precise_i[-1] = {precise_i[-1]}'
@@ -683,4 +683,3 @@ if __name__ == '__main__':
                            savefig=True, stack_plots=False)
         if args.plot:
             plot_iv_curves(name, case_parameter_sets, vth, atol, num_pts)
-

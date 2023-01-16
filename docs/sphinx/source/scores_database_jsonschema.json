@@ -24,6 +24,14 @@
           "type": "string",
           "format": "date-time"
         },
+        "merge_commit": {
+          "description": "The merge commit to the main repository of the submission's pull request.",
+          "type": "string"
+        },
+        "submission_main": {
+          "description": "The SUBMISSION_MAIN of the submission's pr_config.json when it was merged.",
+          "type": "string"
+        },
         "test_sets": {
           "description": "The scores for each test set.",
           "type": "object",

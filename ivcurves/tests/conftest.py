@@ -5,6 +5,7 @@ from mpmath import mp
 import jschon
 import numpy as np
 import pandas as pd
+import scipy
 
 # Functions from these are the target of the unit tests, so their functions'
 # output should not be expected to be correct when used here. Functions used
@@ -42,26 +43,28 @@ def test_set_to_pandas_df(test_set_parameter_sets, test_set_json):
     params = pd.DataFrame([[Index] + params for Index, params in test_set_parameter_sets.items()],
                           columns=['Index'] + utils.IV_PARAMETER_NAMES)
     curves = pd.DataFrame(test_set_json['IV Curves'])
-
-    # set up index
-    params['Index'] = params['Index'].astype(int)
-    params = params.set_index('Index')
-    curves['Index'] = curves['Index'].astype(int)
-    curves = curves.set_index('Index')
-
-    # convert Voltages and Currents from string array to mp.mpf array
-    arrays = ['Voltages', 'Currents', 'diode_voltage']
-    curves[arrays] = curves[arrays].applymap(
-        lambda a: np.fromiter(map(mp.mpmathify, a), dtype=mp.mpf)
-    )
-
-    # convert from string to mp.mpf
-    scalars = ['v_oc', 'i_sc', 'v_mp', 'i_mp', 'p_mp', 'Temperature']
-    curves[scalars] = curves[scalars].applymap(mp.mpmathify)
-
+    curves_metadata = test_set_json
+    curves = pd.DataFrame(curves_metadata['IV Curves'])
+    curves['cells_in_series'] = curves_metadata['cells_in_series']
     joined = params.merge(curves, on='Index', how='inner',
                           suffixes=(None, '_drop'), validate='one_to_one')
     joined = joined[(c for c in joined.columns if not c.endswith('_drop'))]
+
+    # parse strings to np.float64
+    is_array = ['Currents', 'Voltages', 'diode_voltage']
+    joined[is_array] = joined[is_array].applymap(
+        lambda a: np.fromiter(map(mp.mpmathify, a), dtype=mp.mpf)
+    )
+    is_number = ['v_oc', 'i_sc', 'v_mp', 'i_mp', 'p_mp', 'i_x', 'i_xx',
+                 'Temperature']
+    joined[is_number] = joined[is_number].applymap(mp.mpmathify)
+
+    joined['Boltzmann'] = scipy.constants.Boltzmann
+    joined['Elementary Charge'] = scipy.constants.elementary_charge
+    joined['Vth'] = (
+        joined['Boltzmann'] * joined['Temperature']
+        / joined['Elementary Charge']
+    )
 
     return joined
 
