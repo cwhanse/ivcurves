@@ -10,8 +10,6 @@ IV_PARAMETER_NAMES = ['photocurrent', 'saturation_current',
                       'cells_in_series']
 
 
-
-
 def set_globals():
     r"""
     Sets library parameters that must be the same whenever the libraries are
@@ -34,7 +32,7 @@ def constants():
     """
     num_pts = 100
     precision = 16
-    atol = mp.mpmathify(1e-16)
+    atol = mp.mpmathify('1e-16')
 
     # Boltzmann's const (J/K), electron charge (C), temp (K)
     k, q, temp_cell = map(mp.mpmathify, [

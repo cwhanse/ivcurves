@@ -57,26 +57,21 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
         power :math:`P` of the maximum power point of the given IV curve.
     """
     # function we want to maximize
-    # x represents voltage
-    power_func = lambda x : x * lambert_i_from_v(x, il, io, rs, rsh, n, vth, ns)
+    power_func = lambda v : v * lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns)
 
-    # find initial interval endpts (using (0, I_sc) and (V_oc, 0) as starting
-    # endpts, power=0 at both these points)
-    # x-coord is voltage, y-coord is power (power = voltage * current)
-    xl, yl = lambert_i_from_v(0, il, io, rs, rsh, n, vth, ns), 0
-    xr, yr = lambert_v_from_i(0, il, io, rs, rsh, n, vth, ns), 0
+    v_oc = lambert_v_from_i(0, il, io, rs, rsh, n, vth, ns)
 
     # run golden search on power function with above starting interval
-    if (xr - xl) < atol:  # this will cause problems when defining iterlimit
+    if v_oc < atol:  # this will cause problems when defining iterlimit
         # means xr == xl (roughly)
         # shouldn't happen unless both xr and xl are basically zero
-        assert (mp.chop(xr) == 0 and mp.chop(xl) == 0)
+        assert mp.chop(v_oc) == 0
         # this should only ever happen for very extreme parameters
         return 0, 0, 0
     else:
-        iterlimit = int(1 + mp.log(atol/(xr - xl)) / mp.log((mp.sqrt(5) - 1) / 2))
+        iterlimit = int(1 + mp.log(atol / v_oc) / mp.log((mp.sqrt(5) - 1) / 2))
 
-    max_voltage, max_power = golden_search((xl, yl), (xr, yr), power_func, atol, iterlimit)
+    max_voltage, max_power = golden_search(0, v_oc, power_func, atol, iterlimit)
 
     # find current associated to max_voltage
     max_current = lambert_i_from_v(max_voltage, il, io, rs, rsh, n, vth, ns)
@@ -96,25 +91,24 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
 ########################
 
 
-def golden_search(l_endpt, r_endpt, func, atol, iterlimit):
+def golden_search(a, b, func, atol, iterlimit):
     r"""
-    Finds a local maximizer of a function on an interval with at most ``atol``
-    error using golden-section serach.
+    Finds a local maximizer of a function on an interval :math:`[a, b]`with at
+    most ``atol`` error using golden-section serach.
 
     Parameters
     ----------
-    l_endpt : tuple of floats
-        Left endpoint of interval in which a maximum occurs.
+    a : float
+        Left endpoint of interval.
 
-    r_endpt : tuple of floats
-        Right endpoint of interval in which a maximum occurs.
+    b : float
+        Right endpoint of interval.
 
     func : function
-        Function we want to maximize (single-variable).
+        Single-variable function to maximize.
 
     atol : float
-        The x-coordinate of the returned point will be at most ``atol`` from the
-        x-coordinate that produces the true maximum in the given interval.
+        The absolute tolerance between the true and calculated maximizer.
 
     iterlimit : int
         Maximum number of iterations golden-section search before failing.
@@ -133,23 +127,21 @@ def golden_search(l_endpt, r_endpt, func, atol, iterlimit):
     http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf.
     """
     # overflow ? FIXME
-    ax, _ = l_endpt
-    bx, _ = r_endpt
     rho = (1/2) * (3 - mp.sqrt(5))  # this value for rho is equivalent to using golden ratio
     for _ in range(iterlimit):
-        x_internal = lambda frac: ax + frac * (bx - ax)
+        x_internal = lambda frac: a + frac * (b - a)
         xlx = x_internal(rho)
         xly = func(xlx)
         xrx = x_internal(1 - rho)
         xry = func(xrx)
         if xly > xry:
-            if abs(xrx - ax) < atol:
+            if abs(xrx - a) < atol:
                 return xlx, xly
-            bx = xrx
+            b = xrx
         else:
-            if abs(bx - xlx) < atol:
+            if abs(b - xlx) < atol:
                 return xrx, xry
-            ax = xlx
+            a = xlx
     raise RuntimeError('Golden Search: maximum iteration count exceeded.')
 
 
