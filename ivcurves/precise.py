@@ -1,11 +1,10 @@
 import argparse
-import itertools
 import json
 import pvlib
 import numpy as np
 import matplotlib.pyplot as plt
 
-from ivcurves.utils import mp # same instance of mpmath's mp imported in ivcurves/utils
+from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
 import ivcurves.utils as utils
 
 
@@ -57,9 +56,6 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
         A good approximation for the voltage :math:`V`, current :math:`I`, and
         power :math:`P` of the maximum power point of the given IV curve.
     """
-    # make parameters mpf types for precision
-    il, io, rs, rsh, n, vth = [mp.mpf(str(val)) for val in [il, io, rs, rsh, n, vth]]
-
     # function we want to maximize
     # x represents voltage
     power_func = lambda x : x * lambert_i_from_v(x, il, io, rs, rsh, n, vth, ns)
@@ -71,14 +67,14 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
     xr, yr = lambert_v_from_i(0, il, io, rs, rsh, n, vth, ns), 0
 
     # run golden search on power function with above starting interval
-    if (xr - xl) < atol: # this will cause problems when defining iterlimit
+    if (xr - xl) < atol:  # this will cause problems when defining iterlimit
         # means xr == xl (roughly)
         # shouldn't happen unless both xr and xl are basically zero
         assert (mp.chop(xr) == 0 and mp.chop(xl) == 0)
         # this should only ever happen for very extreme parameters
         return 0, 0, 0
     else:
-        iterlimit = 1 + mp.floor( mp.log(atol/(xr - xl)) / mp.log((mp.sqrt(5) - 1) / 2) )
+        iterlimit = int(1 + mp.log(atol/(xr - xl)) / mp.log((mp.sqrt(5) - 1) / 2))
 
     max_voltage, max_power = golden_search((xl, yl), (xr, yr), power_func, atol, iterlimit)
 
@@ -95,16 +91,15 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
     return max_voltage, max_current, max_power
 
 
-
 ########################
 # Golden search method #
 ########################
 
 
-def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_right_int_pt=False, num_iter=0):
+def golden_search(l_endpt, r_endpt, func, atol, iterlimit):
     r"""
-    Uses golden-section search to recursively find maximum of the given
-    function over the given interval, with at most ``atol`` error.
+    Finds a local maximizer of a function on an interval with at most ``atol``
+    error using golden-section serach.
 
     Parameters
     ----------
@@ -122,19 +117,7 @@ def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_ri
         x-coordinate that produces the true maximum in the given interval.
 
     iterlimit : int
-        Maximum number of iterations for golden-section search. Should converge
-        before we hit this.
-
-    int_pt : tuple of floats, optional
-        Coordinates of interior point in interval. The default value is an
-        empty tuple.
-
-    is_right_int_pt : bool, optional
-        If ``int_pt`` is the right hand interior point, then True. If ``int_pt`` is
-        given, this should also be passed in (default value is False).
-
-    num_iter : int
-        The number of iterations we've already done.
+        Maximum number of iterations golden-section search before failing.
 
     Returns
     -------
@@ -146,113 +129,28 @@ def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_ri
 
     Notes
     -----
-    This is a recursive function. When using, ``int_pt`` and ``is_right_int_pt``
-    and ``num_iter`` should not be passed; they are only passed when the function
-    recurses.
-
-    For more information on the algorithm (and calculating the interior points
-    in :func:`get_left_int_pt` and :func:`get_right_int_pt`), see
+    For more information on the algorithm, see
     http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf.
     """
     # overflow ? FIXME
-    # take care of f(int_pt_1) == f(int_pt_2) (right now just pushing this case
-    # into the f(int_pt_1) < f(int_pt_2) case) FIXME
-
-    if num_iter >= iterlimit: raise Exception("Iterations exceeded maximum.")
-
-    xl, yl = l_endpt
-    xr, yr = r_endpt
-
-    # find left and right interior points
-    if int_pt == tuple(): # first iteration, no interior points yet
-        l_int_pt = get_left_int_pt(xl, xr, func)
-        r_int_pt = get_right_int_pt(xl, xr, func)
-    else: # already have one interior point
-        if is_right_int_pt:
-            r_int_pt = int_pt
-            l_int_pt = get_left_int_pt(xl, xr, func)
+    ax, _ = l_endpt
+    bx, _ = r_endpt
+    rho = (1/2) * (3 - mp.sqrt(5))  # this value for rho is equivalent to using golden ratio
+    for _ in range(iterlimit):
+        x_internal = lambda frac: ax + frac * (bx - ax)
+        xlx = x_internal(rho)
+        xly = func(xlx)
+        xrx = x_internal(1 - rho)
+        xry = func(xrx)
+        if xly > xry:
+            if abs(xrx - ax) < atol:
+                return xlx, xly
+            bx = xrx
         else:
-            l_int_pt = int_pt
-            r_int_pt = get_right_int_pt(xl, xr, func)
-
-    # recurse with new (smaller) interval and one interior point
-    if l_int_pt[1] > r_int_pt[1]: # check which has higher y-coord (since we're searching for max)
-        error = abs(r_int_pt[0] - l_endpt[0])
-        if error < atol:
-            return l_int_pt
-        else:
-            return golden_search(l_endpt, r_int_pt, func, atol, iterlimit, l_int_pt, is_right_int_pt=True, num_iter=num_iter+1)
-            # `is_right_int_pt`=True because l_int_pt is now the right_int_pt of new interval
-    else:
-        error = abs(r_endpt[0] - l_int_pt[0])
-        if error < atol:
-            return r_int_pt
-        else:
-            return golden_search(l_int_pt, r_endpt, func, atol, iterlimit, r_int_pt, is_right_int_pt=False, num_iter=num_iter+1)
-            # `is_right_int_pt`=False because r_int_pt is now the left_int_pt of new interval
-
-
-def get_left_int_pt(left_x_endpt, right_x_endpt, func):
-    r"""
-    Calculates the left interior point of the interval.
-
-    This is an auxiliary function for :func:`golden_search`.
-
-    Parameters
-    ----------
-    left_x_endpt : float
-        x-coordinate of the left endpoint.
-
-    right_x_endpt : float
-        x-coordinate of the right endpoint.
-
-    func : function
-        Function we want to maximize (single-variable).
-
-    Returns
-    -------
-    tuple of mpmath floats
-        Coordinate for left interior point.
-    """
-    xl, xr = left_x_endpt, right_x_endpt
-    rho = (1/2) * (3 - mp.sqrt(5))
-    # this value for rho is equivalent to using golden ratio
-
-    l_int_x = xl + rho*(xr - xl) # voltage
-    l_int_y = func(l_int_x)
-    return (l_int_x, l_int_y)
-
-
-def get_right_int_pt(left_x_endpt, right_x_endpt, func):
-    r"""
-    Calculates the right interior point of the interval.
-
-    This is an auxiliary function for :func:`golden_search`.
-
-    Parameters
-    ----------
-    left_x_endpt : float
-        x-coordinate of the left endpoint.
-
-    right_x_endpt : float
-        x-coordinate of the right endpoint.
-
-    func : function
-        Function we want to maximize (single-variable).
-
-    Returns
-    -------
-    tuple of mpmath floats
-        Coordinate for right interior point.
-    """
-    xl, xr = left_x_endpt, right_x_endpt
-    rho = (1/2) * (3 - mp.sqrt(5))
-    # this value for rho is equivalent to using golden ratio
-
-    r_int_x = xl + (1 - rho)*(xr - xl) # voltage
-    r_int_y = func(r_int_x)
-    return (r_int_x, r_int_y)
-
+            if abs(bx - xlx) < atol:
+                return xrx, xry
+            ax = xlx
+    raise RuntimeError('Golden Search: maximum iteration count exceeded.')
 
 
 #######################
@@ -617,8 +515,8 @@ def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
         cells_in_series = int(ns)
 
         vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts)
-        v_oc = vv.max()
-        i_sc = ii.max()
+        v_oc = vv[-1]
+        i_sc = ii[0]
         v_mp, i_mp, p_mp = max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol)
         i_x = lambert_i_from_v(v_oc / 2, il, io, rs, rsh, n, vth, ns)
         i_xx = lambert_i_from_v((v_oc + v_mp) / 2, il, io, rs, rsh, n, vth, ns)
@@ -637,9 +535,11 @@ def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
             'Sweep direction': '', 'Datetime': '1970-01-01T00:00:00Z'
         })
 
-    test_set_json = {'Manufacturer': '', 'Model': '', 'Serial Number': '',
-                     'Module ID': '',  'Description': '', 'Material': '',
-                     'cells_in_series': cells_in_series, 'IV Curves': ivcurves}
+    test_set_json = {
+        'Manufacturer': '', 'Model': '', 'Serial Number': '',
+        'Module ID': '',  'Description': '', 'Material': '',
+        'cells_in_series': cells_in_series, 'IV Curves': ivcurves
+    }
 
     return test_set_json
 
@@ -678,8 +578,10 @@ if __name__ == '__main__':
             with open(f'{args.save_json_path}/{name}.json', 'w') as file:
                 json.dump(build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts), file, indent=2)
         if args.save_images_path:
-            plot_iv_curves(f'{args.save_images_path}/{name}',
-                           case_parameter_sets, vth, atol, num_pts, show=False,
-                           savefig=True, stack_plots=False)
+            plot_iv_curves(
+                f'{args.save_images_path}/{name}',
+                case_parameter_sets, vth, atol, num_pts, show=False,
+                savefig=True, stack_plots=False
+            )
         if args.plot:
             plot_iv_curves(name, case_parameter_sets, vth, atol, num_pts)

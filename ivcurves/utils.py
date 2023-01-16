@@ -10,6 +10,8 @@ IV_PARAMETER_NAMES = ['photocurrent', 'saturation_current',
                       'cells_in_series']
 
 
+
+
 def set_globals():
     r"""
     Sets library parameters that must be the same whenever the libraries are
@@ -23,7 +25,7 @@ def set_globals():
     - ``mpmath``: The precision of calculations (``mp.dps``) is set to 40
       decimal places.
     """
-    mp.dps = 40 # set precision, 16*2 rounded up
+    mp.dps = 40  # set precision, 16*2 rounded up
 
 
 def constants():
@@ -179,4 +181,3 @@ def get_filenames_in_directory(directory_path):
 
 
 set_globals()
-
