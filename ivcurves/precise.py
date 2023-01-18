@@ -121,16 +121,16 @@ def golden_search(a, b, func, atol, max_iters):
     rho = (1/2) * (3 - mp.sqrt(5))  # this value for rho is equivalent to using golden ratio
     for _ in range(max_iters):
         x_internal = lambda frac: a + frac * (b - a)
-        xlx = x_internal(rho)
-        xrx = x_internal(1 - rho)
-        if func(xlx) > func(xrx):
-            if abs(xrx - a) < atol:
-                return xlx
-            b = xrx
+        xl = x_internal(rho)
+        xr = x_internal(1 - rho)
+        if func(xl) > func(xr):
+            if abs(xr - a) < atol:
+                return xl
+            b = xr
         else:
-            if abs(b - xlx) < atol:
-                return xrx
-            a = xlx
+            if abs(b - xl) < atol:
+                return xr
+            a = xl
     raise RuntimeError('Golden Search: maximum iteration count exceeded.')
 
 
