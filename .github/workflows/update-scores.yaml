@@ -32,13 +32,12 @@ jobs:
                   continue
               pair = [pr_number, data['username'], data['submission_datetime']]
               pr_data.append(pair)
-          print(pr_data)
+          print(json.dumps(pr_data))
           ")
           echo PR_DATA=$PR_DATA >> ${{ github.env }}
       - name: Set pull request data output
         id: matrix
-        run: |
-          echo "::set-output name=pr-data::${{ env.PR_DATA }}"
+        run: echo 'pr-data=${{ env.PR_DATA }}' >> $GITHUB_OUTPUT
 
   collect-pr-submissions:
     runs-on: ubuntu-latest
@@ -100,6 +99,7 @@ jobs:
           path: submissions
       - name: Run all submissions
         env:
+          GH_TOKEN: ${{ github.token }}
           SUBMISSION_TIMEOUT: 2 # minutes
         run: |
           #               PR_DATA
@@ -182,7 +182,15 @@ jobs:
             exit_code=$submission_exit_code || $scorer_exit_code
 
             # validate and record updated scores in database
-            python3 .github/workflows/utils/record_scores.py --broken-if-invalid --pr-author ${pr_usernames[i]} --pr-number ${pr_numbers[i]} --pr-closed-at ${pr_datetimes[i]} --overall-scores-path "$submissions_folder"/overall_scores.csv --database-path docs/sphinx/source/scores_database.json
+            python3 .github/workflows/utils/record_scores.py \
+                --broken-if-invalid \
+                --pr-author ${pr_usernames[i]} \
+                --pr-number ${pr_numbers[i]} \
+                --pr-closed-at ${pr_datetimes[i]} \
+                --merge-commit $(gh pr view ${pr_numbers[i]} -q .mergeCommit.oid --json mergeCommit) \
+                --submission-main "$SUBMISSION_MAIN_PATH"/"$SUBMISSION_MAIN_FILENAME" \
+                --overall-scores-path "$submissions_folder"/overall_scores.csv \
+                --database-path docs/sphinx/source/scores_database.json
 
             # deactivate and remove virtual environment
             deactivate

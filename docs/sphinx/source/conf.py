@@ -47,8 +47,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinxcontrib.datatemplates',
     'sphinxcontrib.autoprogram',
-    'sphinxcontrib.mermaid',
-    'sphinx_substitution_extensions'
+    'sphinxcontrib.mermaid'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -76,9 +75,14 @@ html_theme = 'pydata_sphinx_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_css_files = []
+html_css_files = [
+    'https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css'
+]
 
-html_js_files = []
+html_js_files = [
+    'https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js',
+    'datatables/setup.js' # helper script to create the DataTables
+]
 
 html_theme_options = {
     'left_sidebar_end': []
@@ -86,6 +90,7 @@ html_theme_options = {
 
 html_sidebars = {
     'leaderboard': [],
+    'compare_submissions': [],
     'test_cases': [],
     'participating': [],
     'jsonschema': []
@@ -93,7 +98,10 @@ html_sidebars = {
 
 html_context = {
     'leaderboard': {
-        'leaderboard_entries': site_data.leaderboard_entry_list()
+        'entries': site_data.leaderboard_entry_list()
+    },
+    'compare_submissions': {
+        'table_rows': site_data.compare_submissions_table_rows()
     },
     'test_cases': {
         'test_case_data': site_data.test_set_name_to_parameters_and_image()
