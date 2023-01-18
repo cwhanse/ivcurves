@@ -88,21 +88,7 @@ def load_json(path):
 
 @pytest.fixture()
 def constants():
-    """
-    Commonly used constants of the ivcurves scripts.
-    These are copied from ivcurves/utils.py. If they change there, they should
-    also change here.
-    """
-    num_pts = 100
-    precision = 16
-    atol = mp.mpmathify(1e-16)
-
-    # Boltzmann's const (J/K), electron charge (C), temp (K)
-    k, q, temp_cell = map(mp.mpmathify, [1.380649e-23, 1.60217663e-19, 298.15])
-    vth = (k * temp_cell) / q
-
-    return {'k': k, 'q': q, 'temp_cell': temp_cell, 'vth': vth, 'atol': atol,
-            'precision': precision, 'num_pts': num_pts}
+    return utils.constants()
 
 
 @pytest.fixture()
