@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Record Scores &#8212; ivcurves 1.0 documentation</title>
 <script>
@@ -25,6 +25,7 @@
     href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
 
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
@@ -34,9 +35,10 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="../../../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="workflows.utils.record_scores.load_overall_scores" href="generated/workflows.utils.record_scores.load_overall_scores.html" />
@@ -485,6 +487,8 @@
 <h2>record_scores.py<a class="headerlink" href="#record-scores-py" title="Permalink to this heading">#</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: record_scores.py [-h] [--pr-author PR_AUTHOR] [--pr-number PR_NUMBER]</span>
 <span class="go">                        [--pr-closed-at PR_CLOSED_DATETIME]</span>
+<span class="go">                        [--merge-commit MERGE_COMMIT]</span>
+<span class="go">                        [--submission-main SUBMISSION_MAIN]</span>
 <span class="go">                        [--overall-scores-path OVERALL_SCORES_PATH]</span>
 <span class="go">                        [--database-path DATABASE_PATH]</span>
 <span class="go">                        [--broken-if-invalid | --no-broken-if-invalid]</span>
@@ -513,6 +517,18 @@
 <dt class="sig sig-object std" id="cmdoption-record_scores.py-pr-closed-at">
 <span id="cmdoption-record-scores-py-pr-closed-at"></span><span class="sig-name descname"><span class="pre">--pr-closed-at</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;pr_closed_datetime&gt;</span></span><a class="headerlink" href="#cmdoption-record_scores.py-pr-closed-at" title="Permalink to this definition">#</a></dt>
 <dd><p>Datetime when the GitHub pull request closed.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-record_scores.py-merge-commit">
+<span id="cmdoption-record-scores-py-merge-commit"></span><span class="sig-name descname"><span class="pre">--merge-commit</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;merge_commit&gt;</span></span><a class="headerlink" href="#cmdoption-record_scores.py-merge-commit" title="Permalink to this definition">#</a></dt>
+<dd><p>The commit created when the pull request was merged.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-record_scores.py-submission-main">
+<span id="cmdoption-record-scores-py-submission-main"></span><span class="sig-name descname"><span class="pre">--submission-main</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;submission_main&gt;</span></span><a class="headerlink" href="#cmdoption-record_scores.py-submission-main" title="Permalink to this definition">#</a></dt>
+<dd><p>The SUBMISSION_MAIN of the submission’s pr_config.json</p>
 </dd></dl>
 
 <dl class="std option">
@@ -603,7 +619,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
 </p>
   </div>
   

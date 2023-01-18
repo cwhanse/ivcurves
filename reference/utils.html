@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Utils &#8212; ivcurves 1.0 documentation</title>
 <script>
@@ -25,6 +25,7 @@
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
 
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
@@ -34,9 +35,10 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="ivcurves.utils.set_globals" href="generated/ivcurves.utils.set_globals.html" />
@@ -483,10 +485,10 @@
 <td><p>Finds the number of digits to the left of an mpmath float's decimal point.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.utils.mp_nstr_precision_func.html#ivcurves.utils.mp_nstr_precision_func" title="ivcurves.utils.mp_nstr_precision_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mp_nstr_precision_func</span></code></a>(num_mpf)</p></td>
-<td><p>Converts an mpmath float to a string with 16 significant digits after the decimal place.</p></td>
+<td><p>Converts an mpmath float to a string with at least 16 significant digits after the decimal place.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.utils.read_iv_curve_parameter_sets.html#ivcurves.utils.read_iv_curve_parameter_sets" title="ivcurves.utils.read_iv_curve_parameter_sets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_iv_curve_parameter_sets</span></code></a>(filename)</p></td>
-<td><p>Returns a dictionary of indices to a list of these values: Index, photocurrent, saturation_current, resistance_series, resistance_shunt, n, and cells_in_series.</p></td>
+<td><p>Returns a dictionary of indices to a list of these values: photocurrent, saturation_current, resistance_series, resistance_shunt, n, and cells_in_series.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.utils.make_iv_curve_name.html#ivcurves.utils.make_iv_curve_name" title="ivcurves.utils.make_iv_curve_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_iv_curve_name</span></code></a>(test_set_name, index)</p></td>
 <td><p>Returns a unique name for an IV curve created from parameters of a test set's test case.</p></td>
@@ -543,7 +545,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
 </p>
   </div>
   

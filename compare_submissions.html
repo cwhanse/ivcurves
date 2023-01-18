@@ -6,43 +6,41 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>cwhanse &#8212; ivcurves 1.0 documentation</title>
+    <title>Compare Submissions &#8212; ivcurves 1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
 </script>
 
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+  <link href="_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
 
 
   <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
 
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="../../_static/datatables/setup.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="sandia_simple" href="sandia_simple.html" />
-    <link rel="prev" title="Submissions" href="../index.html" />
+    <script src="_static/datatables/setup.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
   </head>
@@ -63,7 +61,7 @@
   
 
 
-<a class="navbar-brand logo" href="../../index.html">
+<a class="navbar-brand logo" href="index.html">
   
   
   
@@ -86,31 +84,31 @@
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
     <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../leaderboard.html">
+ <a class="reference internal nav-link" href="leaderboard.html">
   Leaderboard
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../test_cases.html">
+ <a class="reference internal nav-link" href="test_cases.html">
   Test Cases
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../participating.html">
+ <a class="reference internal nav-link" href="participating.html">
   How to Participate
  </a>
 </li>
 
-<li class="toctree-l1 current active nav-item">
- <a class="reference internal nav-link" href="../index.html">
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="submissions/index.html">
   Submissions
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../reference/index.html">
+ <a class="reference internal nav-link" href="reference/index.html">
   Documentation
  </a>
 </li>
@@ -146,45 +144,13 @@
       <div class="bd-container__inner row">
           
 
-<!-- Only show if we have sidebars configured, else just a small margin  -->
-<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
-  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <div class="bd-toc-item active">
-    <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
-   cwhanse
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="sandia_simple.html">
-     sandia_simple
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-  </div>
-</nav>
-  </div>
-  <div class="sidebar-end-items">
-  </div>
-</div>
+<div class="sidebar-primary col-12 col-md-1 col-xl-2 bd-sidebar no-sidebar"></div>
 
 
           
 
 
-<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+<div class="bd-sidebar-secondary d-none d-md-block col-md-2 bd-toc">
   
     
     <div class="toc-item">
@@ -205,17 +171,32 @@
 
           
           
-          <div class="bd-content col-12 col-md-9 col-xl-7">
+          <div class="bd-content col-12 col-md-9 col-xl-8">
               
               <article class="bd-article" role="main">
                 
-  <section id="cwhanse">
-<h1>cwhanse<a class="headerlink" href="#cwhanse" title="Permalink to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="sandia_simple.html">sandia_simple</a></li>
-</ul>
-</div>
+  <section id="compare-submissions">
+<span id="id1"></span><h1>Compare Submissions<a class="headerlink" href="#compare-submissions" title="Permalink to this heading">#</a></h1>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Submission</p></th>
+<th class="head"><p>Method Name</p></th>
+<th class="head"><p>Overall Score</p></th>
+<th class="head"><p>case1</p></th>
+<th class="head"><p>case2</p></th>
+<th class="head"><p>Links</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/cwhanse">cwhanse</a> (<a class="reference external" href="https://github.com/cwhanse/ivcurves/pull/16">#16</a>)</p></td>
+<td><p><a class="reference internal" href="submissions/cwhanse/sandia_simple.html"><span class="doc">sandia_simple</span></a></p></td>
+<td><p>63.0011</p></td>
+<td><p>32.0008</p></td>
+<td><p>31.0003</p></td>
+<td><p><a class="reference external" href="https://github.com/cwhanse/ivcurves/tree/0406e3e59828ee4ff555229b878c56d5307a9d98/submissions/cwhanse/sandia_simple.py">Code</a></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
@@ -226,20 +207,6 @@
               <footer class="bd-footer-article">
                   <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="../index.html" title="previous page">
-      <i class="fas fa-angle-left"></i>
-      <div class="prev-next-info">
-          <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Submissions</p>
-      </div>
-  </a>
-  <a class='right-next' id="next-link" href="sandia_simple.html" title="next page">
-  <div class="prev-next-info">
-      <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">sandia_simple</p>
-  </div>
-  <i class="fas fa-angle-right"></i>
-  </a>
 </div>
               </footer>
               
@@ -251,7 +218,7 @@
   
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
 
 <footer class="bd-footer"><div class="bd-footer__inner container">
   

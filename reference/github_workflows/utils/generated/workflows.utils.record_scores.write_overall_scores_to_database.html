@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>workflows.utils.record_scores.write_overall_scores_to_database &#8212; ivcurves 1.0 documentation</title>
 <script>
@@ -25,6 +25,7 @@
     href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
 
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
@@ -34,9 +35,10 @@
     <script src="../../../../_static/underscore.js"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="../../../../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="prev" title="workflows.utils.record_scores.validate_overall_scores" href="workflows.utils.record_scores.validate_overall_scores.html" />
@@ -448,23 +450,9 @@
     
     <div class="toc-item">
       
-<div class="tocsection onthispage mt-5 pt-1 pb-3">
-    <i class="fas fa-list"></i> On this page
-</div>
 
 <nav id="bd-toc-nav">
-    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#workflows.utils.record_scores.write_overall_scores_to_database">
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     write_overall_scores_to_database()
-    </span>
-   </code>
-  </a>
- </li>
-</ul>
-
+    
 </nav>
     </div>
     
@@ -486,13 +474,15 @@
 <h1>workflows.utils.record_scores.write_overall_scores_to_database<a class="headerlink" href="#workflows-utils-record-scores-write-overall-scores-to-database" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="workflows.utils.record_scores.write_overall_scores_to_database">
-<span class="sig-prename descclassname"><span class="pre">workflows.utils.record_scores.</span></span><span class="sig-name descname"><span class="pre">write_overall_scores_to_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pr_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pr_author</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pr_closed_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overall_scores</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#workflows.utils.record_scores.write_overall_scores_to_database" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">workflows.utils.record_scores.</span></span><span class="sig-name descname"><span class="pre">write_overall_scores_to_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pr_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pr_author</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pr_closed_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_commit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submission_main</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overall_scores</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#workflows.utils.record_scores.write_overall_scores_to_database" title="Permalink to this definition">#</a></dt>
 <dd><p>Writes an entry in the JSON scores database.
 The scores database has this structure:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
    <span class="s2">&quot;&lt;pr_number&gt;&quot;</span><span class="p">:</span> <span class="p">{</span>
        <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;pr_author&gt;&quot;</span><span class="p">,</span>
        <span class="s2">&quot;submission_datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;pr_closed_datetime&gt;&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;merge_commit&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;pr_merge_commit_sha&gt;&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;submission_main&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;SUBMISSION_MAIN_from_pr_config.json&gt;&quot;</span><span class="p">,</span>
        <span class="s2">&quot;test_sets&quot;</span><span class="p">:</span> <span class="p">{</span>
            <span class="s2">&quot;&lt;test_set_filename&gt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;score&gt;&quot;</span><span class="p">,</span>
            <span class="o">...</span>
@@ -513,6 +503,9 @@ The primary key is a compound key of <code class="docutils literal notranslate">
 <li><p><strong>database</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – The scores database.</p></li>
 <li><p><strong>pr_number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The pull request number.</p></li>
 <li><p><strong>pr_author</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The author of the pull request.</p></li>
+<li><p><strong>pr_closed_datetime</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The datetime the pull request was closed.</p></li>
+<li><p><strong>merge_commit</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The SHA of the commit when the pull request was merged.</p></li>
+<li><p><strong>submission_main</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – SUBMISSION_MAIN from the submission’s pr_config.json.</p></li>
 <li><p><strong>overall_scores</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – A dictionary from test set filenames (excluding file extensions) to
 strings representing scores.</p></li>
 </ul>
@@ -560,7 +553,7 @@ strings representing scores.</p></li>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
 </p>
   </div>
   
