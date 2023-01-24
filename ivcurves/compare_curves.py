@@ -68,7 +68,9 @@ def find_x_intersection(single_diode, known_xs, known_ys, xp, yp, num_segments, 
         line = lambda x : (yp / xp) * x
 
         # solve for intersection of line and single_diode
-        solve_for_zero = lambda x : single_diode(x, line(x)) - line(x)
+        solve_for_zero = lambda x: single_diode(x, line(x)) - line(x)
+        func = lambda x: -abs(solve_for_zero(x))
+        guess_int = precise.golden_search(min(known_xs), max(known_xs), func, atol, maxsteps)
         guess_int = get_guess_interval(known_xs, known_ys, (xp, yp), num_segments)
         try:
             # setting tol=atol**2 because findroot checks |func(zero)|**2 < tol
