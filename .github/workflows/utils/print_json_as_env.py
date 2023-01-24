@@ -190,4 +190,3 @@ if __name__ == '__main__':
     format_variable_values(flat_json, **args.__dict__)
 
     print_json_as_env(flat_json)
-

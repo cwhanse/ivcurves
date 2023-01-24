@@ -1,12 +1,8 @@
 import argparse
 import csv
-import enum
 import json
-import pathlib
 
-
-ROOT_DIR = pathlib.Path(f'{__file__}/../../../..').resolve()
-TEST_SETS_DIR = pathlib.Path(f'{ROOT_DIR}/test_sets')
+from ivcurves import utils
 
 
 def load_json(filename):
@@ -49,19 +45,6 @@ def load_overall_scores(filename):
         return {}
 
 
-def test_set_filenames():
-    """
-    Returns a set of filenames in the directory ``directory_path``.
-    The filenames do not have file extensions.
-
-    Returns
-    -------
-    set
-        A set of filenames without file extensions.
-    """
-    return {entry.stem for entry in TEST_SETS_DIR.iterdir() if entry.is_file()}
-
-
 def validate_overall_scores(overall_scores):
     """
     Given a dictionary of overall scores (see :func:`load_overall_scores`),
@@ -87,7 +70,7 @@ def validate_overall_scores(overall_scores):
     overall_scores_keys = set(overall_scores.keys())
 
     # Proceed with normal validation
-    valid_test_set_filenames = test_set_filenames()
+    valid_test_set_filenames = utils.get_filenames_in_directory(utils.TEST_SETS_DIR)
     missing_test_set_filenames = valid_test_set_filenames - overall_scores_keys
 
     if missing_test_set_filenames:
@@ -230,9 +213,8 @@ def record_scores():
     else:
         raise ValueError(validation_msg)
 
-    save_json(database, f'{ROOT_DIR}/{args.database_path}')
+    save_json(database, utils.REPO_ROOT_DIR / args.database_path)
 
 
 if __name__ == '__main__':
     record_scores()
-

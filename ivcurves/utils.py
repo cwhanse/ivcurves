@@ -4,7 +4,9 @@ import scipy
 from mpmath import mp
 
 
-TEST_SETS_DIR = Path(__file__).parent / 'test_sets'
+IVCURVES_DIR = Path(__file__).parent
+REPO_ROOT_DIR = IVCURVES_DIR / '..'
+TEST_SETS_DIR = IVCURVES_DIR / 'test_sets'
 IV_PARAMETER_NAMES = ['photocurrent', 'saturation_current',
                       'resistance_series', 'resistance_shunt', 'n',
                       'cells_in_series']
@@ -165,12 +167,15 @@ def get_filenames_in_directory(directory_path):
     Returns a set of entries in the directory ``directory_path``.
     The filenames do not have file extensions.
 
+    directory_path : pathlib.Path
+        A directory pointer.
+
     Returns
     -------
     set
         A set of filenames without file extensions.
     """
-    return {entry.stem for entry in Path(directory_path).iterdir()}
+    return {entry.stem for entry in directory_path.iterdir()}
 
 
 set_globals()

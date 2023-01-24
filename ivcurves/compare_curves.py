@@ -1,10 +1,10 @@
 import argparse
 import csv
-import pvlib
+from pathlib import Path
 import matplotlib.pyplot as plt
 
 # from ivcurves repo
-from ivcurves.utils import mp # same instance of mpmath's mp imported in ivcurves/utils
+from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
 import ivcurves.utils as utils
 import ivcurves.precise as precise
 
@@ -335,7 +335,7 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
         # if voltage, current pair not a precise enough solution to single diode equation, make more precise
         dff = precise.diff_lhs_rhs(new_voltage, new_current, il, io, rs, rsh, n, vth, ns)
         if abs(dff) > atol:
-            new_current = mp.findroot(lambda y : precise.diff_lhs_rhs(new_voltage, y, il, io, rs, rsh, n, vth, ns), new_current, tol=atol**2)
+            new_current = mp.findroot(lambda y: precise.diff_lhs_rhs(new_voltage, y, il, io, rs, rsh, n, vth, ns), new_current, tol=atol**2)
 
         # calculate distance between these points, and add to score
         score += find_distance(new_voltage, new_current, v, i)
@@ -545,7 +545,7 @@ def get_test_sets_to_score(fitted_files_directory, test_set=''):
 
     Parameters
     ----------
-    fitted_files_directory : str
+    fitted_files_directory : pathlib.Path
         Directory that contains files whose filenames are test set filenames.
 
     test_set : str, default ''
@@ -562,14 +562,14 @@ def get_test_sets_to_score(fitted_files_directory, test_set=''):
     test_sets_to_score = []
     if test_set:
         if test_set not in test_set_names:
-            raise ValueError(f'\'{test_set}\' is not a test set')
+            raise ValueError(f"'{test_set}' is not a test set")
         test_sets_to_score = [test_set]
     else:
         filenames = utils.get_filenames_in_directory(fitted_files_directory)
         test_sets_to_score = [f for f in filenames if f in test_set_names]
         test_sets_to_score.sort()
         if not test_sets_to_score:
-            raise ValueError(f'no test sets found in \'{fitted_files_directory}\'')
+            raise ValueError(f"no test sets found in '{fitted_files_directory}'")
     return test_sets_to_score
 
 
@@ -589,7 +589,7 @@ def write_test_set_score_per_curve_csvs(scores, csv_output_path):
     csv_columns = ['Index', 'score']
     nstr = utils.mp_nstr_precision_func
     for name, cases in scores.items():
-        with open(f'{csv_output_path}/{name}_scores.csv', 'w') as file:
+        with open(csv_output_path / f'{name}_scores.csv', 'w') as file:
             writer = csv.writer(file, delimiter=',')
             writer.writerow(csv_columns)
             for idx, score in cases.items():
@@ -612,7 +612,7 @@ def write_overall_scores_csv(scores, csv_output_path):
     """
     csv_columns = ['test_set', 'score']
     nstr = utils.mp_nstr_precision_func
-    with open(f'{csv_output_path}/overall_scores.csv', 'w') as file:
+    with open(csv_output_path / 'overall_scores.csv', 'w') as file:
         writer = csv.writer(file, delimiter=',')
         writer.writerow(csv_columns)
         for name, cases in scores.items():
@@ -625,11 +625,11 @@ def get_argparser():
         description='Measure the distance between IV curves generated from '
                     'the parameters of the single diode equation.'
     )
-    parser.add_argument('fitted_files_directory', type=str,
+    parser.add_argument('fitted_files_directory', type=Path,
                         help='Directory containing fitted parameter CSV files.')
     parser.add_argument('--test-set', dest='test_set', type=str, default='',
                         help='Name of test set to score.')
-    parser.add_argument('--csv-output-path', dest='csv_output_path', type=str,
+    parser.add_argument('--csv-output-path', dest='csv_output_path', type=Path,
                         default='.', help='Directory where to write output CSV files.')
     parser.add_argument('--plot', action=argparse.BooleanOptionalAction,
                         help='Plot each IV curve fit.')
@@ -657,8 +657,8 @@ if __name__ == '__main__':
 
     for name in test_sets_to_score:
         scores[name] = {}
-        known_parameter_sets = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
-        fitted_parameter_sets = utils.read_iv_curve_parameter_sets(f'{args.fitted_files_directory}/{name}')
+        known_parameter_sets = utils.read_iv_curve_parameter_sets(utils.TEST_SETS_DIR / name)
+        fitted_parameter_sets = utils.read_iv_curve_parameter_sets(args.fitted_files_directory / name)
         for idx, known_p in known_parameter_sets.items():
             fitted_p = fitted_parameter_sets[idx]
             scores[name][idx] = total_score(known_p, fitted_p, vth, num_compare_pts, atol)
