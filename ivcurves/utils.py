@@ -1,10 +1,10 @@
 import csv
-import pathlib
+from pathlib import Path
 import scipy
 from mpmath import mp
 
 
-TEST_SETS_DIR = f'{pathlib.Path(__file__).parent}/../test_sets'
+TEST_SETS_DIR = Path(__file__).parent / 'test_sets'
 IV_PARAMETER_NAMES = ['photocurrent', 'saturation_current',
                       'resistance_series', 'resistance_shunt', 'n',
                       'cells_in_series']
@@ -170,7 +170,7 @@ def get_filenames_in_directory(directory_path):
     set
         A set of filenames without file extensions.
     """
-    return {entry.stem for entry in pathlib.Path(directory_path).iterdir()}
+    return {entry.stem for entry in Path(directory_path).iterdir()}
 
 
 set_globals()
