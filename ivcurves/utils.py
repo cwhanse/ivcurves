@@ -1,4 +1,5 @@
 import csv
+import json
 from pathlib import Path
 import scipy
 from mpmath import mp
@@ -176,6 +177,23 @@ def get_filenames_in_directory(directory_path):
         A set of filenames without file extensions.
     """
     return {entry.stem for entry in directory_path.iterdir()}
+
+
+def load_json(path):
+    """
+    Returns a dict of JSON at ``path``.
+
+    Parameters
+    ----------
+    path : pathlib.Path, str
+        The path to the JSON file.
+
+    Returns
+    -------
+        dict
+    """
+    with open(path) as f:
+        return json.load(f)
 
 
 set_globals()

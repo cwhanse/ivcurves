@@ -457,7 +457,8 @@ def plot_iv_curves(test_set_filename, case_parameter_sets, vth, atol, num_pts,
         plt.show()
 
 
-def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
+def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts,
+                        test_set_json=None):
     """
     Builds a dict of IV curve data compliant with the IV Curve JSON schema.
 
@@ -485,8 +486,21 @@ def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
 
     Returns
     -------
-        dict
+        cells_in_series, dict
     """
+    test_set_json_template = {
+        'Manufacturer': '', 'Model': '', 'Serial Number': '',
+        'Module ID': '',  'Description': '', 'Material': '',
+        'cells_in_series': None, 'IV Curves': []
+    }
+    if test_set_json is None:
+        test_set_json = test_set_json_template
+    else:
+        # make sure the json only has the keys listed in the template
+        for k in test_set_json_template:
+            test_set_json_template[k] = test_set_json[k]
+        test_set_json = test_set_json_template
+
     ivcurves = []
 
     # this is set in the loop below, and is the same for every iv curve
@@ -518,11 +532,8 @@ def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts):
             'Sweep direction': '', 'Datetime': '1970-01-01T00:00:00Z'
         })
 
-    test_set_json = {
-        'Manufacturer': '', 'Model': '', 'Serial Number': '',
-        'Module ID': '',  'Description': '', 'Material': '',
-        'cells_in_series': cells_in_series, 'IV Curves': ivcurves
-    }
+    test_set_json['cells_in_series'] = cells_in_series
+    test_set_json['IV Curves'] = ivcurves
 
     return test_set_json
 
@@ -556,10 +567,15 @@ if __name__ == '__main__':
     vth, temp_cell, atol, num_pts = (constants['vth'], constants['temp_cell'],
                                      constants['atol'], constants['num_pts'])
     for name in test_set_filenames:
-        case_parameter_sets = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
+        case_parameter_sets = utils.read_iv_curve_parameter_sets(utils.TEST_SETS_DIR / name)
         if args.save_json_path:
-            with open(f'{args.save_json_path}/{name}.json', 'w') as file:
-                json.dump(build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts), file, indent=2)
+            test_set_json = None
+            test_set_json_path = utils.TEST_SETS_DIR / f'{name}.json'
+            if test_set_json_path.exists():
+                test_set_json = utils.load_json(test_set_json_path)
+            with open(args.save_json_path / f'{name}.json', 'w') as file:
+                test_set_json = build_test_set_json(name, case_parameter_sets, vth, temp_cell, atol, num_pts, test_set_json=test_set_json)
+                json.dump(test_set_json, file, indent=2)
         if args.save_images_path:
             plot_iv_curves(
                 f'{args.save_images_path}/{name}',

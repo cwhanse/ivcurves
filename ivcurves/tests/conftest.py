@@ -69,23 +69,6 @@ def test_set_to_pandas_df(test_set_parameter_sets, test_set_json):
     return joined
 
 
-def load_json(path):
-    """
-    Returns a dict of JSON at ``path``.
-
-    Parameters
-    ----------
-    path : pathlib.Path, str
-        The path to the JSON file.
-
-    Returns
-    -------
-        dict
-    """
-    with open(path) as f:
-        return json.load(f)
-
-
 @pytest.fixture()
 def constants():
     return utils.constants()
@@ -93,7 +76,7 @@ def constants():
 
 @pytest.fixture()
 def ivcurve_jsonschema():
-    return load_json(IVCURVES_DIR / 'ivcurve_jsonschema.json')
+    return utils.load_json(IVCURVES_DIR / 'ivcurve_jsonschema.json')
 
 
 @pytest.fixture()
@@ -104,7 +87,7 @@ def ivcurve_jsonschema_validator(ivcurve_jsonschema):
 
 
 @pytest.fixture(scope='function', params=list(map(
-    lambda name: f'{utils.TEST_SETS_DIR}/{name}',
+    lambda name: utils.TEST_SETS_DIR / name,
     utils.get_filenames_in_directory(utils.TEST_SETS_DIR)
 )))
 def test_set_csv_info(request):
@@ -116,9 +99,10 @@ def test_set_csv_info(request):
 def test_set_csv_info_and_json(test_set_csv_info, constants):
     vth, temp_cell, atol, num_pts = (constants['vth'], constants['temp_cell'],
                                      constants['atol'], constants['num_pts'])
-    filename, parameter_set = test_set_csv_info
-    test_set_json = precise.build_test_set_json(parameter_set, vth, temp_cell,
-                                                atol, num_pts)
+    _, parameter_set = test_set_csv_info
+    test_set_json = precise.build_test_set_json(
+        parameter_set, vth, temp_cell, atol, num_pts
+    )
     return test_set_csv_info, test_set_json
 
 
@@ -136,12 +120,12 @@ def test_set_as_pandas_df(test_set_csv_info_and_json):
 
 @pytest.fixture()
 def scores_database_json():
-    return load_json(DOCS_DIR / 'scores_database.json')
+    return utils.load_json(DOCS_DIR / 'scores_database.json')
 
 
 @pytest.fixture()
 def scores_database_jsonschema():
-    return load_json(DOCS_DIR / 'scores_database_jsonschema.json')
+    return utils.load_json(DOCS_DIR / 'scores_database_jsonschema.json')
 
 
 @pytest.fixture()
