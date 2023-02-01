@@ -443,7 +443,8 @@ def plot_iv_curves(test_set_filename, case_parameter_sets, vth, atol, num_pts,
         the last IV curve generated will be plotted.
     """
     plt.style.use('seaborn-darkgrid')
-    for idx, params in case_parameter_sets.items():
+    for idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
+        params = il, io, rs, rsh, n, vth, ns
         plt.xlabel('Voltage')
         plt.ylabel('Current')
         v_vals, i_vals = get_precise_i(*params, atol=atol, num_pts=num_pts)
