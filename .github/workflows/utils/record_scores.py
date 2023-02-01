@@ -56,6 +56,8 @@ def validate_overall_scores(overall_scores):
         Boolean for whether ``overall_scores`` is valid or not, and a string
         for an error message.
     """
+    import pdb
+    pdb.set_trace()
     overall_scores_keys = set(overall_scores.keys())
 
     # Proceed with normal validation

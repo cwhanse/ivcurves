@@ -15,11 +15,11 @@ import print_json_as_env
 
 @pytest.mark.parametrize('pr_config, bad_key', [
     ({'RUN_SCORER': False,
-      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'requirements.txt'),
+      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'precise.py'),
       'SUBMISSION_MAIN': str(ROOT_DIR / 'ivcurves' / 'precise.py')
     }, None),
     ({'RUN_SCORER': True,
-      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'requirements.txt'),
+      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'precise.py'),
       'SUBMISSION_MAIN': str(ROOT_DIR / 'ivcurves' / 'precise.py')
     }, 'RUN_SCORER'),
     ({'RUN_SCORER': True,
@@ -27,14 +27,14 @@ import print_json_as_env
       'SUBMISSION_MAIN': str(ROOT_DIR / 'ivcurves' / 'precise.py')
     }, 'REQUIREMENTS'),
     ({'RUN_SCORER': True,
-      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'requirements.txt'),
+      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'precise.py'),
       'SUBMISSION_MAIN': str(ROOT_DIR / 'ivcurves' / 'does_not_exist.py')
     }, 'SUBMISSION_MAIN'),
     ({'RUN_SCORER': True,
-      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'requirements.txt'),
+      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'precise.py'),
     }, 'SUBMISSION_MAIN'),
     ({'RUN_SCORER': True,
-      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'requirements.txt'),
+      'REQUIREMENTS': str(ROOT_DIR / 'ivcurves' / 'precise.py'),
       'SUBMISSION_MAIN': str(ROOT_DIR / 'ivcurves' / 'precise.py'),
       'EXTRA_KEY': 'str'
     }, 'EXTRA_KEY')
