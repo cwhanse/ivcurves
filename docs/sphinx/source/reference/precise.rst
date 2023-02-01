@@ -16,4 +16,5 @@ Precise
    diff_lhs_rhs
    get_precise_i
    plot_iv_curves
+   build_test_set_json
 
