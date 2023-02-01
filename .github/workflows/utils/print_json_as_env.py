@@ -1,11 +1,7 @@
 import argparse
-import json
 from pathlib import Path
 
-
-def load_json(filename):
-    with open(filename, 'r') as file:
-        return json.load(file)
+import ivcurves.utils as utils
 
 
 def validate_pr_config(pr_config_json):
@@ -55,11 +51,9 @@ def validate_pr_config(pr_config_json):
 
 def format_bool_variables(key, validated_dict, **options):
     """
-    Converts ``validated_dict[key]`` from a bool to a bash-style Boolean
-    string. This modifies ``validated_dict``. If ``validated_dict[key]`` is
-    not a bool, nothing is done.
-
-    This function does not check ``options``.
+    Converts ``validated_dict[key]`` from a bool to a bash-style Boolean string
+    If ``validated_dict[key]`` is not a bool, nothing is done. This modifies
+    ``validated_dict``.
 
     Parameters
     ----------
@@ -71,31 +65,18 @@ def format_bool_variables(key, validated_dict, **options):
         a bool.
 
     options : kwargs
-        A dict containing options that affect the behavior of the functions
-        called during the iteration.
+        Any keyword arguments not used by this function.
     """
     value = validated_dict[key]
     if isinstance(value, bool):
         validated_dict[key] = 'true' if value else 'false'
 
 
-def format_path_variables(key, validated_dict, **options):
+def format_path_variables(key, validated_dict, split_path_variables=True, **options):
     """
-    Converts ``validated_dict[key]`` from a ``pathlib.Path`` to a string
-    containing the path in quotes. This modifies ``validated_dict``. If
-    ``validated_dict[key]`` is not a ``pathlib.Path``, nothing is done.
-
-    The ``options`` that are used by this function are:
-
-    - ``split_path_variables`` : bool
-
-      If ``split_path_variables`` is ``True``, two additional entires are added
-      to ``validated_dict``:
-
-      - ``{key}_FILENAME``: only the filename that ``validated_dict[key]`` points
-        to.
-      - ``{key}_PATH``: only the path to the parent folder containing the file
-        ``validated_dict[key]`` points to.
+    Converts ``validated_dict[key]`` from a ``pathlib.Path`` to a string. If
+    ``validated_dict[key]`` is not a ``pathlib.Path``, nothing is done. This
+    modifies ``validated_dict``.
 
     Parameters
     ----------
@@ -106,23 +87,23 @@ def format_path_variables(key, validated_dict, **options):
         A dict with key ``key`` where ``validated_dict[key]`` is possibly
         a ``pathlib.Path``.
 
-    options : kwargs
-        A dict containing options that affect the behavior of the functions
-        called during the iteration.
-    """
-    str_path = lambda path: str(path)
-    quote_path = lambda path: f'"{path}"'
-    if options.get('quote_path_variables', False):
-        format_path = quote_path
-    else:
-        format_path = str_path
+    split_path_variables : bool
+        Adds two additional entires to ``validated_dict``:
 
+            - ``{key}_FILENAME``: only the filename that
+                ``validated_dict[key]`` points to.
+            - ``{key}_PATH``: only the path to the parent folder containing the
+                file ``validated_dict[key]`` points to.
+
+    options : kwargs
+        Any keyword arguments not used by this function.
+    """
     value = validated_dict[key]
     if isinstance(value, Path):
-        validated_dict[key] = format_path(value)
-        if options.get('split_path_variables', False):
-            validated_dict[f'{key}_FILENAME'] = format_path(value.name)
-            validated_dict[f'{key}_PATH'] = format_path(value.parent)
+        validated_dict[key] = str(value)
+        if split_path_variables:
+            validated_dict[f'{key}_FILENAME'] = str(value.name)
+            validated_dict[f'{key}_PATH'] = str(value.parent)
 
 
 def format_variable_values(validated_dict, **options):
@@ -181,7 +162,7 @@ def get_argparser():
 
 if __name__ == '__main__':
     args = get_argparser().parse_args()
-    flat_json = load_json(args.path)
+    flat_json = utils.load_json(args.path)
 
     if args.validate_pr_config:
         validate_pr_config(flat_json)

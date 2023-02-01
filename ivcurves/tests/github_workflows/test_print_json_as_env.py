@@ -53,16 +53,21 @@ def test_validate_pr_config(pr_config, bad_key):
             assert bad_key in str(e), f"'{bad_key}' did not cause the validation error."
 
 
+def test_format_bool_variables():
+    validated_dict = dict(is_true=True, is_false=False)
+    print_json_as_env.format_variable_values(validated_dict)
+
+    assert validated_dict['is_true'] == 'true'
+    assert validated_dict['is_false'] == 'false'
+
+
 def test_format_path_variables():
     key = 'REQUIREMENTS'
     directory = 'ivcurves'
     file = 'requirements.txt'
     validated_dict = {key: ROOT_DIR / directory / file}
-    print_json_as_env.format_variable_values(validated_dict,
-                                              split_path_variables=True,
-                                              quote_path_variables=True)
+    print_json_as_env.format_variable_values(validated_dict, split_path_variables=True)
 
-    assert validated_dict[key] == f'"{ROOT_DIR / directory / file}"'
-    assert validated_dict[f'{key}_FILENAME'] == f'"{file}"'
-    assert validated_dict[f'{key}_PATH'] == f'"{ROOT_DIR / directory}"'
-
+    assert validated_dict[key] == str(ROOT_DIR / directory / file)
+    assert validated_dict[f'{key}_FILENAME'] == str(file)
+    assert validated_dict[f'{key}_PATH'] == str(ROOT_DIR / directory)
