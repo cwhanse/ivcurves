@@ -41,7 +41,7 @@ import print_json_as_env
 ])
 def test_validate_pr_config(pr_config, bad_key):
     try:
-        print_json_as_env.validate_pr_config(pr_config)
+        print_json_as_env.validate_pr_config(ROOT_DIR, pr_config)
         # no error was thrown
         assert pr_config['REQUIREMENTS'].exists()
         assert pr_config['SUBMISSION_MAIN'].exists()

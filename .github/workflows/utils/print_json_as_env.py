@@ -4,7 +4,7 @@ from pathlib import Path
 import ivcurves.utils as utils
 
 
-def validate_pr_config(pr_config_json):
+def validate_pr_config(submissions_root_path, pr_config_json):
     """
     Validates that ``RUN_SCORER`` is a Boolean, and ``REQUIREMENTS`` and
     ``SUBMISSION_MAIN`` are paths that point to existing files, and converts
@@ -13,6 +13,9 @@ def validate_pr_config(pr_config_json):
 
     Parameters
     ----------
+    submissions_root_path : pathlib.Path
+        The path to the directory containing the pr_config.json
+
     pr_config_json : dict
         A dictionary from environment variable names to their values.
 
@@ -28,8 +31,8 @@ def validate_pr_config(pr_config_json):
     }
     schema = {
         'RUN_SCORER': defn(bool, lambda v: isinstance(v, bool), 'must be a Boolean'),
-        'REQUIREMENTS': defn(Path, lambda v: Path(v).exists(), 'path does not exist'),
-        'SUBMISSION_MAIN': defn(Path, lambda v: Path(v).exists(), 'path does not exist')
+        'REQUIREMENTS': defn(Path, lambda v: Path(submissions_root_path / v).exists(), 'path does not exist'),
+        'SUBMISSION_MAIN': defn(Path, lambda v: Path(submissions_root_path / v).exists(), 'path does not exist')
     }
 
     missing_keys = set(schema.keys()) - set(pr_config_json.keys())
@@ -150,7 +153,7 @@ def get_argparser():
     parser = argparse.ArgumentParser(
         description='Prints entries in flat JSON object like environment variables.'
     )
-    parser.add_argument('path', type=str, help='Path to the JSON file.')
+    parser.add_argument('path', type=Path, help='Path to the JSON file.')
     parser.add_argument('--validate-pr-config', action=argparse.BooleanOptionalAction,
                         help='Runs the pr_config.json validator.')
     parser.add_argument('--split-path-variables', action=argparse.BooleanOptionalAction,
@@ -165,7 +168,7 @@ if __name__ == '__main__':
     flat_json = utils.load_json(args.path)
 
     if args.validate_pr_config:
-        validate_pr_config(flat_json)
+        validate_pr_config(args.path.parent, flat_json)
 
     # Run bash environment variable formatting
     format_variable_values(flat_json, **args.__dict__)
