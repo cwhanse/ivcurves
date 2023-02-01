@@ -1,6 +1,4 @@
-from pathlib import Path
 import pytest
-from mpmath import mp
 import jschon
 import numpy as np
 import pandas as pd
@@ -10,14 +8,9 @@ import scipy
 # output should not be expected to be correct when used here. Functions used
 # from ivcurves should be very simple or also tested elsewhere, and make the
 # test suite easier to maintain due to their use here.
+from ivcurves.utils import mp
 import ivcurves.utils as utils
 import ivcurves.precise as precise
-
-
-TEST_DIR = Path(__file__).parent
-IVCURVES_DIR = TEST_DIR / '..'
-DOCS_DIR = IVCURVES_DIR / '..' / 'docs' / 'sphinx' / 'source'
-mp.dps = 40
 
 
 def test_set_to_pandas_df(test_set_parameter_sets, test_set_json):
@@ -75,7 +68,7 @@ def constants():
 
 @pytest.fixture()
 def ivcurve_jsonschema():
-    return utils.load_json(IVCURVES_DIR / 'ivcurve_jsonschema.json')
+    return utils.load_json(utils.IVCURVES_DIR / 'ivcurve_jsonschema.json')
 
 
 @pytest.fixture()
@@ -119,12 +112,12 @@ def test_set_as_pandas_df(test_set_csv_info_and_json):
 
 @pytest.fixture()
 def scores_database_json():
-    return utils.load_json(DOCS_DIR / 'scores_database.json')
+    return utils.load_json(utils.DOCS_DIR / 'scores_database.json')
 
 
 @pytest.fixture()
 def scores_database_jsonschema():
-    return utils.load_json(DOCS_DIR / 'scores_database_jsonschema.json')
+    return utils.load_json(utils.DOCS_DIR / 'scores_database_jsonschema.json')
 
 
 @pytest.fixture()
