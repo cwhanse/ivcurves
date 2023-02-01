@@ -573,9 +573,11 @@ if __name__ == '__main__':
             test_set_json_path = utils.TEST_SETS_DIR / f'{name}.json'
             if test_set_json_path.exists():
                 test_set_json = utils.load_json(test_set_json_path)
-            with open(args.save_json_path / f'{name}.json', 'w') as file:
-                test_set_json = build_test_set_json(name, case_parameter_sets, vth, temp_cell, atol, num_pts, test_set_json=test_set_json)
-                json.dump(test_set_json, file, indent=2)
+                test_set_json = build_test_set_json(
+                    name, case_parameter_sets, vth, temp_cell, atol, num_pts,
+                    test_set_json=test_set_json
+                )
+                utils.save_json(test_set_json, args.save_json_path / f'{name}.json')
         if args.save_images_path:
             plot_iv_curves(
                 f'{args.save_images_path}/{name}',

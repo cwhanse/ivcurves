@@ -78,8 +78,8 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install ivcurves requirements
-        run: pip3 install -r ivcurves/requirements.txt
+      - name: Install ivcurves
+        run: pip3 install .
       - name: Install submission requirements
         working-directory: submissions/${{ env.CONTRIBUTOR }}/${{ env.REQUIREMENTS_PATH }}
         run: pip3 install -r "${{ env.REQUIREMENTS_FILENAME }}"

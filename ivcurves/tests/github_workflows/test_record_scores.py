@@ -14,8 +14,7 @@ sys.path.insert(0, GITHUB_WORKFLOW_UTILS_PATH)
 import record_scores
 
 
-def test_scores_database_pass_jsonschema_validation(scores_database_json,
-                                                    scores_database_jsonschema_validator):
+def test_scores_database_pass_jsonschema_validation(scores_database_json, scores_database_jsonschema_validator):
     result = scores_database_jsonschema_validator.evaluate(jschon.JSON(scores_database_json))
     validation_messages = result.output('basic')
     assert validation_messages['valid']
@@ -35,4 +34,3 @@ def test_validate_overall_scores(overall_scores, bad_test_set):
     else:
         assert not is_valid
         assert bad_test_set in msg, f"'{bad_test_set}' did not cause the validation error."
-

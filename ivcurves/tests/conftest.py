@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 import pytest
 from mpmath import mp
@@ -81,7 +80,7 @@ def ivcurve_jsonschema():
 
 @pytest.fixture()
 def ivcurve_jsonschema_validator(ivcurve_jsonschema):
-    jschon.create_catalog('2020-12') # identify the JSON Schema version used
+    jschon.create_catalog('2020-12')  # identify the JSON Schema version used
     schema_validator = jschon.JSONSchema(ivcurve_jsonschema)
     return schema_validator
 

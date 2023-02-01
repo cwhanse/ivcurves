@@ -77,7 +77,7 @@ def mp_num_digits_left_of_decimal(num_mpf):
         res = mp.nstr(num_mpf, n=precision*2, min_fixed=-mp.inf,
                       max_fixed=mp.inf).find('.')
         if num_mpf < 0:
-            return res - 1 # ignore negative sign '-'
+            return res - 1  # ignore negative sign '-'
         else:
             return res
 
@@ -194,6 +194,19 @@ def load_json(path):
     """
     with open(path) as f:
         return json.load(f)
+
+
+def save_json(json_dict, path):
+    """
+    Saves a dict of JSON to the file ``path`` with indent 2.
+
+    Parameters
+    ----------
+    path : pathlib.Path, str
+        The path where the JSOn should be saved.
+    """
+    with open(path, 'w') as file:
+        return json.dump(json_dict, file, indent=2)
 
 
 set_globals()

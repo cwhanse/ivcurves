@@ -1,6 +1,6 @@
 import pytest
-from conftest import mp # same instance of mpmath's mp imported in ivcurves/conftest
 
+from ivcurves.utils import mp
 import ivcurves.utils as utils
 
 
@@ -11,4 +11,3 @@ import ivcurves.utils as utils
 ])
 def test_mp_num_digits_left_of_decimal(mp_float, expected):
     assert utils.mp_num_digits_left_of_decimal(mp_float) == expected
-
