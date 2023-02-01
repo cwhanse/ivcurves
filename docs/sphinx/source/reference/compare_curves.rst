@@ -3,7 +3,7 @@
 Compare Curves
 ==============
 
-.. autoprogram:: compare_curves:get_argparser()
+.. autoprogram:: ivcurves.compare_curves:get_argparser()
    :prog: compare_curves.py
 
 .. autosummary::

@@ -168,6 +168,8 @@ def get_filenames_in_directory(directory_path):
     Returns a set of entries in the directory ``directory_path``.
     The filenames do not have file extensions.
 
+    Parameters
+    ----------
     directory_path : pathlib.Path
         A directory pointer.
 

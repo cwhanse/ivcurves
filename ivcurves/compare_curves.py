@@ -299,7 +299,7 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
 
     atol : float
         The error of each of the solution pairs found is at most ``atol``. (See
-        :func:`precise.get_precise_i`.)
+        :func:`ivcurves.precise.get_precise_i`.)
         Each solution pair is a point on the curve.
 
     Returns
@@ -391,7 +391,7 @@ def get_curve(curve_parameters, vth, num_pts, atol):
 
     atol : float
         The error of each of the solution pairs found is at most ``atol``.
-        (See :func:`precise.get_precise_i`.) Each solution pair is a point
+        (See :func:`ivcurves.precise.get_precise_i`.) Each solution pair is a point
         on the curve.
 
     Returns
@@ -472,7 +472,7 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=None, plot_lines=Tru
 
     atol : float
         The error of each of the solution pairs found is at most ``atol``. (See
-        :func:`precise.get_precise_i`.)
+        :func:`ivcurves.precise.get_precise_i`.)
         Each solution pair is a point on the curve.
 
     pts : list, default []
