@@ -16,7 +16,7 @@ import ivcurves.precise as precise
 def find_x_intersection(interval, func, point, atol, maxsteps=100):
     r"""
     Finds x-coordinate of the intersection between the known IV curve and the
-    line segment from the origin to the given point :math:`(x_p, y_p)`.
+    line segment from the origin to the given point.
 
     This is an auxiliary function for :func:`total_score`.
 
@@ -58,6 +58,7 @@ def find_x_intersection(interval, func, point, atol, maxsteps=100):
         # solve for intersection of line and single_diode
         solve_for_zero = lambda x: -abs(func(x, line(x)) - line(x))
         a, b = interval
+        # golden_search finds a local maximum
         x_int = precise.golden_search(a, b, solve_for_zero, atol, maxsteps)
         try:
             # setting tol=atol**2 because findroot checks |func(zero)|**2 < tol
@@ -423,9 +424,10 @@ def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=None, plot_lines=Tru
 
         # get intersection point on known curve
         try:
-            new_voltage = find_x_intersection(single_diode, known_xs, known_ys, vp, ip, num_pts, atol)
+            interval_current = min(known_xs), max(known_xs)
+            new_voltage = find_x_intersection(interval_current, single_diode, (vp, ip), atol)
             new_current = precise.lambert_i_from_v(new_voltage, il, io, rs, rsh, n, vth, ns)
-        except:
+        except ValueError:
             print("BAD PT @", count)
             count += 1
             continue
