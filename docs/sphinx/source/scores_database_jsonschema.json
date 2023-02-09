@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/cwhanse/ivcurves/docs/sphinx/source/scores_database_jsonschema.json",
-  "title": "ivcruves Competition Database JSON Schema",
+  "title": "ivcurves Competition Database JSON Schema",
   "description": "",
   "type": "object",
   "patternProperties": {
