@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cwhanse/ivcurves/docs/sphinx/source/scores_database_jsonschema.json",
+  "title": "ivcurves Competition Database JSON Schema",
+  "description": "",
+  "type": "object",
+  "patternProperties": {
+    "^[0-9]+$": {
+      "$ref": "#/$defs/Submission"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Submission": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "username": {
+          "description": "The GitHub username of the sumbission author.",
+          "type": "string"
+        },
+        "submission_datetime": {
+          "description": "The datetime the submission was merged.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "merge_commit": {
+          "description": "The merge commit to the main repository of the submission's pull request.",
+          "type": "string"
+        },
+        "submission_main": {
+          "description": "The SUBMISSION_MAIN of the submission's pr_config.json when it was merged.",
+          "type": "string"
+        },
+        "test_sets": {
+          "description": "The scores for each test set.",
+          "type": "object",
+          "properties": {
+            "case1": {
+              "$ref": "#/$defs/NumberQuoted"
+            },
+            "case2": {
+              "$ref": "#/$defs/NumberQuoted"
+            }
+          },
+          "required": [
+            "case1",
+            "case2"
+          ],
+          "additionalProperties": false
+        },
+        "broken": {
+          "description": "The submission's code has some error.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "username",
+        "submission_datetime",
+        "test_sets"
+      ],
+      "additionalProperties": false
+    },
+    "NumberQuoted": {
+      "description": "Match a quoted number in decimal or exponential form. Pattern source: https://www.regular-expressions.info/floatingpoint.html",
+      "type": "string",
+      "pattern": "(^[-+]?[0-9]*[.]?[0-9]+$)|(^[-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?$)"
+    }
+  }
+}

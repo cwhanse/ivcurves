@@ -3,14 +3,13 @@
 Compare Curves
 ==============
 
-.. autoprogram:: compare_curves:get_argparser()
+.. autoprogram:: ivcurves.compare_curves:get_argparser()
    :prog: compare_curves.py
 
 .. autosummary::
    :toctree: generated/
 
    find_x_intersection
-   get_guess_interval
    find_distance
    total_score
    get_curve
