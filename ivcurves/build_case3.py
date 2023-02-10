@@ -180,18 +180,18 @@ if __name__== '__main__':
     for case in ['case1', 'case2']:
         filen = case + '.json'
         with open(TEST_SETS_DIR / filen, 'r') as infile:
-            df = json_file_to_df(infile)
+            curves = json_file_to_df(infile)
 
         filen = case + '.csv'
         with open(TEST_SETS_DIR / filen, 'r') as infile:
-            params = pd.read_csv(infile)
+            params = pd.read_csv(infile, index_col=0)
 
         for idx in curve_list[case]:
-            base = df.loc[idx]
+            base = curves.loc[idx]
             N = len(base['Currents'])
 
             outdf = pd.DataFrame(index=np.arange(1, iters + 1),
-                                 columns=df.columns, data=None)
+                                 columns=curves.columns, data=None)
 
             # random values to modify current
             r = np.random.RandomState(seed=seeds[seed_idx]).normal(
@@ -205,9 +205,9 @@ if __name__== '__main__':
             for i in outdf.index:
                 # add random noise to current
                 g = corr_normal_ran(r[i-1, :], tau)
-                cur = df.loc[idx, 'Currents'] * (1 + g)
+                cur = curves.loc[idx, 'Currents'] * (1 + g)
                 # add random noise to voltage
-                vol = df.loc[idx, 'Voltages'] * (1 + rv[i-1, :])
+                vol = curves.loc[idx, 'Voltages'] * (1 + rv[i-1, :])
                 diode_voltage = vol + params.loc[idx, 'resistance_series']*cur
                 outdf.loc[i, 'i_sc'] = cur[0]
                 p = cur * vol
@@ -221,12 +221,20 @@ if __name__== '__main__':
                 outdf.loc[i, 'Voltages'] = _nparray_to_str(vol)
                 outdf.loc[i, 'diode_voltage'] = _nparray_to_str(diode_voltage)
 
-            outdf['Temperature'] = df['Temperature']
-            outdf['cells_in_series'] = df['cells_in_series']
+            outdf['Temperature'] = curves['Temperature']
+            outdf['cells_in_series'] = curves['cells_in_series']
 
+            # write json output
             output = {'Manufacturer': '', 'Model': '', 'Serial Number': '',
                       'Module ID': '',  'Description': '', 'Material': '',
                       'cells_in_series': int(outdf.loc[1, 'cells_in_series']),
                       'IV Curves': _df_to_list(outdf)}
             outfilen = 'case3' + output_suffix[case][idx] + '.json'
             save_json(output,TEST_SETS_DIR / outfilen)
+
+            # write corresponding csv file
+            csv_df = params[params.index==idx]
+            outfilen = 'case3' + output_suffix[case][idx] + '.csv'
+            with open(TEST_SETS_DIR / outfilen, 'w') as outfile:
+                csv_df.to_csv(outfile, lineterminator='\n')
+                
