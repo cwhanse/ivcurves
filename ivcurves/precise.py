@@ -3,8 +3,8 @@ import pvlib
 import numpy as np
 import matplotlib.pyplot as plt
 
-from utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
-import utils
+from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
+import ivcurves.utils as utils
 
 
 ###################

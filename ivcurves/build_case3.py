@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 
 # local imports from ivcurves
-from utils import TEST_SETS_DIR, save_json
+from ivcurves.utils import TEST_SETS_DIR, save_json
 
 
 # build in a list of seeds for the random number generator to make the
