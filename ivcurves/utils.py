@@ -132,13 +132,13 @@ def read_iv_curve_parameter_sets(filename):
     -------
     dict
     """
+    mapping = {}
     with open(f'{filename}.csv', newline='') as file:
         reader = csv.DictReader(file, delimiter=',')
-        mapping = {}
         for row in reader:
             mapping[int(row['Index'])] = [mp.mpmathify(row[col])
                                           for col in IV_PARAMETER_NAMES]
-        return mapping
+    return mapping
 
 
 def make_iv_curve_name(test_set_name, index):

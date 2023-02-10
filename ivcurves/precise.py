@@ -1,11 +1,10 @@
 import argparse
-import json
 import pvlib
 import numpy as np
 import matplotlib.pyplot as plt
 
-from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
-import ivcurves.utils as utils
+from utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
+import utils
 
 
 ###################
@@ -458,10 +457,11 @@ def plot_iv_curves(test_set_filename, case_parameter_sets, vth, atol, num_pts,
         plt.show()
 
 
-def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts,
-                        test_set_json=None):
+def build_precise_json(case_parameter_sets, vth, temp_cell, atol, num_pts,
+                       test_set_json=None):
     """
-    Builds a dict of IV curve data compliant with the IV Curve JSON schema.
+    Builds a dict of precise IV curve solutions compliant with the IV Curve
+    JSON schema.
 
     Parameters
     ----------
@@ -485,9 +485,12 @@ def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts,
     num_pts : int
         Number of points calculated on IV curve.
 
+    test_set_json : dict, optional
+        An empty dict providing the structure of the JSON file to be written.
+
     Returns
     -------
-        cells_in_series, dict
+        dict
     """
     test_set_json_template = {
         'Manufacturer': '', 'Model': '', 'Serial Number': '',
@@ -551,8 +554,13 @@ def get_argparser():
                         help='Saves the test set JSON at the given path.')
     parser.add_argument('--save-images', dest='save_images_path', type=str,
                         help='Saves the test set IV curve plots at the given path.')
-    parser.add_argument('--plot', action=argparse.BooleanOptionalAction,
+    parser.add_argument('--plot', default=False, action='store_true',
                         help="Plot each test set's IV curves")
+    parser.add_argument('--no-plot', dest='plot', action='store_false',
+                        help="Do not create plots (optional)")
+    # TODO: when retiring support for python < 3.9
+    # parser.add_argument('--plot', action=argparse.BooleanOptionalAction,
+    #                    help="Plot each test set's IV curves")
     return parser
 
 
@@ -562,7 +570,8 @@ if __name__ == '__main__':
     if args.test_set_filename:
         test_set_filenames = [args.test_set_filename]
     else:
-        test_set_filenames = utils.get_filenames_in_directory(utils.TEST_SETS_DIR)
+        # build all precise cases
+        test_set_filenames = ['case1', 'case2']
 
     constants = utils.constants()
     vth, temp_cell, atol, num_pts = (constants['vth'], constants['temp_cell'],
@@ -574,7 +583,7 @@ if __name__ == '__main__':
             test_set_json_path = utils.TEST_SETS_DIR / f'{name}.json'
             if test_set_json_path.exists():
                 test_set_json = utils.load_json(test_set_json_path)
-                test_set_json = build_test_set_json(
+                test_set_json = build_precise_json(
                     name, case_parameter_sets, vth, temp_cell, atol, num_pts,
                     test_set_json=test_set_json
                 )
