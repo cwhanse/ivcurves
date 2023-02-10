@@ -1,28 +1,13 @@
 import argparse
 import csv
-import enum
-import json
-import pathlib
 
-
-ROOT_DIR = pathlib.Path(f'{__file__}/../../../..').resolve()
-TEST_SETS_DIR = pathlib.Path(f'{ROOT_DIR}/test_sets')
-
-
-def load_json(filename):
-    with open(filename, 'r') as file:
-        return json.load(file)
-
-
-def save_json(json_dict, filename):
-    with open(filename, 'w') as file:
-        return json.dump(json_dict, file, indent=2)
+import ivcurves.utils as utils
 
 
 def load_overall_scores(filename):
     """
     Buildings a dictionary from test set filenames (excluding file extensions)
-    to strings represented scores by reading from a CSV file with these
+    to strings representing scores by reading from a CSV file with these
     columns: test_set, and score.
 
     Returns an empty dictionary if a FileNotFoundError is raised.
@@ -47,19 +32,6 @@ def load_overall_scores(filename):
         return overall_scores
     except FileNotFoundError:
         return {}
-
-
-def test_set_filenames():
-    """
-    Returns a set of filenames in the directory ``directory_path``.
-    The filenames do not have file extensions.
-
-    Returns
-    -------
-    set
-        A set of filenames without file extensions.
-    """
-    return {entry.stem for entry in TEST_SETS_DIR.iterdir() if entry.is_file()}
 
 
 def validate_overall_scores(overall_scores):
@@ -87,19 +59,19 @@ def validate_overall_scores(overall_scores):
     overall_scores_keys = set(overall_scores.keys())
 
     # Proceed with normal validation
-    valid_test_set_filenames = test_set_filenames()
+    valid_test_set_filenames = utils.get_filenames_in_directory(utils.TEST_SETS_DIR)
     missing_test_set_filenames = valid_test_set_filenames - overall_scores_keys
 
     if missing_test_set_filenames:
         names_list = list(missing_test_set_filenames)
-        names_list.sort() # sort to keep same order in error message
+        names_list.sort()  # sort to keep same order in error message
         return False, f'Missing scores from these test sets: {", ".join(names_list)}'
 
     for name, score_str in overall_scores.items():
         try:
-            float(score_str) # validate is a number
+            float(score_str)  # validate is a number
         except ValueError:
-            return False, "The score of test set '{name}' must parse to a float: {score_str}"
+            return False, f"The score of test set '{name}' must parse to a float: {score_str}"
 
     return True, ''
 
@@ -218,7 +190,7 @@ def record_scores():
     if not args.save_database:
         return
 
-    database = load_json(args.database_path)
+    database = utils.load_json(args.database_path)
 
     if has_valid_scores:
         write_overall_scores_to_database(
@@ -230,9 +202,8 @@ def record_scores():
     else:
         raise ValueError(validation_msg)
 
-    save_json(database, f'{ROOT_DIR}/{args.database_path}')
+    utils.save_json(database, utils.REPO_ROOT_DIR / args.database_path)
 
 
 if __name__ == '__main__':
     record_scores()
-

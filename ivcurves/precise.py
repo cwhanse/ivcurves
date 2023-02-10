@@ -1,11 +1,11 @@
+import argparse
+import json
 import pvlib
 import numpy as np
 import matplotlib.pyplot as plt
-from utils import mp # same instance of mpmath's mp imported in ivcurves/utils
-import utils
-import argparse
-import itertools
-import json
+
+from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
+import ivcurves.utils as utils
 
 
 ###################
@@ -56,43 +56,29 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
         A good approximation for the voltage :math:`V`, current :math:`I`, and
         power :math:`P` of the maximum power point of the given IV curve.
     """
-    # make parameters mpf types for precision
-    il, io, rs, rsh, n, vth = [mp.mpf(str(val)) for val in [il, io, rs, rsh, n, vth]]
-
-    # function we want to maximize
-    # x represents voltage
-    power_func = lambda x : x * lambert_i_from_v(x, il, io, rs, rsh, n, vth, ns)
-
-    # find initial interval endpts (using (0, I_sc) and (V_oc, 0) as starting
-    # endpts, power=0 at both these points)
-    # x-coord is voltage, y-coord is power (power = voltage * current)
-    xl, yl = lambert_i_from_v(0, il, io, rs, rsh, n, vth, ns), 0
-    xr, yr = lambert_v_from_i(0, il, io, rs, rsh, n, vth, ns), 0
-
-    # run golden search on power function with above starting interval
-    if (xr - xl) < atol: # this will cause problems when defining iterlimit
-        # means xr == xl (roughly)
-        # shouldn't happen unless both xr and xl are basically zero
-        assert (mp.chop(xr) == 0 and mp.chop(xl) == 0)
+    params = il, io, rs, rsh, n, vth, ns
+    v_oc = lambert_v_from_i(0, *params)
+    if v_oc < atol:
+        # means v_oc ~ 0 which causes problems when defining max_iters
         # this should only ever happen for very extreme parameters
+        assert mp.chop(v_oc) == 0
         return 0, 0, 0
-    else:
-        iterlimit = 1 + mp.floor( mp.log(atol/(xr - xl)) / mp.log((mp.sqrt(5) - 1) / 2) )
 
-    max_voltage, max_power = golden_search((xl, yl), (xr, yr), power_func, atol, iterlimit)
+    max_iters = int(1 + mp.log(atol / v_oc) / mp.log((mp.sqrt(5) - 1) / 2))
 
-    # find current associated to max_voltage
-    max_current = lambert_i_from_v(max_voltage, il, io, rs, rsh, n, vth, ns)
+    power_func = lambda v : v * lambert_i_from_v(v, *params)
 
-    # check that current, voltage pair is still a precise solution to single diode eq
-    # if not precise enough, make precise using findroot
-    dff = diff_lhs_rhs(max_voltage, max_current, il, io, rs, rsh, n, vth, ns)
-    if abs(dff) > atol:
-        max_current = mp.findroot(lambda x: diff_lhs_rhs(max_voltage, x, il, io, rs, rsh, n, vth, ns), max_current, tol=atol**2)
+    max_voltage = golden_search(0, v_oc, power_func, atol, max_iters)
+    max_current = lambert_i_from_v(max_voltage, *params)
+
+    # check max current and voltage is a precise solution to single diode eq
+    diff = lambda v, i: diff_lhs_rhs(v, i, *params)
+    if abs(diff(max_voltage, max_current)) >= atol:
+        max_current = mp.findroot(lambda i: diff(max_voltage, i), max_current, tol=atol**2)
         # setting tol=atol**2 because findroot checks func(zero)**2 < tol
 
+    max_power = max_current * max_voltage
     return max_voltage, max_current, max_power
-
 
 
 ########################
@@ -100,158 +86,52 @@ def max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol):
 ########################
 
 
-def golden_search(l_endpt, r_endpt, func, atol, iterlimit, int_pt=tuple(), is_right_int_pt=False, num_iter=0):
+def golden_search(a, b, func, atol, max_iters):
     r"""
-    Uses golden-section search to recursively find maximum of the given
-    function over the given interval, with at most ``atol`` error.
+    Finds a local maximizer of a function on an interval :math:`[a, b]` with at
+    most ``atol`` error using golden-section serach.
 
     Parameters
     ----------
-    l_endpt : tuple of floats
-        Left endpoint of interval in which a maximum occurs.
+    a : float
+        Left endpoint of interval.
 
-    r_endpt : tuple of floats
-        Right endpoint of interval in which a maximum occurs.
+    b : float
+        Right endpoint of interval.
 
     func : function
-        Function we want to maximize (single-variable).
+        Single-variable function to maximize.
 
     atol : float
-        The x-coordinate of the returned point will be at most ``atol`` from the
-        x-coordinate that produces the true maximum in the given interval.
+        The absolute tolerance between the true and calculated maximizer.
 
-    iterlimit : int
-        Maximum number of iterations for golden-section search. Should converge
-        before we hit this.
-
-    int_pt : tuple of floats, optional
-        Coordinates of interior point in interval. The default value is an
-        empty tuple.
-
-    is_right_int_pt : bool, optional
-        If ``int_pt`` is the right hand interior point, then True. If ``int_pt`` is
-        given, this should also be passed in (default value is False).
-
-    num_iter : int
-        The number of iterations we've already done.
+    max_iters : int
+        Maximum number of iterations golden-section search before failing.
 
     Returns
     -------
-    tuple of ints
-        Coordinates of a point whose y-coordinate is a good approximation for
-        the true maximum, and whose x-coordinate is within ``atol`` of the
-        x-coordinate that yields the true maximum of ``func`` on the given
-        interval.
+    float
+        The calculated maximizer.
 
     Notes
     -----
-    This is a recursive function. When using, ``int_pt`` and ``is_right_int_pt``
-    and ``num_iter`` should not be passed; they are only passed when the function
-    recurses.
-
-    For more information on the algorithm (and calculating the interior points
-    in :func:`get_left_int_pt` and :func:`get_right_int_pt`), see
+    For more information on the algorithm, see
     http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf.
     """
-    # overflow ? FIXME
-    # take care of f(int_pt_1) == f(int_pt_2) (right now just pushing this case
-    # into the f(int_pt_1) < f(int_pt_2) case) FIXME
-
-    if num_iter >= iterlimit: raise Exception("Iterations exceeded maximum.")
-
-    xl, yl = l_endpt
-    xr, yr = r_endpt
-
-    # find left and right interior points
-    if int_pt == tuple(): # first iteration, no interior points yet
-        l_int_pt = get_left_int_pt(xl, xr, func)
-        r_int_pt = get_right_int_pt(xl, xr, func)
-    else: # already have one interior point
-        if is_right_int_pt:
-            r_int_pt = int_pt
-            l_int_pt = get_left_int_pt(xl, xr, func)
+    rho = (1/2) * (3 - mp.sqrt(5))  # this value for rho is equivalent to using golden ratio
+    for _ in range(max_iters):
+        x_internal = lambda frac: a + frac * (b - a)
+        xl = x_internal(rho)
+        xr = x_internal(1 - rho)
+        if func(xl) > func(xr):
+            if abs(xr - a) < atol:
+                return xl
+            b = xr
         else:
-            l_int_pt = int_pt
-            r_int_pt = get_right_int_pt(xl, xr, func)
-
-    # recurse with new (smaller) interval and one interior point
-    if l_int_pt[1] > r_int_pt[1]: # check which has higher y-coord (since we're searching for max)
-        error = abs(r_int_pt[0] - l_endpt[0])
-        if error < atol:
-            return l_int_pt
-        else:
-            return golden_search(l_endpt, r_int_pt, func, atol, iterlimit, l_int_pt, is_right_int_pt=True, num_iter=num_iter+1)
-            # `is_right_int_pt`=True because l_int_pt is now the right_int_pt of new interval
-    else:
-        error = abs(r_endpt[0] - l_int_pt[0])
-        if error < atol:
-            return r_int_pt
-        else:
-            return golden_search(l_int_pt, r_endpt, func, atol, iterlimit, r_int_pt, is_right_int_pt=False, num_iter=num_iter+1)
-            # `is_right_int_pt`=False because r_int_pt is now the left_int_pt of new interval
-
-
-def get_left_int_pt(left_x_endpt, right_x_endpt, func):
-    r"""
-    Calculates the left interior point of the interval.
-
-    This is an auxiliary function for :func:`golden_search`.
-
-    Parameters
-    ----------
-    left_x_endpt : float
-        x-coordinate of the left endpoint.
-
-    right_x_endpt : float
-        x-coordinate of the right endpoint.
-
-    func : function
-        Function we want to maximize (single-variable).
-
-    Returns
-    -------
-    tuple of mpmath floats
-        Coordinate for left interior point.
-    """
-    xl, xr = left_x_endpt, right_x_endpt
-    rho = (1/2) * (3 - mp.sqrt(5))
-    # this value for rho is equivalent to using golden ratio
-
-    l_int_x = xl + rho*(xr - xl) # voltage
-    l_int_y = func(l_int_x)
-    return (l_int_x, l_int_y)
-
-
-def get_right_int_pt(left_x_endpt, right_x_endpt, func):
-    r"""
-    Calculates the right interior point of the interval.
-
-    This is an auxiliary function for :func:`golden_search`.
-
-    Parameters
-    ----------
-    left_x_endpt : float
-        x-coordinate of the left endpoint.
-
-    right_x_endpt : float
-        x-coordinate of the right endpoint.
-
-    func : function
-        Function we want to maximize (single-variable).
-
-    Returns
-    -------
-    tuple of mpmath floats
-        Coordinate for right interior point.
-    """
-    xl, xr = left_x_endpt, right_x_endpt
-    rho = (1/2) * (3 - mp.sqrt(5))
-    # this value for rho is equivalent to using golden ratio
-
-    r_int_x = xl + (1 - rho)*(xr - xl) # voltage
-    r_int_y = func(r_int_x)
-    return (r_int_x, r_int_y)
-
+            if abs(b - xl) < atol:
+                return xr
+            a = xl
+    raise RuntimeError('Golden Search: maximum iteration count exceeded.')
 
 
 #######################
@@ -490,8 +370,8 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     solutions if necessary.
     """
     # convert mpf to np.float64
-    parameters_npfloat64 = map(lambda x: np.float64(x), [il, io, rs, rsh, n*vth*ns])
-    res = pvlib.pvsystem.singlediode(*parameters_npfloat64, ivcurve_pnts=num_pts)
+    params_npfloat64 = map(lambda x: np.float64(x), [il, io, rs, rsh, n*vth*ns])
+    res = pvlib.pvsystem.singlediode(*params_npfloat64, ivcurve_pnts=num_pts)
 
     # convert np.float64 to mpf
     vv = np.fromiter(map(mp.mpmathify, res['v']), dtype=mp.mpf)
@@ -499,22 +379,22 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
 
     # allocate array for new, more precise i's
     precise_i = np.zeros(ii.shape[0], dtype=mp.mpf)
-    i_precise_enough = lambda c: abs(diff_lhs_rhs(v, c, il, io, rs, rsh, n, vth, ns)) < atol
+    params = il, io, rs, rsh, n, vth, ns
+    diff = lambda i: diff_lhs_rhs(v, i, *params)
     for idx, (v, i) in enumerate(zip(vv, ii)):
         # check if i val already precise enough
-        if i_precise_enough(i):
+        if abs(diff(i)) < atol:
             new_i = i
         else:
-            new_i = lambert_i_from_v(v, il, io, rs, rsh, n, vth, ns)
-            assert i_precise_enough(new_i), f'Index: {idx}'
+            new_i = lambert_i_from_v(v, *params)
+            assert abs(diff(new_i)) < atol, f'Index: {idx}'
 
         # updating array of i's
         precise_i[idx] = new_i
 
     # find precise v_oc and set as last coordinate
     precise_i[-1] = mp.mpmathify(0)
-    vv[-1] = lambert_v_from_i(precise_i[-1], il, io, rs, rsh, n, vth,
-                                        ns)
+    vv[-1] = lambert_v_from_i(precise_i[-1], *params)
 
     assert vv[0] == 0, f'Must be zero: vv[0] = {vv[0]}'
     assert precise_i[-1] == 0, f'Must be zero: precise_i[-1] = {precise_i[-1]}'
@@ -564,9 +444,10 @@ def plot_iv_curves(test_set_filename, case_parameter_sets, vth, atol, num_pts,
     """
     plt.style.use('seaborn-darkgrid')
     for idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
+        params = il, io, rs, rsh, n, vth, ns
         plt.xlabel('Voltage')
         plt.ylabel('Current')
-        v_vals, i_vals = get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts)
+        v_vals, i_vals = get_precise_i(*params, atol=atol, num_pts=num_pts)
         plt.plot(v_vals, i_vals)
         if savefig:
             plt.savefig(utils.make_iv_curve_name(test_set_filename, idx),
@@ -577,17 +458,13 @@ def plot_iv_curves(test_set_filename, case_parameter_sets, vth, atol, num_pts,
         plt.show()
 
 
-def write_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
-                        atol, num_pts):
+def build_test_set_json(case_parameter_sets, vth, temp_cell, atol, num_pts,
+                        test_set_json=None):
     """
-    Write JSON files of IV curve data.
+    Builds a dict of IV curve data compliant with the IV Curve JSON schema.
 
     Parameters
     ----------
-    test_set_filename : str
-        The filename of the test set CSV file that ``case_parameter_sets`` was
-        loaded from. The filename must exclude its file extension.
-
     case_parameter_sets : dict
         A mapping of test case indices to a list of test case parameters.
 
@@ -607,40 +484,59 @@ def write_test_set_json(test_set_filename, case_parameter_sets, vth, temp_cell,
 
     num_pts : int
         Number of points calculated on IV curve.
+
+    Returns
+    -------
+        cells_in_series, dict
     """
+    test_set_json_template = {
+        'Manufacturer': '', 'Model': '', 'Serial Number': '',
+        'Module ID': '',  'Description': '', 'Material': '',
+        'cells_in_series': None, 'IV Curves': []
+    }
+    if test_set_json is None:
+        test_set_json = test_set_json_template
+    else:
+        # make sure the json only has the keys listed in the template
+        for k in test_set_json_template:
+            test_set_json_template[k] = test_set_json[k]
+        test_set_json = test_set_json_template
+
     ivcurves = []
 
     # this is set in the loop below, and is the same for every iv curve
     cells_in_series = None
 
     for test_idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
-        cells_in_series = int(ns)
+        params = il, io, rs, rsh, n, vth, ns
+        cells_in_series = int(params[-1])
+        rs = params[2]
 
-        vv, ii = get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts)
-        v_oc = vv.max()
-        i_sc = ii.max()
-        v_mp, i_mp, p_mp = max_power_pt_finder(il, io, rs, rsh, n, vth, ns, atol)
+        vv, ii = get_precise_i(*params, atol=atol, num_pts=num_pts)
+        v_oc = vv[-1]
+        i_sc = ii[0]
+        v_mp, i_mp, p_mp = max_power_pt_finder(*params, atol=atol)
+        i_x = lambert_i_from_v(v_oc / 2, *params)
+        i_xx = lambert_i_from_v((v_oc + v_mp) / 2, *params)
 
         nstr = utils.mp_nstr_precision_func
-        vv_str_list = [nstr(x) for x in vv]
-        ii_str_list = [nstr(x) for x in ii]
+        vv_list = [nstr(x) for x in vv]
+        ii_list = [nstr(x) for x in ii]
         diode_voltage_list = [nstr(dv) for dv in vv + rs * ii]
         ivcurves.append({
-            'Index': test_idx, 'Voltages': vv_str_list,
-            'Currents': ii_str_list, 'diode_voltage': diode_voltage_list,
+            'Index': test_idx, 'Voltages': vv_list,
+            'Currents': ii_list, 'diode_voltage': diode_voltage_list,
             'v_oc': nstr(v_oc), 'i_sc': nstr(i_sc),
             'v_mp': nstr(v_mp), 'i_mp': nstr(i_mp), 'p_mp': nstr(p_mp),
+            'i_x': nstr(i_x), 'i_xx': nstr(i_xx),
             'Temperature': mp.nstr(temp_cell, n=5), 'Irradiance': None,
             'Sweep direction': '', 'Datetime': '1970-01-01T00:00:00Z'
         })
 
-    case_test_suite = {'Manufacturer': '', 'Model': '', 'Serial Number': '',
-                       'Module ID': '',  'Description': '', 'Material': '',
-                       'cells_in_series': cells_in_series,
-                       'IV Curves': ivcurves}
+    test_set_json['cells_in_series'] = cells_in_series
+    test_set_json['IV Curves'] = ivcurves
 
-    with open(f'{test_set_filename}.json', 'w') as file:
-        json.dump(case_test_suite, file, indent=2)
+    return test_set_json
 
 
 def get_argparser():
@@ -672,13 +568,22 @@ if __name__ == '__main__':
     vth, temp_cell, atol, num_pts = (constants['vth'], constants['temp_cell'],
                                      constants['atol'], constants['num_pts'])
     for name in test_set_filenames:
-        case_parameter_sets = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
+        case_parameter_sets = utils.read_iv_curve_parameter_sets(utils.TEST_SETS_DIR / name)
         if args.save_json_path:
-            write_test_set_json(f'{args.save_json_path}/{name}', case_parameter_sets, vth, temp_cell, atol, num_pts)
+            test_set_json = None
+            test_set_json_path = utils.TEST_SETS_DIR / f'{name}.json'
+            if test_set_json_path.exists():
+                test_set_json = utils.load_json(test_set_json_path)
+                test_set_json = build_test_set_json(
+                    name, case_parameter_sets, vth, temp_cell, atol, num_pts,
+                    test_set_json=test_set_json
+                )
+                utils.save_json(test_set_json, args.save_json_path / f'{name}.json')
         if args.save_images_path:
-            plot_iv_curves(f'{args.save_images_path}/{name}',
-                           case_parameter_sets, vth, atol, num_pts, show=False,
-                           savefig=True, stack_plots=False)
+            plot_iv_curves(
+                f'{args.save_images_path}/{name}',
+                case_parameter_sets, vth, atol, num_pts, show=False,
+                savefig=True, stack_plots=False
+            )
         if args.plot:
             plot_iv_curves(name, case_parameter_sets, vth, atol, num_pts)
-

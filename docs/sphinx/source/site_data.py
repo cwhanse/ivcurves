@@ -1,8 +1,8 @@
 import datetime
 import json
 from pathlib import Path
-import utils_docs as utils
-from utils_docs import mp # same instance of mpmath's mp imported in ivcurves/utils
+import ivcurves.utils as utils
+from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
 
 
 def load_scores_database():
@@ -132,4 +132,3 @@ def test_set_name_to_parameters_and_image():
                          'image_path': f'./_images/test_cases/{utils.make_iv_curve_name(name, idx)}.png'}
         mapping[name] = info
     return mapping
-
