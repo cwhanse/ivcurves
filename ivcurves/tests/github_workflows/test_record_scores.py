@@ -1,3 +1,4 @@
+import json
 import pytest
 import jschon
 import sys
@@ -16,7 +17,7 @@ import record_scores
 def test_scores_database_pass_jsonschema_validation(scores_database_json, scores_database_jsonschema_validator):
     result = scores_database_jsonschema_validator.evaluate(jschon.JSON(scores_database_json))
     validation_messages = result.output('basic')
-    assert validation_messages['valid']
+    assert validation_messages['valid'], json.dumps(validation_messages['errors'], indent=2)
 
 
 def params_test_validate_overall_scores():
