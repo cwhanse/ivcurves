@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install ivcurves testing dependencies
-        run: pip3 install .[testing]
+        run: pip3 install -e .[testing]  # the install is editable because the GitHub workflow util .py scripts are not included in the ivcurves package install to site packages
       - name: Run Pytest
         run: pytest ivcurves/tests
 
