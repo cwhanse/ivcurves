@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Feb  6 11:17:56 2023
-
-@author: cliff
-"""
-
 # these modules are part of the Python standard library
 from pathlib import Path
 
