@@ -45,7 +45,11 @@
           },
           "required": [
             "case1",
-            "case2"
+            "case2",
+            "case3a",
+            "case3b",
+            "case3c",
+            "case3d"
           ],
           "additionalProperties": false
         },
