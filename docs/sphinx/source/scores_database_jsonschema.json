@@ -51,7 +51,7 @@
         },
         "broken": {
           "description": "The submission's code has some error.",
-          "type": "boolean"
+          "type": "string"
         }
       },
       "required": [
