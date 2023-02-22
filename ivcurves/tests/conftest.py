@@ -92,7 +92,7 @@ def test_set_csv_info_and_json(test_set_csv_info, constants):
     vth, temp_cell, atol, num_pts = (constants['vth'], constants['temp_cell'],
                                      constants['atol'], constants['num_pts'])
     _, parameter_set = test_set_csv_info
-    test_set_json = precise.build_test_set_json(
+    test_set_json = precise.build_precise_json(
         parameter_set, vth, temp_cell, atol, num_pts
     )
     return test_set_csv_info, test_set_json
