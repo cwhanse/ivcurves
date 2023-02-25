@@ -15,6 +15,5 @@ Precise
    lambert_v_from_i
    diff_lhs_rhs
    get_precise_i
-   plot_iv_curves
    build_precise_json
 

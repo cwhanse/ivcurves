@@ -201,7 +201,7 @@ def record_scores():
         missing_test_set_filenames = valid_test_set_filenames - set(overall_scores.keys())
         if len(missing_test_set_filenames):
             for name in sorted(valid_test_set_filenames):
-                overall_scores[name] = overall_scores.get(name, 'nan')
+                overall_scores[name] = overall_scores.get(name, utils.COMPETITION_INVALID_SCORE_VALUE)
             write_overall_scores_to_database(
                 database, args.pr_number, args.pr_author, args.pr_closed_datetime,
                 args.merge_commit, args.submission_main, overall_scores

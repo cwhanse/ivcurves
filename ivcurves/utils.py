@@ -12,6 +12,7 @@ DOCS_DIR = REPO_ROOT_DIR / 'docs' / 'sphinx' / 'source'
 IV_PARAMETER_NAMES = ['photocurrent', 'saturation_current',
                       'resistance_series', 'resistance_shunt', 'n',
                       'cells_in_series']
+COMPETITION_INVALID_SCORE_VALUE = 'nan'
 
 
 def set_globals():
