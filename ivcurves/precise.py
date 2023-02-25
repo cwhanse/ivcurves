@@ -1,7 +1,6 @@
 import argparse
 import pvlib
 import numpy as np
-import matplotlib.pyplot as plt
 
 from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
 import ivcurves.utils as utils
@@ -401,62 +400,6 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     return vv, precise_i
 
 
-def plot_iv_curves(test_set_filename, case_parameter_sets, vth, atol, num_pts,
-                   show=True, savefig=False, stack_plots=True):
-    """
-    Plot IV curves.
-
-    Parameters
-    ----------
-    test_set_filename : str
-        The name of the test set CSV file that ``case_parameter_sets`` was
-        loaded from. The filename must exclude its file extension.
-
-    case_parameter_sets : dict
-        A mapping of test case indices to a list of test case parameters.
-        (See :func:`utils.read_iv_curve_parameter_sets`)
-
-    vth : numeric
-        Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as
-        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
-        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
-        :math:`q` is the charge of an electron (coulombs).
-
-    atol : numeric
-        The absolute tolerance allowed when generating the IV curve data
-        from the test case's parameters.
-
-    num_pts : int
-        Number of points calculated on IV curve.
-
-    show : bool, default True
-        Display the plot.
-
-    savefig : bool, default False
-        Save the plot as a PNG image.
-
-    stack_plots : bool, default True
-        Plot all of the IV curves generated from the parameters in
-        ``case_parameter_sets`` on a single plot. If ``False``, only
-        the last IV curve generated will be plotted.
-    """
-    plt.style.use('seaborn-darkgrid')
-    for idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
-        params = il, io, rs, rsh, n, vth, ns
-        plt.xlabel('Voltage')
-        plt.ylabel('Current')
-        v_vals, i_vals = get_precise_i(*params, atol=atol, num_pts=num_pts)
-        plt.plot(v_vals, i_vals)
-        if savefig:
-            plt.savefig(utils.make_iv_curve_name(test_set_filename, idx),
-                        bbox_inches='tight')
-        if not stack_plots:
-            plt.cla()
-    if show:
-        plt.show()
-
-
 def build_precise_json(case_parameter_sets, vth, temp_cell, atol, num_pts,
                        test_set_json=None):
     """
@@ -547,20 +490,11 @@ def get_argparser():
         description='Generates precise IV curve data from the parameters of '
                     'the single diode equation.'
     )
+    parser.add_argument('save_json_path', type=str,
+                        help='Saves the test set JSON at the given path.')
     parser.add_argument('--test-set', dest='test_set_filename', type=str,
                         help='Test set filename (excluding file extension) to '
                              'generate curves for. If omitted, all test sets are used.')
-    parser.add_argument('--save-json', dest='save_json_path', type=str,
-                        help='Saves the test set JSON at the given path.')
-    parser.add_argument('--save-images', dest='save_images_path', type=str,
-                        help='Saves the test set IV curve plots at the given path.')
-    parser.add_argument('--plot', default=False, action='store_true',
-                        help="Plot each test set's IV curves")
-    parser.add_argument('--no-plot', dest='plot', action='store_false',
-                        help="Do not create plots (optional)")
-    # TODO: when retiring support for python < 3.9
-    # parser.add_argument('--plot', action=argparse.BooleanOptionalAction,
-    #                    help="Plot each test set's IV curves")
     return parser
 
 
@@ -588,11 +522,3 @@ if __name__ == '__main__':
                     test_set_json=test_set_json
                 )
                 utils.save_json(test_set_json, args.save_json_path / f'{name}.json')
-        if args.save_images_path:
-            plot_iv_curves(
-                f'{args.save_images_path}/{name}',
-                case_parameter_sets, vth, atol, num_pts, show=False,
-                savefig=True, stack_plots=False
-            )
-        if args.plot:
-            plot_iv_curves(name, case_parameter_sets, vth, atol, num_pts)

@@ -27,9 +27,6 @@ jobs:
               database = json.load(file)
           pr_data = []
           for pr_number, data in database.items():
-              # exclude submissions already marked broken
-              if 'broken' in data.keys():
-                  continue
               pair = [pr_number, data['username'], data['submission_datetime']]
               pr_data.append(pair)
           print(json.dumps(pr_data))

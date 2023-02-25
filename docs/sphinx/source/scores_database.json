@@ -6,7 +6,11 @@
     "submission_main": "sandia_simple.py",
     "test_sets": {
       "case1": "32.0007537115150650",
-      "case2": "31.0003386881110886"
+      "case2": "31.0003386881110886",
+      "case3a": "nan",
+      "case3b": "nan",
+      "case3c": "nan",
+      "case3d": "nan"
     }
   }
 }
