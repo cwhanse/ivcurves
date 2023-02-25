@@ -172,7 +172,7 @@ jobs:
             # score submission
             # will fail if no CSV output from the submission,
             # or its CSV files contain very inaccurate results (no intersection between the true and fitted curves can be found)
-            scorer_exit_code=$(python3 "$repo_base"/ivcurves/compare_curves.py . --csv-output-path .; echo $?)
+            scorer_exit_code=$(python3 "$repo_base"/ivcurves/compare_curves.py . --csv-output-path . --test-sets "$TEST_SETS_FOR_SCORING"; echo $?)
 
             cd "$repo_base"
 

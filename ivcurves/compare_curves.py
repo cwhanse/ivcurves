@@ -402,8 +402,8 @@ def get_argparser():
     )
     parser.add_argument('fitted_files_directory', type=Path,
                         help='Directory containing fitted parameter CSV files.')
-    parser.add_argument('--test-set', dest='test_set', type=str, default='',
-                        help='Name of test set to score.')
+    parser.add_argument('--test-sets', dest='test_sets', type=str, default='',
+                        help='Comma-separated list of test sets to score.')
     parser.add_argument('--csv-output-path', dest='csv_output_path', type=Path,
                         default='.', help='Directory where to write output CSV files.')
     return parser
@@ -416,7 +416,7 @@ def get_argparser():
 
 if __name__ == '__main__':
     args = get_argparser().parse_args()
-    test_sets_to_score = get_test_sets_to_score(args.fitted_files_directory, args.test_set)
+    test_sets_to_score = get_test_sets_to_score(args.fitted_files_directory, args.test_sets)
     scores = {}
     num_compare_pts = 10
     num_total_pts = 200

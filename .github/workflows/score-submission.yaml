@@ -23,6 +23,7 @@ jobs:
       submission-main: ${{ steps.save-env.outputs.submission-main }} # SUBMISSION_MAIN of the pr_config.json
       submission-main-filename: ${{ steps.save-env.outputs.submission-main-filename }} # filename of the file that should be executed by run-scorer
       submission-main-path: ${{ steps.save-env.outputs.submission-main-path }} # path to the parent directory that contains submission-main-filename
+      test-sets-for-scoring: ${{ steps.save-env.outputs.test-sets-for-scoring }} # a comma-separated list of test set names to use for scoring (e.g. case1,case2,case3a)
     steps:
       - name: Install Python 3.10
         uses: actions/setup-python@v4
@@ -59,6 +60,7 @@ jobs:
           echo 'submission-main=${{ env.SUBMISSION_MAIN }}' >> $GITHUB_OUTPUT
           echo 'submission-main-filename=${{ env.SUBMISSION_MAIN_FILENAME }}' >> $GITHUB_OUTPUT
           echo 'submission-main-path=${{ env.SUBMISSION_MAIN_PATH }}' >> $GITHUB_OUTPUT
+          echo 'test-sets-for-scoring=${{ env.TEST_SETS_FOR_SCORING }}' >> $GITHUB_OUTPUT
 
   run-scorer:
     name: Run scorer
@@ -71,6 +73,7 @@ jobs:
       REQUIREMENTS_PATH: ${{ needs.read-pr-config.outputs.requirements-path }}
       SUBMISSION_MAIN_FILENAME: ${{ needs.read-pr-config.outputs.submission-main-filename }}
       SUBMISSION_MAIN_PATH: ${{ needs.read-pr-config.outputs.submission-main-path }}
+      TEST_SETS_FOR_SCORING: ${{ needs.read-pr-config.outputs.test-sets-for-scoring }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -94,7 +97,7 @@ jobs:
         working-directory: submissions/${{ env.CONTRIBUTOR }}
         # will fail if no CSV output from the submission,
         # or its CSV files contain very inaccurate results (no intersection between the true and fitted curves can be found)
-        run: python3 ../../ivcurves/compare_curves.py "${{ env.SUBMISSION_MAIN_PATH}}" --csv-output-path .
+        run: python3 ../../ivcurves/compare_curves.py "${{ env.SUBMISSION_MAIN_PATH }}" --csv-output-path . --test-sets "${{ env.TEST_SETS_FOR_SCORING }}"
       - name: Validate scores
         run: python3 .github/workflows/utils/record_scores.py
                --overall-scores-path overall_scores.csv
