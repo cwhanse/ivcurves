@@ -132,8 +132,8 @@ if __name__ == "__main__":
         # process each IV curve
         for d in data.index:
             il, io, rs, rsh, nNsVth = pvlib.ivtools.sde.fit_sandia_simple(
-                voltage=data.loc[d, 'Voltages'][0],
-                current=data.loc[d, 'Currents'][0],
+                voltage=data.loc[d, 'Voltages'],
+                current=data.loc[d, 'Currents'],
                 v_oc=data.loc[d, 'v_oc'],
                 i_sc=data.loc[d, 'i_sc'],
                 v_mp_i_mp=(data.loc[d, 'v_mp'], data.loc[d, 'v_mp'])
