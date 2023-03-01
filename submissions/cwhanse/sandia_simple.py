@@ -28,7 +28,7 @@ def get_test_set_filepaths():
     -------
         A list.
     """
-    path_to_test_sets = pathlib.Path.cwd() / '..' / '..' / 'test_sets'
+    path_to_test_sets = pathlib.Path.cwd() / '..' / '..' / 'ivcurves'/'test_sets'
     file_entries = list({path_to_test_sets / f'{entry.stem}.json'
                          for entry in path_to_test_sets.iterdir()
                          if entry.is_file()})
