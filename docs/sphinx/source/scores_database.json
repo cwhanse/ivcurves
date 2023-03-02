@@ -7,10 +7,10 @@
     "test_sets": {
       "case1": "32.0007537115150650",
       "case2": "31.0003386881110886",
-	  "case3a": "nan",
-	  "case3b": "nan",
-	  "case3c": "nan",
-	  "case3d": "nan"
+      "case3a": "nan",
+      "case3b": "nan",
+      "case3c": "nan",
+      "case3d": "nan"
     }
   },
   "28": {
@@ -21,10 +21,24 @@
     "test_sets": {
       "case1": "30.0007655429194646100",
       "case2": "31.0003388135296881407",
-	  "case3a": "nan",
-	  "case3b": "nan",
-	  "case3c": "nan",
-	  "case3d": "nan"
+      "case3a": "nan",
+      "case3b": "nan",
+      "case3c": "nan",
+      "case3d": "nan"
+    }
+  },
+  "26": {
+    "username": "cwhanse",
+    "submission_datetime": "2023-03-02T22:05:48Z",
+    "merge_commit": "10fc7a3b3637cb9cfb1a01f2f6d68dc1a23c0675",
+    "submission_main": "sandia_simple.py",
+    "test_sets": {
+      "case1": "30.0007655429194646100",
+      "case2": "31.0003388135296881407",
+      "case3d": "nan",
+      "case3a": "nan",
+      "case3b": "nan",
+      "case3c": "nan"
     }
   }
 }
