@@ -8,6 +8,9 @@ from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurv
 import ivcurves.utils as utils
 import ivcurves.precise as precise
 
+# Constants
+
+ALL_TEST_SETS = {'case1', 'case2', 'case3a', 'case3b', 'case3c', 'case3d'}
 
 #####################
 # Find intersection #
@@ -504,5 +507,8 @@ if __name__ == '__main__':
             fitted_p = fitted_parameter_sets[idx]
             scores[name][idx] = score_parameters(known_p, fitted_p)
         
+    for name in ALL_TEST_SETS.difference(test_sets_to_score):
+        scores[name] = float('NaN')
+
     write_test_set_score_per_curve_csvs(scores, args.csv_output_path)
     write_overall_scores_csv(scores, args.csv_output_path)
