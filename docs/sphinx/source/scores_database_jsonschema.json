@@ -41,11 +41,27 @@
             },
             "case2": {
               "$ref": "#/$defs/NumberQuoted"
+            },
+            "case3a": {
+              "$ref": "#/$defs/NumberQuoted"
+            },
+            "case3b": {
+              "$ref": "#/$defs/NumberQuoted"
+            },
+            "case3c": {
+              "$ref": "#/$defs/NumberQuoted"
+            },
+            "case3d": {
+              "$ref": "#/$defs/NumberQuoted"
             }
           },
           "required": [
             "case1",
-            "case2"
+            "case2",
+            "case3a",
+            "case3b",
+            "case3c",
+            "case3d"
           ],
           "additionalProperties": false
         },
@@ -62,9 +78,9 @@
       "additionalProperties": false
     },
     "NumberQuoted": {
-      "description": "Match a quoted number in decimal or exponential form. Pattern source: https://www.regular-expressions.info/floatingpoint.html",
+      "description": "Match a quoted number in decimal or exponential form. Also allows Python nan. Pattern source: https://www.regular-expressions.info/floatingpoint.html",
       "type": "string",
-      "pattern": "(^[-+]?[0-9]*[.]?[0-9]+$)|(^[-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?$)"
+      "pattern": "(^[-+]?[0-9]*[.]?[0-9]+$)|(^[-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?$)|(nan)"
     }
   }
 }

@@ -14,30 +14,42 @@ import print_json_as_env
 
 
 @pytest.mark.parametrize('pr_config, bad_key', [
-    ({'RUN_SCORER': False,
-      'REQUIREMENTS': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
-      'SUBMISSION_MAIN': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py')
-    }, None),
-    ({'RUN_SCORER': True,
-      'REQUIREMENTS': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
-      'SUBMISSION_MAIN': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py')
-    }, 'RUN_SCORER'),
-    ({'RUN_SCORER': True,
-      'REQUIREMENTS': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'does_not_exist.txt'),
-      'SUBMISSION_MAIN': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py')
-    }, 'REQUIREMENTS'),
-    ({'RUN_SCORER': True,
-      'REQUIREMENTS': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
-      'SUBMISSION_MAIN': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'does_not_exist.py')
-    }, 'SUBMISSION_MAIN'),
-    ({'RUN_SCORER': True,
-      'REQUIREMENTS': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
-    }, 'SUBMISSION_MAIN'),
-    ({'RUN_SCORER': True,
-      'REQUIREMENTS': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
-      'SUBMISSION_MAIN': str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
-      'EXTRA_KEY': 'str'
-    }, 'EXTRA_KEY')
+    (dict(
+        RUN_SCORER=False,
+        REQUIREMENTS=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
+        SUBMISSION_MAIN=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
+        TEST_SETS_FOR_SCORING=''
+    ), None),
+    (dict(
+        RUN_SCORER=True,
+        REQUIREMENTS=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'does_not_exist.txt'),
+        SUBMISSION_MAIN=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
+        TEST_SETS_FOR_SCORING=''
+    ), 'REQUIREMENTS'),
+    (dict(
+        RUN_SCORER=True,
+        REQUIREMENTS=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
+        SUBMISSION_MAIN=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'does_not_exist.py'),
+        TEST_SETS_FOR_SCORING=''
+    ), 'SUBMISSION_MAIN'),
+    (dict(
+        RUN_SCORER=True,
+        REQUIREMENTS=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
+        TEST_SETS_FOR_SCORING=''
+    ), 'SUBMISSION_MAIN'),
+    (dict(
+        RUN_SCORER=True,
+        REQUIREMENTS=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
+        SUBMISSION_MAIN=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
+        TEST_SETS_FOR_SCORING='caseX'
+    ), 'TEST_SETS_FOR_SCORING'),
+    (dict(
+        RUN_SCORER=True,
+        REQUIREMENTS=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
+        SUBMISSION_MAIN=str(utils.REPO_ROOT_DIR / 'ivcurves' / 'precise.py'),
+        TEST_SETS_FOR_SCORING='',
+        EXTRA_KEY='str'
+    ), 'EXTRA_KEY')
 ])
 def test_validate_pr_config(pr_config, bad_key):
     try:

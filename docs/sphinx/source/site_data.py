@@ -64,7 +64,7 @@ def leaderboard_entry_list():
         entries.append({
             'submission': f'{to_ghuser(submission_data["username"])} ({to_pull(pr_number)})',
             'method_name': to_doc(docs_link),
-            'overall_score': sum(mp.mpmathify(v) for v in submission_data['test_sets'].values()),
+            'overall_score': sum(mp.mpmathify(v) for v in submission_data['test_sets'].values() if v != utils.COMPETITION_INVALID_SCORE_VALUE),
             'submission_datetime': datetime_from_github_datetime_str(submission_data['submission_datetime']),
             'links':  f'`Code <{code_link}>`__'
         })
@@ -102,9 +102,9 @@ def compare_submissions_table_rows():
         }
 
         # per case scores
+        entry['Overall Score'] = mp.nstr(sum(mp.mpmathify(v) for v in submission_data['test_sets'].values() if v != utils.COMPETITION_INVALID_SCORE_VALUE))
         for name, score in submission_data['test_sets'].items():
-            entry['Overall Score'] = mp.nstr(sum(mp.mpmathify(v) for v in submission_data['test_sets'].values()))
-            entry[name] = mp.nstr(mp.mpmathify(score))
+            entry[name] = mp.nstr(mp.mpmathify(score)) if score != utils.COMPETITION_INVALID_SCORE_VALUE else '--'
 
         entry['Links'] = f'`Code <{code_link}>`__'
 
