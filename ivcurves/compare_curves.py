@@ -508,7 +508,7 @@ if __name__ == '__main__':
             scores[name][idx] = score_parameters(known_p, fitted_p)
         
     for name in ALL_TEST_SETS.difference(test_sets_to_score):
-        scores[name] = float('NaN')
+        scores[name] = {0: float('NaN')}
 
     write_test_set_score_per_curve_csvs(scores, args.csv_output_path)
     write_overall_scores_csv(scores, args.csv_output_path)
