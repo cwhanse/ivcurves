@@ -391,8 +391,8 @@ def _get_test_sets_to_score(tests='', fitted_files_directory=None):
     test_sets_to_score = []
     if tests != '':
         for t in tests.split(','):
-            if test_set not in test_set_names:
-                raise ValueError(f"'{test_set}' is not a test set")
+            if t not in test_set_names:
+                raise ValueError(f"'{t}' is not a test set")
             test_sets_to_score.append(t)
     elif fitted_files_directory is not None:
         # score all found in fitted_files_directory
