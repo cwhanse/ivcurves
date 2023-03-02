@@ -473,7 +473,7 @@ def get_argparser():
 if __name__ == '__main__':
     args = get_argparser().parse_args()
     test_sets_to_score = get_test_sets_to_score(
-        args.fitted_files_directory, args.test_sets)
+        args.fitted_files_directory, args.test_sets).split(',')
     scores = {}
     num_compare_pts = 10
     num_total_pts = 200
