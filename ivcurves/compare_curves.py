@@ -1,19 +1,22 @@
 import argparse
 import csv
 from pathlib import Path
-import matplotlib.pyplot as plt
+import numpy as np
 
 # from ivcurves repo
 from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
 import ivcurves.utils as utils
 import ivcurves.precise as precise
 
+# Constants
+
+ALL_TEST_SETS = {'case1', 'case2', 'case3a', 'case3b', 'case3c', 'case3d'}
 
 #####################
 # Find intersection #
 #####################
 
-def find_x_intersection(interval, func, point, atol, maxsteps=100):
+def _find_x_intersection(interval, func, point, atol, maxsteps=100):
     r"""
     Finds x-coordinate of the intersection between the known IV curve and the
     line segment from the origin to the given point.
@@ -78,7 +81,7 @@ def find_x_intersection(interval, func, point, atol, maxsteps=100):
 # Calculate distance #
 ######################
 
-def find_distance(x, y, xp, yp):
+def _find_distance(x, y, xp, yp):
     r"""
     Calculates the distance between two points :math:`(x, y)` and
     :math:`(x_p, y_p)` using a scaled Euclidean distance.
@@ -133,11 +136,9 @@ def find_distance(x, y, xp, yp):
     return mp.sqrt(diff_x**2 + diff_y**2)
 
 
-###############
-# Final score #
-###############
+# Final score  per IV curve #
 
-def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
+def score_curve(known_curve_params, fitted_curve_params, vth, num_pts, atol):
     r"""
     Calculates the total score for a given fitted curve.
 
@@ -228,11 +229,14 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
     each pair of associated points is the score.
     """
     # get xs and ys for known and fitted curves
-    known_xs, known_ys = get_curve(known_curve_params, vth, num_pts, atol)
-    fit_xs, fit_ys = get_curve(fitted_curve_params, vth, num_pts, atol)
+    known_xs, known_ys = calc_precise_curve(
+        known_curve_params, vth, num_pts, atol)
+    fit_xs, fit_ys = calc_precise_curve(
+        fitted_curve_params, vth, num_pts, atol)
 
     il, io, rs, rsh, n, ns = known_curve_params
-    single_diode = lambda v, i: il - io * mp.expm1((v + i*rs) / (n * ns * vth)) - ((v + i*rs) / rsh)
+    single_diode = lambda v, i: il  - ((v + i*rs) / rsh) - \
+        io * mp.expm1((v + i*rs) / (n * ns * vth))
 
     score = 0
 
@@ -240,7 +244,7 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
     for v, i in zip(fit_xs, fit_ys):
         # for each point (`v`, `i`) on the fitted curve, find the associated
         # point on known curve (`new_voltage`, `new_current`)
-        new_voltage = find_x_intersection(interval_current, single_diode, (v, i), atol)
+        new_voltage = _find_x_intersection(interval_current, single_diode, (v, i), atol)
         new_current = precise.lambert_i_from_v(new_voltage, il, io, rs, rsh, n, vth, ns) # find current associated to new_voltage
 
         # if voltage, current pair not a precise enough solution to single diode equation, make more precise
@@ -249,16 +253,70 @@ def total_score(known_curve_params, fitted_curve_params, vth, num_pts, atol):
             new_current = mp.findroot(lambda y: precise.diff_lhs_rhs(new_voltage, y, il, io, rs, rsh, n, vth, ns), new_current, tol=atol**2)
 
         # calculate distance between these points, and add to score
-        score += find_distance(new_voltage, new_current, v, i)
+        score += _find_distance(new_voltage, new_current, v, i)
 
     return score
 
 
-########
-# PLOT #
-########
+def score_parameters(known_curve_params, fitted_curve_params):
+    r'''
+    Calculate score as a sum of absolute relative difference in each parameter
 
-def get_curve(curve_parameters, vth, num_pts, atol):
+    Parameters
+    ----------
+    known_curve_params : list
+        A list of parameters representing a given IV curve. The list items
+        should be in the order [il, io, rs, rsh, n, ns].
+
+        il : numeric
+            Light-generated current :math:`I_L` (photocurrent) [A]
+
+        io : numeric
+            Diode saturation :math:`I_0` current under desired IV curve
+            conditions. [A]
+
+        rs : numeric
+            Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
+
+        rsh : numeric
+            Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+            [ohm]
+
+        n : numeric
+            Diode ideality factor :math:`n`
+
+    fitted_curve_params : list
+        A list of parameters representing a given IV curve. Should be passed in
+        the order [il, io, rs, rsh, n, ns].
+
+        il : numeric
+            Light-generated current :math:`I_L` (photocurrent) [A]
+
+        io : numeric
+            Diode saturation :math:`I_0` current under desired IV curve
+            conditions. [A]
+
+        rs : numeric
+            Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
+
+        rsh : numeric
+            Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
+            [ohm]
+
+        n : numeric
+            Diode ideality factor :math:`n`
+
+    '''
+    def _abs_rel_diff(x, y):
+        return np.abs(x - y) / x
+
+    score = 0.
+    for x, y in zip(known_curve_params, fitted_curve_params):
+        score += _abs_rel_diff(x, y)        
+    return score
+
+
+def calc_precise_curve(curve_parameters, vth, num_pts, atol):
     r"""
     Gets precise voltage and current pairs for the given curve.
 
@@ -314,155 +372,18 @@ def get_curve(curve_parameters, vth, num_pts, atol):
     return vv, ii
 
 
-def iv_plotter(iv_known, iv_fitted, vth, num_pts, atol, pts=None, plot_lines=True):
-    r"""
-    Plots the fitted curve (green) and the known curve (cyan).
+def _get_test_sets_to_score(tests='', fitted_files_directory=None):
+    """
+    Returns a list of valid test set names (excluding file extensions).
 
     Parameters
     ----------
-    iv_known : list
-        A list of parameters representing a given IV curve. Should be passed in
-        the order [il, io, rs, rsh, n, ns].
+    tests : str, default ''
+        String composed of comma-separated test set names. If empty, all test
+        set names from fitted_files_directory are returned.
 
-        il : numeric
-            Light-generated current :math:`I_L` (photocurrent) [A]
-
-        io : numeric
-            Diode saturation :math:`I_0` current under desired IV curve
-            conditions. [A]
-
-        rs : numeric
-            Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
-
-        rsh : numeric
-            Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
-            [ohm]
-
-        n : numeric
-            Diode ideality factor :math:`n`
-
-        ns : numeric
-            Number of cells in series :math:`N_s`
-
-    iv_fitted : list
-        A list of parameters representing a given IV curve. Should be passed in
-        the order [il, io, rs, rsh, n, ns].
-
-        il : numeric
-            Light-generated current :math:`I_L` (photocurrent) [A]
-
-        io : numeric
-            Diode saturation :math:`I_0` current under desired IV curve
-            conditions. [A]
-
-        rs : numeric
-            Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
-
-        rsh : numeric
-            Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
-            [ohm]
-
-        n : numeric
-            Diode ideality factor :math:`n`
-
-        ns : numeric
-            Number of cells in series :math:`N_s`
-
-    vth : numeric
-        Thermal voltage of the cell :math:`V_{th}` [V]
-        The thermal voltage of the cell (in volts) may be calculated as
-        :math:`k_B T_c / q`, where :math:`k_B` is Boltzmann's constant (J/K),
-        :math:`T_c` is the temperature of the p-n junction in Kelvin, and
-        :math:`q` is the charge of an electron (coulombs).
-
-
-    num_pts : int
-        Number of points to use when plotting curves.
-
-    atol : float
-        The error of each of the solution pairs found is at most ``atol``. (See
-        :func:`ivcurves.precise.get_precise_i`.)
-        Each solution pair is a point on the curve.
-
-    pts : list, default []
-        A list of points on the fitted curve that will be plotted, along with
-        their associated points on the known curve.
-
-    plot_lines : bool, default True
-        If true, the lines connecting the points on the fitted curve and the
-        associated points on the known curve will be plotted.
-
-    Returns
-    -------
-    plot
-        A matplotlib plot of the known curve (cyan) and the fitted curve
-        (green). If ``pts`` is given, the image will also include points that
-        were compared on the fitted curve (light green) and the known curve
-        (magenta). If ``plot_lines`` is True, then lines are drawn that connect
-        the associated points.
-    """
-    if not pts:
-        pts = []
-
-    plot = plt.plot()
-
-    # plot known curve (known parameters)
-    known_xs, known_ys = get_curve(iv_known, vth, num_pts, atol)
-    plt.plot(known_xs, known_ys, 'cyan')
-
-    # plot fitted curve (fitted parameters)
-    fit_xs, fit_ys = get_curve(iv_fitted, vth, num_pts, atol)
-    plt.plot(fit_xs, fit_ys, color='green')
-
-    il, io, rs, rsh, n, ns = iv_known
-    single_diode = lambda v, i : il - io * mp.expm1((v + i*rs) / (n * ns * vth)) - ((v + i*rs) / rsh)
-
-    count = 0
-    for vp, ip in pts:
-        # plot point on fitted curve
-        plt.plot(vp, ip, marker='o', color='lightgreen', markersize=3)
-
-        # get intersection point on known curve
-        try:
-            interval_current = min(known_xs), max(known_xs)
-            new_voltage = find_x_intersection(interval_current, single_diode, (vp, ip), atol)
-            new_current = precise.lambert_i_from_v(new_voltage, il, io, rs, rsh, n, vth, ns)
-        except ValueError:
-            print("BAD PT @", count)
-            count += 1
-            continue
-        else:
-            count += 1
-
-        # plot point on known curve
-        plt.plot(new_voltage, new_current, marker='o', color='magenta', markersize=3)
-
-        if plot_lines: # plot line intersecting curves
-            xs = [0, min(vp, new_voltage), max(vp, new_voltage)]
-            if xs[1] == vp:
-                ys = [0, ip, new_current]
-            else:
-                ys = [0, new_current, ip]
-
-            plt.plot(xs, ys, color='darkorchid', linewidth=0.4)
-
-    return plot
-
-
-def get_test_sets_to_score(fitted_files_directory, test_set=''):
-    """
-    Returns a list of valid test set filenames (excluding file extensions)
-    based on the files found in ``fitted_files_directory``.
-
-    Parameters
-    ----------
     fitted_files_directory : pathlib.Path
         Directory that contains files whose filenames are test set filenames.
-
-    test_set : str, default ''
-        A singular test set filename to look for in ``fitted_files_directory``.
-        The file extension must be excluded. This argument is ignored by
-        default.
 
     Returns
     -------
@@ -471,16 +392,20 @@ def get_test_sets_to_score(fitted_files_directory, test_set=''):
     """
     test_set_names = utils.get_filenames_in_directory(utils.TEST_SETS_DIR)
     test_sets_to_score = []
-    if test_set:
-        if test_set not in test_set_names:
-            raise ValueError(f"'{test_set}' is not a test set")
-        test_sets_to_score = [test_set]
-    else:
+    if tests != '':
+        for t in tests.split(','):
+            if t not in test_set_names:
+                raise ValueError(f"'{t}' is not a test set")
+            test_sets_to_score.append(t)
+    elif fitted_files_directory is not None:
+        # score all found in fitted_files_directory
         filenames = utils.get_filenames_in_directory(fitted_files_directory)
         test_sets_to_score = [f for f in filenames if f in test_set_names]
         test_sets_to_score.sort()
         if not test_sets_to_score:
             raise ValueError(f"no test sets found in '{fitted_files_directory}'")
+    else:
+        raise ValueError('Must supply either tests or fitted_files_directory')
     return test_sets_to_score
 
 
@@ -538,12 +463,10 @@ def get_argparser():
     )
     parser.add_argument('fitted_files_directory', type=Path,
                         help='Directory containing fitted parameter CSV files.')
-    parser.add_argument('--test-set', dest='test_set', type=str, default='',
-                        help='Name of test set to score.')
+    parser.add_argument('--test-sets', dest='test_sets', type=str, default='',
+                        help='Comma-separated list of test sets to score.')
     parser.add_argument('--csv-output-path', dest='csv_output_path', type=Path,
                         default='.', help='Directory where to write output CSV files.')
-    parser.add_argument('--plot', action=argparse.BooleanOptionalAction,
-                        help='Plot each IV curve fit.')
     return parser
 
 
@@ -554,27 +477,38 @@ def get_argparser():
 
 if __name__ == '__main__':
     args = get_argparser().parse_args()
-    test_sets_to_score = get_test_sets_to_score(args.fitted_files_directory, args.test_set)
+    test_sets_to_score = _get_test_sets_to_score(
+        args.test_sets, args.fitted_files_directory)
     scores = {}
     num_compare_pts = 10
     num_total_pts = 200
     constants = utils.constants()
     vth, atol = constants['vth'], constants['atol']
 
-    for name in test_sets_to_score:
+    for name in {'case1', 'case2'}.intersection(test_sets_to_score):
         scores[name] = {}
-        known_parameter_sets = utils.read_iv_curve_parameter_sets(utils.TEST_SETS_DIR / name)
-        fitted_parameter_sets = utils.read_iv_curve_parameter_sets(args.fitted_files_directory / name)
+        known_parameter_sets = utils.read_iv_curve_parameter_sets(
+            utils.TEST_SETS_DIR / name)
+        fitted_parameter_sets = utils.read_iv_curve_parameter_sets(
+            args.fitted_files_directory / name)
         for idx, known_p in known_parameter_sets.items():
             fitted_p = fitted_parameter_sets[idx]
-            scores[name][idx] = total_score(known_p, fitted_p, vth, num_compare_pts, atol)
+            scores[name][idx] = score_curve(known_p, fitted_p, vth,
+                                            num_compare_pts, atol)
 
-            if args.plot:
-                fit_xs, fit_ys = get_curve(fitted_p, vth, num_compare_pts, atol)
-                plot = iv_plotter(known_p, fitted_p, vth, num_total_pts, atol,
-                                  pts=list(zip(fit_xs, fit_ys)), plot_lines=True)
-                plt.show()
-                plt.cla()
+    for name in {'case3a', 'case3b', 'case3c', 'case3d'}.intersection(
+            test_sets_to_score):
+        scores[name] = {}
+        known_parameter_sets = utils.read_iv_curve_parameter_sets(
+            utils.TEST_SETS_DIR / name)
+        fitted_parameter_sets = utils.read_iv_curve_parameter_sets(
+            args.fitted_files_directory / name)
+        for idx, known_p in known_parameter_sets.items():
+            fitted_p = fitted_parameter_sets[idx]
+            scores[name][idx] = score_parameters(known_p, fitted_p)
+        
+    for name in ALL_TEST_SETS.difference(test_sets_to_score):
+        scores[name] = {0: float('NaN')}
 
     write_test_set_score_per_curve_csvs(scores, args.csv_output_path)
     write_overall_scores_csv(scores, args.csv_output_path)

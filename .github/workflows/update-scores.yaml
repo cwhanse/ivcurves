@@ -27,9 +27,6 @@ jobs:
               database = json.load(file)
           pr_data = []
           for pr_number, data in database.items():
-              # exclude submissions already marked broken
-              if 'broken' in data.keys():
-                  continue
               pair = [pr_number, data['username'], data['submission_datetime']]
               pr_data.append(pair)
           print(json.dumps(pr_data))
@@ -175,7 +172,7 @@ jobs:
             # score submission
             # will fail if no CSV output from the submission,
             # or its CSV files contain very inaccurate results (no intersection between the true and fitted curves can be found)
-            scorer_exit_code=$(python3 "$repo_base"/ivcurves/compare_curves.py . --csv-output-path .; echo $?)
+            scorer_exit_code=$(python3 "$repo_base"/ivcurves/compare_curves.py . --csv-output-path . --test-sets "$TEST_SETS_FOR_SCORING"; echo $?)
 
             cd "$repo_base"
 

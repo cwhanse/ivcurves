@@ -10,5 +10,6 @@ Documentation
    compare_curves
    precise
    utils
+   plots
    github_workflows/index
 

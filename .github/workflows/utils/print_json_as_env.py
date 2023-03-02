@@ -24,16 +24,20 @@ def validate_pr_config(submissions_root_path, pr_config_json):
     dict
         A validated mapping from environment variables to to their values.
     """
-    defn = lambda value_type, validator, error_msg: {
-        'value_type': value_type,
-        'validator': validator,
-        'error_msg': error_msg
-    }
-    schema = {
-        'RUN_SCORER': defn(bool, lambda v: isinstance(v, bool), 'must be a Boolean'),
-        'REQUIREMENTS': defn(Path, lambda v: Path(submissions_root_path / v).exists(), 'path does not exist'),
-        'SUBMISSION_MAIN': defn(Path, lambda v: Path(submissions_root_path / v).exists(), 'path does not exist')
-    }
+    defn = lambda value_type, validator, error_msg_func: dict(
+        value_type=value_type,
+        validator=validator,
+        error_msg_func=error_msg_func
+    )
+    prepend_submissions_root_path = lambda v: Path(submissions_root_path / v)
+    valid_test_set_names = set(utils.get_filenames_in_directory(utils.TEST_SETS_DIR))
+    invalid_test_set_names = lambda v: set(v.split(',')) - valid_test_set_names
+    schema = dict(
+        RUN_SCORER=defn(bool, lambda v: isinstance(v, bool), lambda _: 'must be a Boolean'),
+        REQUIREMENTS=defn(Path, lambda v: prepend_submissions_root_path(v).exists(), lambda v: f'path does not exist: {prepend_submissions_root_path(v)}'),
+        SUBMISSION_MAIN=defn(Path, lambda v: prepend_submissions_root_path(v).exists(), lambda v: f'path does not exist: {prepend_submissions_root_path(v)}'),
+        TEST_SETS_FOR_SCORING=defn(str, lambda v: v == '' or len(invalid_test_set_names(v)) == 0, lambda v: f'invalid test sets names found: {sorted(invalid_test_set_names(v))}')
+    )
 
     missing_keys = set(schema.keys()) - set(pr_config_json.keys())
     if missing_keys:
@@ -43,13 +47,14 @@ def validate_pr_config(submissions_root_path, pr_config_json):
         raise ValueError(f'Unknown keys in pr_config: {extra_keys}')
 
     for key, defn in schema.items():
-        value_type, validator, error_msg = (
-            defn['value_type'], defn['validator'], defn['error_msg']
+        v = pr_config_json[key]
+        value_type, validator, error_msg_func = (
+            defn['value_type'], defn['validator'], defn['error_msg_func']
         )
-        if not validator(pr_config_json[key]):
-            raise ValueError(f'{key}: {error_msg}')
+        if not validator(v):
+            raise ValueError(f'{key}: {error_msg_func(v)}')
 
-        pr_config_json[key] = value_type(pr_config_json[key])
+        pr_config_json[key] = value_type(v)
 
 
 def format_bool_variables(key, validated_dict, **options):
