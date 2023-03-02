@@ -8,5 +8,15 @@
       "case1": "32.0007537115150650",
       "case2": "31.0003386881110886"
     }
+  },
+  "28": {
+    "username": "cwhanse",
+    "submission_datetime": "2023-03-01T23:58:09Z",
+    "merge_commit": "425b94191edf64c088927e79f18c8824f5d26efe",
+    "submission_main": "sandia_simple.py",
+    "test_sets": {
+      "case1": "30.0007655429194646100",
+      "case2": "31.0003388135296881407"
+    }
   }
 }
