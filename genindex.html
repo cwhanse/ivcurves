@@ -183,14 +183,12 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
- | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
- | <a href="#T"><strong>T</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
@@ -220,10 +218,19 @@
 </li>
       </ul></li>
       <li>
+    --fitted-files-path
+
+      <ul>
+        <li><a href="reference/plots.html#cmdoption-plots.py-fitted-files-path">plots.py command line option</a>
+</li>
+      </ul></li>
+      <li>
     --help
 
       <ul>
         <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-h">compare_curves.py command line option</a>
+</li>
+        <li><a href="reference/plots.html#cmdoption-plots.py-h">plots.py command line option</a>
 </li>
         <li><a href="reference/precise.html#cmdoption-precise.py-h">precise.py command line option</a>
 </li>
@@ -244,15 +251,6 @@
 
       <ul>
         <li><a href="reference/github_workflows/utils/record_scores.html#cmdoption-record_scores.py-broken-if-invalid">record_scores.py command line option</a>
-</li>
-      </ul></li>
-      <li>
-    --no-plot
-
-      <ul>
-        <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-plot">compare_curves.py command line option</a>
-</li>
-        <li><a href="reference/precise.html#cmdoption-precise.py-plot">precise.py command line option</a>
 </li>
       </ul></li>
       <li>
@@ -288,15 +286,6 @@
 
       <ul>
         <li><a href="reference/github_workflows/utils/record_scores.html#cmdoption-record_scores.py-overall-scores-path">record_scores.py command line option</a>
-</li>
-      </ul></li>
-      <li>
-    --plot
-
-      <ul>
-        <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-plot">compare_curves.py command line option</a>
-</li>
-        <li><a href="reference/precise.html#cmdoption-precise.py-plot">precise.py command line option</a>
 </li>
       </ul></li>
   </ul></td>
@@ -337,20 +326,6 @@
 </li>
       </ul></li>
       <li>
-    --save-images
-
-      <ul>
-        <li><a href="reference/precise.html#cmdoption-precise.py-save-images">precise.py command line option</a>
-</li>
-      </ul></li>
-      <li>
-    --save-json
-
-      <ul>
-        <li><a href="reference/precise.html#cmdoption-precise.py-save-json">precise.py command line option</a>
-</li>
-      </ul></li>
-      <li>
     --split-path-variables
 
       <ul>
@@ -368,9 +343,14 @@
     --test-set
 
       <ul>
-        <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-test-set">compare_curves.py command line option</a>
-</li>
         <li><a href="reference/precise.html#cmdoption-precise.py-test-set">precise.py command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --test-sets
+
+      <ul>
+        <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-test-sets">compare_curves.py command line option</a>
 </li>
       </ul></li>
       <li>
@@ -386,6 +366,8 @@
       <ul>
         <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-h">compare_curves.py command line option</a>
 </li>
+        <li><a href="reference/plots.html#cmdoption-plots.py-h">plots.py command line option</a>
+</li>
         <li><a href="reference/precise.html#cmdoption-precise.py-h">precise.py command line option</a>
 </li>
         <li><a href="reference/github_workflows/utils/print_json_as_env.html#cmdoption-print_json_as_env.py-h">print_json_as_env.py command line option</a>
@@ -399,7 +381,7 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/ivcurves.precise.build_test_set_json.html#ivcurves.precise.build_test_set_json">build_test_set_json() (in module ivcurves.precise)</a>
+      <li><a href="reference/generated/ivcurves.precise.build_precise_json.html#ivcurves.precise.build_precise_json">build_precise_json() (in module ivcurves.precise)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -415,11 +397,7 @@
 </li>
         <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-h">--help</a>
 </li>
-        <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-plot">--no-plot</a>
-</li>
-        <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-plot">--plot</a>
-</li>
-        <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-test-set">--test-set</a>
+        <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-test-sets">--test-sets</a>
 </li>
         <li><a href="reference/compare_curves.html#cmdoption-compare_curves.py-h">-h</a>
 </li>
@@ -444,10 +422,6 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/ivcurves.compare_curves.find_distance.html#ivcurves.compare_curves.find_distance">find_distance() (in module ivcurves.compare_curves)</a>
-</li>
-      <li><a href="reference/generated/ivcurves.compare_curves.find_x_intersection.html#ivcurves.compare_curves.find_x_intersection">find_x_intersection() (in module ivcurves.compare_curves)</a>
-</li>
       <li>
     fitted_files_directory
 
@@ -469,8 +443,6 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/ivcurves.compare_curves.get_curve.html#ivcurves.compare_curves.get_curve">get_curve() (in module ivcurves.compare_curves)</a>
-</li>
       <li><a href="reference/generated/ivcurves.utils.get_filenames_in_directory.html#ivcurves.utils.get_filenames_in_directory">get_filenames_in_directory() (in module ivcurves.utils)</a>
 </li>
       <li><a href="reference/generated/ivcurves.precise.get_precise_i.html#ivcurves.precise.get_precise_i">get_precise_i() (in module ivcurves.precise)</a>
@@ -481,17 +453,7 @@
 </li>
       <li><a href="submissions/cwhanse/sandia_simple.html#submissions.cwhanse.sandia_simple.get_test_set_name">get_test_set_name() (in module submissions.cwhanse.sandia_simple)</a>
 </li>
-      <li><a href="reference/generated/ivcurves.compare_curves.get_test_sets_to_score.html#ivcurves.compare_curves.get_test_sets_to_score">get_test_sets_to_score() (in module ivcurves.compare_curves)</a>
-</li>
       <li><a href="reference/generated/ivcurves.precise.golden_search.html#ivcurves.precise.golden_search">golden_search() (in module ivcurves.precise)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="I">I</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/ivcurves.compare_curves.iv_plotter.html#ivcurves.compare_curves.iv_plotter">iv_plotter() (in module ivcurves.compare_curves)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -557,25 +519,32 @@
         <li><a href="reference/github_workflows/utils/print_json_as_env.html#cmdoption-print_json_as_env.py-arg-path">print_json_as_env.py command line option</a>
 </li>
       </ul></li>
-      <li><a href="reference/generated/ivcurves.precise.plot_iv_curves.html#ivcurves.precise.plot_iv_curves">plot_iv_curves() (in module ivcurves.precise)</a>
+      <li><a href="reference/generated/ivcurves.plots.plot_precise_iv_curves.html#ivcurves.plots.plot_precise_iv_curves">plot_precise_iv_curves() (in module ivcurves.plots)</a>
 </li>
+      <li>
+    plots.py command line option
+
+      <ul>
+        <li><a href="reference/plots.html#cmdoption-plots.py-fitted-files-path">--fitted-files-path</a>
+</li>
+        <li><a href="reference/plots.html#cmdoption-plots.py-h">--help</a>
+</li>
+        <li><a href="reference/plots.html#cmdoption-plots.py-h">-h</a>
+</li>
+        <li><a href="reference/plots.html#cmdoption-plots.py-arg-save_images_path">save_images_path</a>
+</li>
+      </ul></li>
       <li>
     precise.py command line option
 
       <ul>
         <li><a href="reference/precise.html#cmdoption-precise.py-h">--help</a>
 </li>
-        <li><a href="reference/precise.html#cmdoption-precise.py-plot">--no-plot</a>
-</li>
-        <li><a href="reference/precise.html#cmdoption-precise.py-plot">--plot</a>
-</li>
-        <li><a href="reference/precise.html#cmdoption-precise.py-save-images">--save-images</a>
-</li>
-        <li><a href="reference/precise.html#cmdoption-precise.py-save-json">--save-json</a>
-</li>
         <li><a href="reference/precise.html#cmdoption-precise.py-test-set">--test-set</a>
 </li>
         <li><a href="reference/precise.html#cmdoption-precise.py-h">-h</a>
+</li>
+        <li><a href="reference/precise.html#cmdoption-precise.py-arg-save_json_path">save_json_path</a>
 </li>
       </ul></li>
   </ul></td>
@@ -650,12 +619,28 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    save_images_path
+
+      <ul>
+        <li><a href="reference/plots.html#cmdoption-plots.py-arg-save_images_path">plots.py command line option</a>
+</li>
+      </ul></li>
       <li><a href="reference/generated/ivcurves.utils.save_json.html#ivcurves.utils.save_json">save_json() (in module ivcurves.utils)</a>
+</li>
+      <li>
+    save_json_path
+
+      <ul>
+        <li><a href="reference/precise.html#cmdoption-precise.py-arg-save_json_path">precise.py command line option</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/ivcurves.plots.scoring_visualization.html#ivcurves.plots.scoring_visualization">scoring_visualization() (in module ivcurves.plots)</a>
 </li>
       <li><a href="reference/generated/ivcurves.utils.set_globals.html#ivcurves.utils.set_globals">set_globals() (in module ivcurves.utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     submissions.cwhanse.sandia_simple
 
@@ -663,14 +648,6 @@
         <li><a href="submissions/cwhanse/sandia_simple.html#module-submissions.cwhanse.sandia_simple">module</a>
 </li>
       </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="T">T</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/ivcurves.compare_curves.total_score.html#ivcurves.compare_curves.total_score">total_score() (in module ivcurves.compare_curves)</a>
-</li>
   </ul></td>
 </tr></table>
 

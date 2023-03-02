@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Precise &#8212; ivcurves 1.0 documentation</title>
+    <title>Plots &#8212; ivcurves 1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -35,15 +35,14 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ivcurves.precise.max_power_pt_finder" href="generated/ivcurves.precise.max_power_pt_finder.html" />
-    <link rel="prev" title="ivcurves.compare_curves.write_overall_scores_csv" href="generated/ivcurves.compare_curves.write_overall_scores_csv.html" />
+    <link rel="next" title="ivcurves.plots.plot_precise_iv_curves" href="generated/ivcurves.plots.plot_precise_iv_curves.html" />
+    <link rel="prev" title="ivcurves.utils.save_json" href="generated/ivcurves.utils.save_json.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
   </head>
@@ -177,11 +176,11 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="precise.html">
    Precise
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
   <label for="toctree-checkbox-2">
    <i class="fas fa-chevron-down">
    </i>
@@ -281,11 +280,11 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="plots.html">
+ <li class="toctree-l1 current active has-children">
+  <a class="current reference internal" href="#">
    Plots
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
@@ -441,8 +440,8 @@
 <nav id="bd-toc-nav">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#precise-py">
-   precise.py
+  <a class="reference internal nav-link" href="#plots-py">
+   plots.py
   </a>
  </li>
 </ul>
@@ -464,55 +463,40 @@
               
               <article class="bd-article" role="main">
                 
-  <section id="precise">
-<h1>Precise<a class="headerlink" href="#precise" title="Permalink to this heading">#</a></h1>
-<section id="precise-py">
-<h2>precise.py<a class="headerlink" href="#precise-py" title="Permalink to this heading">#</a></h2>
-<p>Generates precise IV curve data from the parameters of the single diode equation.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: precise.py [-h] [--test-set TEST_SET_FILENAME] save_json_path</span>
+  <section id="plots">
+<h1>Plots<a class="headerlink" href="#plots" title="Permalink to this heading">#</a></h1>
+<section id="plots-py">
+<h2>plots.py<a class="headerlink" href="#plots-py" title="Permalink to this heading">#</a></h2>
+<p>Plots precise IV curves, and visualizations for compare_curves scoring against them.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: plots.py [-h] [--fitted-files-path FITTED_FILES_PATH] save_images_path</span>
 </pre></div>
 </div>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-precise.py-arg-save_json_path">
-<span id="cmdoption-precise-py-arg-save-json-path"></span><span class="sig-name descname"><span class="pre">save_json_path</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-precise.py-arg-save_json_path" title="Permalink to this definition">#</a></dt>
-<dd><p>Saves the test set JSON at the given path.</p>
+<dt class="sig sig-object std" id="cmdoption-plots.py-arg-save_images_path">
+<span id="cmdoption-plots-py-arg-save-images-path"></span><span class="sig-name descname"><span class="pre">save_images_path</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-plots.py-arg-save_images_path" title="Permalink to this definition">#</a></dt>
+<dd><p>Where to save the test set IV curve plots.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-precise.py-h">
-<span id="cmdoption-precise-py-h"></span><span id="cmdoption-precise.py-help"></span><span id="cmdoption-precise-py-help"></span><span class="sig-name descname"><span class="pre">-h</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-precise.py-h" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object std" id="cmdoption-plots.py-h">
+<span id="cmdoption-plots-py-h"></span><span id="cmdoption-plots.py-help"></span><span id="cmdoption-plots-py-help"></span><span class="sig-name descname"><span class="pre">-h</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-plots.py-h" title="Permalink to this definition">#</a></dt>
 <dd><p>show this help message and exit</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-precise.py-test-set">
-<span id="cmdoption-precise-py-test-set"></span><span class="sig-name descname"><span class="pre">--test-set</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;test_set_filename&gt;</span></span><a class="headerlink" href="#cmdoption-precise.py-test-set" title="Permalink to this definition">#</a></dt>
-<dd><p>Test set filename (excluding file extension) to generate curves for. If omitted, all test sets are used.</p>
+<dt class="sig sig-object std" id="cmdoption-plots.py-fitted-files-path">
+<span id="cmdoption-plots-py-fitted-files-path"></span><span class="sig-name descname"><span class="pre">--fitted-files-path</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;fitted_files_path&gt;</span></span><a class="headerlink" href="#cmdoption-plots.py-fitted-files-path" title="Permalink to this definition">#</a></dt>
+<dd><p>Where to find fitted parameter CSV files for compare_curves scoring visualization.</p>
 </dd></dl>
 
 </section>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.precise.max_power_pt_finder.html#ivcurves.precise.max_power_pt_finder" title="ivcurves.precise.max_power_pt_finder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_power_pt_finder</span></code></a>(il, io, rs, rsh, n, vth, ...)</p></td>
-<td><p>Calculates power at maximum power point.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.plots.plot_precise_iv_curves.html#ivcurves.plots.plot_precise_iv_curves" title="ivcurves.plots.plot_precise_iv_curves"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_precise_iv_curves</span></code></a>(test_set_filename, ...)</p></td>
+<td><p>Plot precise IV curves.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.precise.golden_search.html#ivcurves.precise.golden_search" title="ivcurves.precise.golden_search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">golden_search</span></code></a>(a, b, func, atol, max_iters)</p></td>
-<td><p>Finds a local maximizer of a function on an interval <span class="math notranslate nohighlight">\([a, b]\)</span> with at most <code class="docutils literal notranslate"><span class="pre">atol</span></code> error using golden-section serach.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.precise.lambert_i_from_v.html#ivcurves.precise.lambert_i_from_v" title="ivcurves.precise.lambert_i_from_v"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lambert_i_from_v</span></code></a>(v, il, io, rs, rsh, n, vth, ns)</p></td>
-<td><p>Given a voltage, calculates the associated current using the Lambert W function.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.precise.lambert_v_from_i.html#ivcurves.precise.lambert_v_from_i" title="ivcurves.precise.lambert_v_from_i"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lambert_v_from_i</span></code></a>(i, il, io, rs, rsh, n, vth, ns)</p></td>
-<td><p>Given a current, calculates the associated voltage using the Lambert W function.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.precise.diff_lhs_rhs.html#ivcurves.precise.diff_lhs_rhs" title="ivcurves.precise.diff_lhs_rhs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diff_lhs_rhs</span></code></a>(v, i, il, io, rs, rsh, n, vth, ns)</p></td>
-<td><p>Calculates the difference between the left hand side and right hand side of the single diode equation.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.precise.get_precise_i.html#ivcurves.precise.get_precise_i" title="ivcurves.precise.get_precise_i"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_precise_i</span></code></a>(il, io, rs, rsh, n, vth, ns, ...)</p></td>
-<td><p>Calculates precise solutions to the single diode equation for the given parameters, with an error of at most <code class="docutils literal notranslate"><span class="pre">atol</span></code>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.precise.build_precise_json.html#ivcurves.precise.build_precise_json" title="ivcurves.precise.build_precise_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_precise_json</span></code></a>(case_parameter_sets, vth, ...)</p></td>
-<td><p>Builds a dict of precise IV curve solutions compliant with the IV Curve JSON schema.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.plots.scoring_visualization.html#ivcurves.plots.scoring_visualization" title="ivcurves.plots.scoring_visualization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scoring_visualization</span></code></a>(test_set_filename, ...)</p></td>
+<td><p>Plots the fitted curve (green) and the known curve (cyan) to visualize how compare_curves scores the fitted parameter sets.</p></td>
 </tr>
 </tbody>
 </table>
@@ -526,17 +510,17 @@
               <footer class="bd-footer-article">
                   <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="generated/ivcurves.compare_curves.write_overall_scores_csv.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="generated/ivcurves.utils.save_json.html" title="previous page">
       <i class="fas fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">ivcurves.compare_curves.write_overall_scores_csv</p>
+          <p class="prev-next-title">ivcurves.utils.save_json</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="generated/ivcurves.precise.max_power_pt_finder.html" title="next page">
+  <a class='right-next' id="next-link" href="generated/ivcurves.plots.plot_precise_iv_curves.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">ivcurves.precise.max_power_pt_finder</p>
+      <p class="prev-next-title">ivcurves.plots.plot_precise_iv_curves</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>

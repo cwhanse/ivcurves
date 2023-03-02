@@ -1,0 +1,6 @@
+﻿ivcurves.plots.scoring\_visualization
+=====================================
+
+.. currentmodule:: ivcurves.plots
+
+.. autofunction:: scoring_visualization

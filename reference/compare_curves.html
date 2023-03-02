@@ -35,14 +35,13 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ivcurves.compare_curves.find_x_intersection" href="generated/ivcurves.compare_curves.find_x_intersection.html" />
+    <link rel="next" title="ivcurves.compare_curves.write_test_set_score_per_curve_csvs" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html" />
     <link rel="prev" title="Documentation" href="index.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
@@ -166,36 +165,6 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.compare_curves.find_x_intersection.html">
-     ivcurves.compare_curves.find_x_intersection
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.compare_curves.find_distance.html">
-     ivcurves.compare_curves.find_distance
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.compare_curves.total_score.html">
-     ivcurves.compare_curves.total_score
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.compare_curves.get_curve.html">
-     ivcurves.compare_curves.get_curve
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.compare_curves.iv_plotter.html">
-     ivcurves.compare_curves.iv_plotter
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.compare_curves.get_test_sets_to_score.html">
-     ivcurves.compare_curves.get_test_sets_to_score
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html">
      ivcurves.compare_curves.write_test_set_score_per_curve_csvs
     </a>
@@ -248,13 +217,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.precise.plot_iv_curves.html">
-     ivcurves.precise.plot_iv_curves
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.precise.build_test_set_json.html">
-     ivcurves.precise.build_test_set_json
+    <a class="reference internal" href="generated/ivcurves.precise.build_precise_json.html">
+     ivcurves.precise.build_precise_json
     </a>
    </li>
   </ul>
@@ -317,11 +281,33 @@
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="github_workflows/index.html">
-   GitHub Workflows
+  <a class="reference internal" href="plots.html">
+   Plots
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.plots.plot_precise_iv_curves.html">
+     ivcurves.plots.plot_precise_iv_curves
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.plots.scoring_visualization.html">
+     ivcurves.plots.scoring_visualization
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="github_workflows/index.html">
+   GitHub Workflows
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -355,8 +341,8 @@
     <a class="reference internal" href="github_workflows/utils/index.html">
      Utility Python Scripts
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-    <label for="toctree-checkbox-5">
+    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+    <label for="toctree-checkbox-6">
      <i class="fas fa-chevron-down">
      </i>
     </label>
@@ -365,8 +351,8 @@
       <a class="reference internal" href="github_workflows/utils/print_json_as_env.html">
        Print JSON as ENV
       </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-      <label for="toctree-checkbox-6">
+      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+      <label for="toctree-checkbox-7">
        <i class="fas fa-chevron-down">
        </i>
       </label>
@@ -402,8 +388,8 @@
       <a class="reference internal" href="github_workflows/utils/record_scores.html">
        Record Scores
       </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-      <label for="toctree-checkbox-7">
+      <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+      <label for="toctree-checkbox-8">
        <i class="fas fa-chevron-down">
        </i>
       </label>
@@ -482,9 +468,8 @@
 <section id="compare-curves-py">
 <h2>compare_curves.py<a class="headerlink" href="#compare-curves-py" title="Permalink to this heading">#</a></h2>
 <p>Measure the distance between IV curves generated from the parameters of the single diode equation.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: compare_curves.py [-h] [--test-set TEST_SET]</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: compare_curves.py [-h] [--test-sets TEST_SETS]</span>
 <span class="go">                         [--csv-output-path CSV_OUTPUT_PATH]</span>
-<span class="go">                         [--plot | --no-plot]</span>
 <span class="go">                         fitted_files_directory</span>
 </pre></div>
 </div>
@@ -501,9 +486,9 @@
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-compare_curves.py-test-set">
-<span id="cmdoption-compare-curves-py-test-set"></span><span class="sig-name descname"><span class="pre">--test-set</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;test_set&gt;</span></span><a class="headerlink" href="#cmdoption-compare_curves.py-test-set" title="Permalink to this definition">#</a></dt>
-<dd><p>Name of test set to score.</p>
+<dt class="sig sig-object std" id="cmdoption-compare_curves.py-test-sets">
+<span id="cmdoption-compare-curves-py-test-sets"></span><span class="sig-name descname"><span class="pre">--test-sets</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;test_sets&gt;</span></span><a class="headerlink" href="#cmdoption-compare_curves.py-test-sets" title="Permalink to this definition">#</a></dt>
+<dd><p>Comma-separated list of test sets to score.</p>
 </dd></dl>
 
 <dl class="std option">
@@ -512,33 +497,9 @@
 <dd><p>Directory where to write output CSV files.</p>
 </dd></dl>
 
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-compare_curves.py-plot">
-<span id="cmdoption-compare-curves-py-plot"></span><span id="cmdoption-compare_curves.py-no-plot"></span><span id="cmdoption-compare-curves-py-no-plot"></span><span class="sig-name descname"><span class="pre">--plot</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-plot</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-compare_curves.py-plot" title="Permalink to this definition">#</a></dt>
-<dd><p>Plot each IV curve fit.</p>
-</dd></dl>
-
 </section>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.find_x_intersection.html#ivcurves.compare_curves.find_x_intersection" title="ivcurves.compare_curves.find_x_intersection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_x_intersection</span></code></a>(interval, func, point, atol)</p></td>
-<td><p>Finds x-coordinate of the intersection between the known IV curve and the line segment from the origin to the given point.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.find_distance.html#ivcurves.compare_curves.find_distance" title="ivcurves.compare_curves.find_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_distance</span></code></a>(x, y, xp, yp)</p></td>
-<td><p>Calculates the distance between two points <span class="math notranslate nohighlight">\((x, y)\)</span> and <span class="math notranslate nohighlight">\((x_p, y_p)\)</span> using a scaled Euclidean distance.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.total_score.html#ivcurves.compare_curves.total_score" title="ivcurves.compare_curves.total_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">total_score</span></code></a>(known_curve_params, ...)</p></td>
-<td><p>Calculates the total score for a given fitted curve.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.get_curve.html#ivcurves.compare_curves.get_curve" title="ivcurves.compare_curves.get_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_curve</span></code></a>(curve_parameters, vth, num_pts, atol)</p></td>
-<td><p>Gets precise voltage and current pairs for the given curve.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.iv_plotter.html#ivcurves.compare_curves.iv_plotter" title="ivcurves.compare_curves.iv_plotter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iv_plotter</span></code></a>(iv_known, iv_fitted, vth, ...[, ...])</p></td>
-<td><p>Plots the fitted curve (green) and the known curve (cyan).</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.get_test_sets_to_score.html#ivcurves.compare_curves.get_test_sets_to_score" title="ivcurves.compare_curves.get_test_sets_to_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_test_sets_to_score</span></code></a>(fitted_files_directory)</p></td>
-<td><p>Returns a list of valid test set filenames (excluding file extensions) based on the files found in <code class="docutils literal notranslate"><span class="pre">fitted_files_directory</span></code>.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html#ivcurves.compare_curves.write_test_set_score_per_curve_csvs" title="ivcurves.compare_curves.write_test_set_score_per_curve_csvs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_test_set_score_per_curve_csvs</span></code></a>(scores, ...)</p></td>
 <td><p>Writes a CSV file containing a score for each test case in every test set.</p></td>
 </tr>
@@ -564,10 +525,10 @@
           <p class="prev-next-title">Documentation</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="generated/ivcurves.compare_curves.find_x_intersection.html" title="next page">
+  <a class='right-next' id="next-link" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">ivcurves.compare_curves.find_x_intersection</p>
+      <p class="prev-next-title">ivcurves.compare_curves.write_test_set_score_per_curve_csvs</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>
