@@ -369,20 +369,18 @@ def calc_precise_curve(curve_parameters, vth, num_pts, atol):
     return vv, ii
 
 
-def get_test_sets_to_score(fitted_files_directory, test_set=''):
+def _get_test_sets_to_score(tests='', fitted_files_directory=None):
     """
-    Returns a list of valid test set filenames (excluding file extensions)
-    based on the files found in ``fitted_files_directory``.
+    Returns a list of valid test set names (excluding file extensions).
 
     Parameters
     ----------
+    tests : str, default ''
+        String composed of comma-separated test set names. If empty, all test
+        set names from fitted_files_directory are returned.
+
     fitted_files_directory : pathlib.Path
         Directory that contains files whose filenames are test set filenames.
-
-    test_set : str, default ''
-        A singular test set filename to look for in ``fitted_files_directory``.
-        The file extension must be excluded. This argument is ignored by
-        default.
 
     Returns
     -------
@@ -391,16 +389,20 @@ def get_test_sets_to_score(fitted_files_directory, test_set=''):
     """
     test_set_names = utils.get_filenames_in_directory(utils.TEST_SETS_DIR)
     test_sets_to_score = []
-    if test_set != '':
-        if test_set not in test_set_names:
-            raise ValueError(f"'{test_set}' is not a test set")
-        test_sets_to_score = [test_set]
-    else:
+    if tests != '':
+        for t in tests.split(','):
+            if test_set not in test_set_names:
+                raise ValueError(f"'{test_set}' is not a test set")
+            test_sets_to_score.append(t)
+    elif fitted_files_directory is not None:
+        # score all found in fitted_files_directory
         filenames = utils.get_filenames_in_directory(fitted_files_directory)
         test_sets_to_score = [f for f in filenames if f in test_set_names]
         test_sets_to_score.sort()
         if not test_sets_to_score:
             raise ValueError(f"no test sets found in '{fitted_files_directory}'")
+    else:
+        raise ValueError('Must supply either tests or fitted_files_directory')
     return test_sets_to_score
 
 
@@ -472,8 +474,8 @@ def get_argparser():
 
 if __name__ == '__main__':
     args = get_argparser().parse_args()
-    test_sets_to_score = get_test_sets_to_score(
-        args.fitted_files_directory, args.test_sets).split(',')
+    test_sets_to_score = _get_test_sets_to_score(
+        args.test_sets, args.fitted_files_directory)
     scores = {}
     num_compare_pts = 10
     num_total_pts = 200
