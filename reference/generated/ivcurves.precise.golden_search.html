@@ -35,13 +35,14 @@
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="../../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="ivcurves.precise.get_left_int_pt" href="ivcurves.precise.get_left_int_pt.html" />
+    <link rel="next" title="ivcurves.precise.lambert_i_from_v" href="ivcurves.precise.lambert_i_from_v.html" />
     <link rel="prev" title="ivcurves.precise.max_power_pt_finder" href="ivcurves.precise.max_power_pt_finder.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
@@ -170,11 +171,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.compare_curves.get_guess_interval.html">
-     ivcurves.compare_curves.get_guess_interval
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="ivcurves.compare_curves.find_distance.html">
      ivcurves.compare_curves.find_distance
     </a>
@@ -232,16 +228,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.precise.get_left_int_pt.html">
-     ivcurves.precise.get_left_int_pt
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.precise.get_right_int_pt.html">
-     ivcurves.precise.get_right_int_pt
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="ivcurves.precise.lambert_i_from_v.html">
      ivcurves.precise.lambert_i_from_v
     </a>
@@ -267,8 +253,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.precise.write_test_set_json.html">
-     ivcurves.precise.write_test_set_json
+    <a class="reference internal" href="ivcurves.precise.build_test_set_json.html">
+     ivcurves.precise.build_test_set_json
     </a>
    </li>
   </ul>
@@ -318,6 +304,16 @@
      ivcurves.utils.get_filenames_in_directory
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.load_json.html">
+     ivcurves.utils.load_json
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.save_json.html">
+     ivcurves.utils.save_json
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -348,6 +344,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../github_workflows/build_sphinx_docs.html">
      Build Sphinx Docs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../github_workflows/pytest.html">
+     Pytest
     </a>
    </li>
    <li class="toctree-l2 has-children">
@@ -413,11 +414,6 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.test_set_filenames.html">
-         workflows.utils.record_scores.test_set_filenames
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.validate_overall_scores.html">
          workflows.utils.record_scores.validate_overall_scores
         </a>
@@ -475,42 +471,28 @@
 <h1>ivcurves.precise.golden_search<a class="headerlink" href="#ivcurves-precise-golden-search" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="ivcurves.precise.golden_search">
-<span class="sig-prename descclassname"><span class="pre">ivcurves.precise.</span></span><span class="sig-name descname"><span class="pre">golden_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l_endpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_endpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterlimit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_pt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_right_int_pt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.precise.golden_search" title="Permalink to this definition">#</a></dt>
-<dd><p>Uses golden-section search to recursively find maximum of the given
-function over the given interval, with at most <code class="docutils literal notranslate"><span class="pre">atol</span></code> error.</p>
+<span class="sig-prename descclassname"><span class="pre">ivcurves.precise.</span></span><span class="sig-name descname"><span class="pre">golden_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.precise.golden_search" title="Permalink to this definition">#</a></dt>
+<dd><p>Finds a local maximizer of a function on an interval <span class="math notranslate nohighlight">\([a, b]\)</span> with at
+most <code class="docutils literal notranslate"><span class="pre">atol</span></code> error using golden-section serach.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>l_endpt</strong> (<em>tuple of floats</em>) – Left endpoint of interval in which a maximum occurs.</p></li>
-<li><p><strong>r_endpt</strong> (<em>tuple of floats</em>) – Right endpoint of interval in which a maximum occurs.</p></li>
-<li><p><strong>func</strong> (<em>function</em>) – Function we want to maximize (single-variable).</p></li>
-<li><p><strong>atol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The x-coordinate of the returned point will be at most <code class="docutils literal notranslate"><span class="pre">atol</span></code> from the
-x-coordinate that produces the true maximum in the given interval.</p></li>
-<li><p><strong>iterlimit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Maximum number of iterations for golden-section search. Should converge
-before we hit this.</p></li>
-<li><p><strong>int_pt</strong> (<em>tuple of floats</em><em>, </em><em>optional</em>) – Coordinates of interior point in interval. The default value is an
-empty tuple.</p></li>
-<li><p><strong>is_right_int_pt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">int_pt</span></code> is the right hand interior point, then True. If <code class="docutils literal notranslate"><span class="pre">int_pt</span></code> is
-given, this should also be passed in (default value is False).</p></li>
-<li><p><strong>num_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of iterations we’ve already done.</p></li>
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Left endpoint of interval.</p></li>
+<li><p><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Right endpoint of interval.</p></li>
+<li><p><strong>func</strong> (<em>function</em>) – Single-variable function to maximize.</p></li>
+<li><p><strong>atol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The absolute tolerance between the true and calculated maximizer.</p></li>
+<li><p><strong>max_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Maximum number of iterations golden-section search before failing.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Coordinates of a point whose y-coordinate is a good approximation for
-the true maximum, and whose x-coordinate is within <code class="docutils literal notranslate"><span class="pre">atol</span></code> of the
-x-coordinate that yields the true maximum of <code class="docutils literal notranslate"><span class="pre">func</span></code> on the given
-interval.</p>
+<dd class="field-even"><p>The calculated maximizer.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple of ints</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This is a recursive function. When using, <code class="docutils literal notranslate"><span class="pre">int_pt</span></code> and <code class="docutils literal notranslate"><span class="pre">is_right_int_pt</span></code>
-and <code class="docutils literal notranslate"><span class="pre">num_iter</span></code> should not be passed; they are only passed when the function
-recurses.</p>
-<p>For more information on the algorithm (and calculating the interior points
-in <a class="reference internal" href="ivcurves.precise.get_left_int_pt.html#ivcurves.precise.get_left_int_pt" title="ivcurves.precise.get_left_int_pt"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_left_int_pt()</span></code></a> and <a class="reference internal" href="ivcurves.precise.get_right_int_pt.html#ivcurves.precise.get_right_int_pt" title="ivcurves.precise.get_right_int_pt"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_right_int_pt()</span></code></a>), see
+<p>For more information on the algorithm, see
 <a class="reference external" href="http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf">http://www.math.kent.edu/~reichel/courses/intr.num.comp.2/lecture16/lecture8.pdf</a>.</p>
 </dd></dl>
 
@@ -531,10 +513,10 @@ in <a class="reference internal" href="ivcurves.precise.get_left_int_pt.html#ivc
           <p class="prev-next-title">ivcurves.precise.max_power_pt_finder</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="ivcurves.precise.get_left_int_pt.html" title="next page">
+  <a class='right-next' id="next-link" href="ivcurves.precise.lambert_i_from_v.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">ivcurves.precise.get_left_int_pt</p>
+      <p class="prev-next-title">ivcurves.precise.lambert_i_from_v</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>

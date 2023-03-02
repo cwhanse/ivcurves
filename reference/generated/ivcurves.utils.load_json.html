@@ -6,43 +6,43 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>workflows.utils.record_scores.validate_overall_scores &#8212; ivcurves 1.0 documentation</title>
+    <title>ivcurves.utils.load_json &#8212; ivcurves 1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
 </script>
 
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
 
 
   <link rel="stylesheet"
-    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
 
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/jquery.js"></script>
-    <script src="../../../../_static/underscore.js"></script>
-    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../../_static/doctools.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="../../../../_static/datatables/setup.js"></script>
-    <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="workflows.utils.record_scores.write_overall_scores_to_database" href="workflows.utils.record_scores.write_overall_scores_to_database.html" />
-    <link rel="prev" title="workflows.utils.record_scores.load_overall_scores" href="workflows.utils.record_scores.load_overall_scores.html" />
+    <script src="../../_static/datatables/setup.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ivcurves.utils.save_json" href="ivcurves.utils.save_json.html" />
+    <link rel="prev" title="ivcurves.utils.get_filenames_in_directory" href="ivcurves.utils.get_filenames_in_directory.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
   </head>
@@ -63,7 +63,7 @@
   
 
 
-<a class="navbar-brand logo" href="../../../../index.html">
+<a class="navbar-brand logo" href="../../index.html">
   
   
   
@@ -86,31 +86,31 @@
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
     <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../../leaderboard.html">
+ <a class="reference internal nav-link" href="../../leaderboard.html">
   Leaderboard
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../../test_cases.html">
+ <a class="reference internal nav-link" href="../../test_cases.html">
   Test Cases
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../../participating.html">
+ <a class="reference internal nav-link" href="../../participating.html">
   How to Participate
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../../submissions/index.html">
+ <a class="reference internal nav-link" href="../../submissions/index.html">
   Submissions
  </a>
 </li>
 
 <li class="toctree-l1 current active nav-item">
- <a class="reference internal nav-link" href="../../../index.html">
+ <a class="reference internal nav-link" href="../index.html">
   Documentation
  </a>
 </li>
@@ -148,14 +148,14 @@
 
 <!-- Only show if we have sidebars configured, else just a small margin  -->
 <div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
-  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
     <ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../../compare_curves.html">
+  <a class="reference internal" href="../compare_curves.html">
    Compare Curves
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
@@ -165,49 +165,49 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.compare_curves.find_x_intersection.html">
+    <a class="reference internal" href="ivcurves.compare_curves.find_x_intersection.html">
      ivcurves.compare_curves.find_x_intersection
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.compare_curves.find_distance.html">
+    <a class="reference internal" href="ivcurves.compare_curves.find_distance.html">
      ivcurves.compare_curves.find_distance
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.compare_curves.total_score.html">
+    <a class="reference internal" href="ivcurves.compare_curves.total_score.html">
      ivcurves.compare_curves.total_score
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.compare_curves.get_curve.html">
+    <a class="reference internal" href="ivcurves.compare_curves.get_curve.html">
      ivcurves.compare_curves.get_curve
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.compare_curves.iv_plotter.html">
+    <a class="reference internal" href="ivcurves.compare_curves.iv_plotter.html">
      ivcurves.compare_curves.iv_plotter
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.compare_curves.get_test_sets_to_score.html">
+    <a class="reference internal" href="ivcurves.compare_curves.get_test_sets_to_score.html">
      ivcurves.compare_curves.get_test_sets_to_score
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html">
+    <a class="reference internal" href="ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html">
      ivcurves.compare_curves.write_test_set_score_per_curve_csvs
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.compare_curves.write_overall_scores_csv.html">
+    <a class="reference internal" href="ivcurves.compare_curves.write_overall_scores_csv.html">
      ivcurves.compare_curves.write_overall_scores_csv
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../../precise.html">
+  <a class="reference internal" href="../precise.html">
    Precise
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
@@ -217,151 +217,151 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.max_power_pt_finder.html">
+    <a class="reference internal" href="ivcurves.precise.max_power_pt_finder.html">
      ivcurves.precise.max_power_pt_finder
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.golden_search.html">
+    <a class="reference internal" href="ivcurves.precise.golden_search.html">
      ivcurves.precise.golden_search
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.lambert_i_from_v.html">
+    <a class="reference internal" href="ivcurves.precise.lambert_i_from_v.html">
      ivcurves.precise.lambert_i_from_v
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.lambert_v_from_i.html">
+    <a class="reference internal" href="ivcurves.precise.lambert_v_from_i.html">
      ivcurves.precise.lambert_v_from_i
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.diff_lhs_rhs.html">
+    <a class="reference internal" href="ivcurves.precise.diff_lhs_rhs.html">
      ivcurves.precise.diff_lhs_rhs
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.get_precise_i.html">
+    <a class="reference internal" href="ivcurves.precise.get_precise_i.html">
      ivcurves.precise.get_precise_i
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.plot_iv_curves.html">
+    <a class="reference internal" href="ivcurves.precise.plot_iv_curves.html">
      ivcurves.precise.plot_iv_curves
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.build_test_set_json.html">
+    <a class="reference internal" href="ivcurves.precise.build_test_set_json.html">
      ivcurves.precise.build_test_set_json
     </a>
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../../utils.html">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../utils.html">
    Utils
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.utils.set_globals.html">
-     ivcurves.utils.set_globals
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.utils.constants.html">
-     ivcurves.utils.constants
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.utils.mp_num_digits_left_of_decimal.html">
-     ivcurves.utils.mp_num_digits_left_of_decimal
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.utils.mp_nstr_precision_func.html">
-     ivcurves.utils.mp_nstr_precision_func
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.utils.read_iv_curve_parameter_sets.html">
-     ivcurves.utils.read_iv_curve_parameter_sets
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.utils.make_iv_curve_name.html">
-     ivcurves.utils.make_iv_curve_name
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.utils.get_filenames_in_directory.html">
-     ivcurves.utils.get_filenames_in_directory
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.utils.load_json.html">
-     ivcurves.utils.load_json
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.utils.save_json.html">
-     ivcurves.utils.save_json
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="../../index.html">
-   GitHub Workflows
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-  <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
   <ul class="current">
    <li class="toctree-l2">
-    <a class="reference internal" href="../../score_submission.html">
+    <a class="reference internal" href="ivcurves.utils.set_globals.html">
+     ivcurves.utils.set_globals
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.constants.html">
+     ivcurves.utils.constants
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.mp_num_digits_left_of_decimal.html">
+     ivcurves.utils.mp_num_digits_left_of_decimal
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.mp_nstr_precision_func.html">
+     ivcurves.utils.mp_nstr_precision_func
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.read_iv_curve_parameter_sets.html">
+     ivcurves.utils.read_iv_curve_parameter_sets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.make_iv_curve_name.html">
+     ivcurves.utils.make_iv_curve_name
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.get_filenames_in_directory.html">
+     ivcurves.utils.get_filenames_in_directory
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     ivcurves.utils.load_json
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.save_json.html">
+     ivcurves.utils.save_json
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../github_workflows/index.html">
+   GitHub Workflows
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../github_workflows/score_submission.html">
      Score Submission
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../record_scores.html">
+    <a class="reference internal" href="../github_workflows/record_scores.html">
      Record Scores
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../update_scores.html">
+    <a class="reference internal" href="../github_workflows/update_scores.html">
      Update Scores
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../build_sphinx_docs.html">
+    <a class="reference internal" href="../github_workflows/build_sphinx_docs.html">
      Build Sphinx Docs
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../pytest.html">
+    <a class="reference internal" href="../github_workflows/pytest.html">
      Pytest
     </a>
    </li>
-   <li class="toctree-l2 current active has-children">
-    <a class="reference internal" href="../index.html">
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../github_workflows/utils/index.html">
      Utility Python Scripts
     </a>
-    <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul class="current">
+    <ul>
      <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../print_json_as_env.html">
+      <a class="reference internal" href="../github_workflows/utils/print_json_as_env.html">
        Print JSON as ENV
       </a>
       <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
@@ -371,54 +371,54 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="workflows.utils.print_json_as_env.validate_pr_config.html">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.validate_pr_config.html">
          workflows.utils.print_json_as_env.validate_pr_config
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="workflows.utils.print_json_as_env.format_bool_variables.html">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.format_bool_variables.html">
          workflows.utils.print_json_as_env.format_bool_variables
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="workflows.utils.print_json_as_env.format_path_variables.html">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.format_path_variables.html">
          workflows.utils.print_json_as_env.format_path_variables
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="workflows.utils.print_json_as_env.format_variable_values.html">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.format_variable_values.html">
          workflows.utils.print_json_as_env.format_variable_values
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="workflows.utils.print_json_as_env.print_json_as_env.html">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.print_json_as_env.print_json_as_env.html">
          workflows.utils.print_json_as_env.print_json_as_env
         </a>
        </li>
       </ul>
      </li>
-     <li class="toctree-l3 current active has-children">
-      <a class="reference internal" href="../record_scores.html">
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../github_workflows/utils/record_scores.html">
        Record Scores
       </a>
-      <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
       <label for="toctree-checkbox-7">
        <i class="fas fa-chevron-down">
        </i>
       </label>
-      <ul class="current">
+      <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="workflows.utils.record_scores.load_overall_scores.html">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.load_overall_scores.html">
          workflows.utils.record_scores.load_overall_scores
         </a>
        </li>
-       <li class="toctree-l4 current active">
-        <a class="current reference internal" href="#">
+       <li class="toctree-l4">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.validate_overall_scores.html">
          workflows.utils.record_scores.validate_overall_scores
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="workflows.utils.record_scores.write_overall_scores_to_database.html">
+        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.write_overall_scores_to_database.html">
          workflows.utils.record_scores.write_overall_scores_to_database
         </a>
        </li>
@@ -466,29 +466,18 @@
               
               <article class="bd-article" role="main">
                 
-  <section id="workflows-utils-record-scores-validate-overall-scores">
-<h1>workflows.utils.record_scores.validate_overall_scores<a class="headerlink" href="#workflows-utils-record-scores-validate-overall-scores" title="Permalink to this heading">#</a></h1>
+  <section id="ivcurves-utils-load-json">
+<h1>ivcurves.utils.load_json<a class="headerlink" href="#ivcurves-utils-load-json" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="workflows.utils.record_scores.validate_overall_scores">
-<span class="sig-prename descclassname"><span class="pre">workflows.utils.record_scores.</span></span><span class="sig-name descname"><span class="pre">validate_overall_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">overall_scores</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#workflows.utils.record_scores.validate_overall_scores" title="Permalink to this definition">#</a></dt>
-<dd><p>Given a dictionary of overall scores (see <a class="reference internal" href="workflows.utils.record_scores.load_overall_scores.html#workflows.utils.record_scores.load_overall_scores" title="workflows.utils.record_scores.load_overall_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_overall_scores()</span></code></a>),
-the following are validated:</p>
-<ul class="simple">
-<li><p>There is a score for every test set.</p></li>
-<li><p>Each score is parsable as a float.</p></li>
-</ul>
-<p>Otherwise, a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> is raised.</p>
+<dt class="sig sig-object py" id="ivcurves.utils.load_json">
+<span class="sig-prename descclassname"><span class="pre">ivcurves.utils.</span></span><span class="sig-name descname"><span class="pre">load_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.utils.load_json" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a dict of JSON at <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>overall_scores</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – A dictionary from test set filenames (excluding file extensions) to
-strings representing scores.</p>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>pathlib.Path</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The path to the JSON file.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Boolean for whether <code class="docutils literal notranslate"><span class="pre">overall_scores</span></code> is valid or not, and a string
-for an error message.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -503,17 +492,17 @@ for an error message.</p>
               <footer class="bd-footer-article">
                   <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="workflows.utils.record_scores.load_overall_scores.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="ivcurves.utils.get_filenames_in_directory.html" title="previous page">
       <i class="fas fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">workflows.utils.record_scores.load_overall_scores</p>
+          <p class="prev-next-title">ivcurves.utils.get_filenames_in_directory</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="workflows.utils.record_scores.write_overall_scores_to_database.html" title="next page">
+  <a class='right-next' id="next-link" href="ivcurves.utils.save_json.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">workflows.utils.record_scores.write_overall_scores_to_database</p>
+      <p class="prev-next-title">ivcurves.utils.save_json</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>
@@ -528,7 +517,7 @@ for an error message.</p>
   
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
 
 <footer class="bd-footer"><div class="bd-footer__inner container">
   

@@ -1,4 +1,5 @@
 .. _ivcurves_docs_index:
+.. currentmodule:: ivcurves
 
 Documentation
 =============

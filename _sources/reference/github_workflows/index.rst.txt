@@ -17,5 +17,6 @@ GitHub Workflows
    record_scores
    update_scores
    build_sphinx_docs
+   pytest
    utils/index
 

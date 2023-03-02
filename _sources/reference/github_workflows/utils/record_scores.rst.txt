@@ -10,7 +10,6 @@ Record Scores
    :toctree: generated/
 
    load_overall_scores
-   test_set_filenames
    validate_overall_scores
    write_overall_scores_to_database
 

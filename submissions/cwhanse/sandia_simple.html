@@ -220,6 +220,67 @@ parameters for each IV curve. The fitting method is documented in <a class="foot
 In-Field Photovoltaic I-V Curves on a Single Board Computer”, 46th IEEE
 Photovoltaic Specialist Conference, Chicago, IL, 2019</p>
 </aside>
+<dl class="py function">
+<dt class="sig sig-object py" id="submissions.cwhanse.sandia_simple.get_test_set_filepaths">
+<span class="sig-prename descclassname"><span class="pre">submissions.cwhanse.sandia_simple.</span></span><span class="sig-name descname"><span class="pre">get_test_set_filepaths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#submissions.cwhanse.sandia_simple.get_test_set_filepaths" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a sorted list of pathlib.Path objects pointing to the JSON test set
+files. pathlib.Path objects can be passed directly to Python’s <code class="docutils literal notranslate"><span class="pre">open</span></code>
+function to open the JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="submissions.cwhanse.sandia_simple.get_test_set_name">
+<span class="sig-prename descclassname"><span class="pre">submissions.cwhanse.sandia_simple.</span></span><span class="sig-name descname"><span class="pre">get_test_set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#submissions.cwhanse.sandia_simple.get_test_set_name" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets a test set filename from a filepath.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>pathlib.Path</em></a>) – A filepath pointing to a JSON test set file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>The test set name given a pathlib.Path object pointing to a JSON</em></p></li>
+<li><p><em>test set file.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="submissions.cwhanse.sandia_simple.json_file_to_df">
+<span class="sig-prename descclassname"><span class="pre">submissions.cwhanse.sandia_simple.</span></span><span class="sig-name descname"><span class="pre">json_file_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#submissions.cwhanse.sandia_simple.json_file_to_df" title="Permalink to this definition">#</a></dt>
+<dd><p>Creates a pandas DataFrame from an IV Curve JSON file.
+All of the numerical values stored as strings in the JSON as parsed to
+np.float64.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>pathlib.Path</em></a>) – A Path object pointing to the JSON file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pandas DataFrame.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="submissions.cwhanse.sandia_simple.json_file_to_dict">
+<span class="sig-prename descclassname"><span class="pre">submissions.cwhanse.sandia_simple.</span></span><span class="sig-name descname"><span class="pre">json_file_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#submissions.cwhanse.sandia_simple.json_file_to_dict" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a Python dict of the contents of a JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>pathlib.Path</em></a>) – The filepath pointing to a JSON file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Python dict.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

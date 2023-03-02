@@ -170,11 +170,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.compare_curves.get_guess_interval.html">
-     ivcurves.compare_curves.get_guess_interval
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="../../../generated/ivcurves.compare_curves.find_distance.html">
      ivcurves.compare_curves.find_distance
     </a>
@@ -232,16 +227,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.get_left_int_pt.html">
-     ivcurves.precise.get_left_int_pt
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.get_right_int_pt.html">
-     ivcurves.precise.get_right_int_pt
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="../../../generated/ivcurves.precise.lambert_i_from_v.html">
      ivcurves.precise.lambert_i_from_v
     </a>
@@ -267,8 +252,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../generated/ivcurves.precise.write_test_set_json.html">
-     ivcurves.precise.write_test_set_json
+    <a class="reference internal" href="../../../generated/ivcurves.precise.build_test_set_json.html">
+     ivcurves.precise.build_test_set_json
     </a>
    </li>
   </ul>
@@ -318,6 +303,16 @@
      ivcurves.utils.get_filenames_in_directory
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../generated/ivcurves.utils.load_json.html">
+     ivcurves.utils.load_json
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../generated/ivcurves.utils.save_json.html">
+     ivcurves.utils.save_json
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 current active has-children">
@@ -348,6 +343,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../build_sphinx_docs.html">
      Build Sphinx Docs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../pytest.html">
+     Pytest
     </a>
    </li>
    <li class="toctree-l2 current active has-children">
@@ -413,11 +413,6 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="workflows.utils.record_scores.test_set_filenames.html">
-         workflows.utils.record_scores.test_set_filenames
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="workflows.utils.record_scores.validate_overall_scores.html">
          workflows.utils.record_scores.validate_overall_scores
         </a>
@@ -475,31 +470,33 @@
 <h1>workflows.utils.print_json_as_env.format_path_variables<a class="headerlink" href="#workflows-utils-print-json-as-env-format-path-variables" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="workflows.utils.print_json_as_env.format_path_variables">
-<span class="sig-prename descclassname"><span class="pre">workflows.utils.print_json_as_env.</span></span><span class="sig-name descname"><span class="pre">format_path_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validated_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#workflows.utils.print_json_as_env.format_path_variables" title="Permalink to this definition">#</a></dt>
-<dd><p>Converts <code class="docutils literal notranslate"><span class="pre">validated_dict[key]</span></code> from a <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> to a string
-containing the path in quotes. This modifies <code class="docutils literal notranslate"><span class="pre">validated_dict</span></code>. If
-<code class="docutils literal notranslate"><span class="pre">validated_dict[key]</span></code> is not a <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code>, nothing is done.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">options</span></code> that are used by this function are:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">split_path_variables</span></code> : bool</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">split_path_variables</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, two additional entires are added
-to <code class="docutils literal notranslate"><span class="pre">validated_dict</span></code>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">{key}_FILENAME</span></code>: only the filename that <code class="docutils literal notranslate"><span class="pre">validated_dict[key]</span></code> points
-to.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">{key}_PATH</span></code>: only the path to the parent folder containing the file
-<code class="docutils literal notranslate"><span class="pre">validated_dict[key]</span></code> points to.</p></li>
-</ul>
-</li>
-</ul>
+<span class="sig-prename descclassname"><span class="pre">workflows.utils.print_json_as_env.</span></span><span class="sig-name descname"><span class="pre">format_path_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validated_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_path_variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#workflows.utils.print_json_as_env.format_path_variables" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts <code class="docutils literal notranslate"><span class="pre">validated_dict[key]</span></code> from a <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> to a string. If
+<code class="docutils literal notranslate"><span class="pre">validated_dict[key]</span></code> is not a <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code>, nothing is done. This
+modifies <code class="docutils literal notranslate"><span class="pre">validated_dict</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – A key of <code class="docutils literal notranslate"><span class="pre">validated_dict</span></code>.</p></li>
 <li><p><strong>validated_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – A dict with key <code class="docutils literal notranslate"><span class="pre">key</span></code> where <code class="docutils literal notranslate"><span class="pre">validated_dict[key]</span></code> is possibly
 a <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code>.</p></li>
-<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – A dict containing options that affect the behavior of the functions
-called during the iteration.</p></li>
+<li><p><strong>split_path_variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – <p>Adds two additional entires to <code class="docutils literal notranslate"><span class="pre">validated_dict</span></code>:</p>
+<blockquote>
+<div><ul>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">{key}_FILENAME</span></code>: only the filename that</dt><dd><p><code class="docutils literal notranslate"><span class="pre">validated_dict[key]</span></code> points to.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">{key}_PATH</span></code>: only the path to the parent folder containing the</dt><dd><p>file <code class="docutils literal notranslate"><span class="pre">validated_dict[key]</span></code> points to.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>options</strong> (<em>kwargs</em>) – Any keyword arguments not used by this function.</p></li>
 </ul>
 </dd>
 </dl>

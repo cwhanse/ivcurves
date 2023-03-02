@@ -171,11 +171,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.compare_curves.get_guess_interval.html">
-     ivcurves.compare_curves.get_guess_interval
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="generated/ivcurves.compare_curves.find_distance.html">
      ivcurves.compare_curves.find_distance
     </a>
@@ -233,16 +228,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.precise.get_left_int_pt.html">
-     ivcurves.precise.get_left_int_pt
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.precise.get_right_int_pt.html">
-     ivcurves.precise.get_right_int_pt
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="generated/ivcurves.precise.lambert_i_from_v.html">
      ivcurves.precise.lambert_i_from_v
     </a>
@@ -268,8 +253,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="generated/ivcurves.precise.write_test_set_json.html">
-     ivcurves.precise.write_test_set_json
+    <a class="reference internal" href="generated/ivcurves.precise.build_test_set_json.html">
+     ivcurves.precise.build_test_set_json
     </a>
    </li>
   </ul>
@@ -319,6 +304,16 @@
      ivcurves.utils.get_filenames_in_directory
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.utils.load_json.html">
+     ivcurves.utils.load_json
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.utils.save_json.html">
+     ivcurves.utils.save_json
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -349,6 +344,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="github_workflows/build_sphinx_docs.html">
      Build Sphinx Docs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="github_workflows/pytest.html">
+     Pytest
     </a>
    </li>
    <li class="toctree-l2 has-children">
@@ -411,11 +411,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="github_workflows/utils/generated/workflows.utils.record_scores.load_overall_scores.html">
          workflows.utils.record_scores.load_overall_scores
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="github_workflows/utils/generated/workflows.utils.record_scores.test_set_filenames.html">
-         workflows.utils.record_scores.test_set_filenames
         </a>
        </li>
        <li class="toctree-l4">
@@ -526,31 +521,28 @@
 </section>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.find_x_intersection.html#ivcurves.compare_curves.find_x_intersection" title="ivcurves.compare_curves.find_x_intersection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_x_intersection</span></code></a>(single_diode, known_xs, ...)</p></td>
-<td><p>Finds x-coordinate of the intersection between the known IV curve and the line segment from the origin to the given point <span class="math notranslate nohighlight">\((x_p, y_p)\)</span>.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.find_x_intersection.html#ivcurves.compare_curves.find_x_intersection" title="ivcurves.compare_curves.find_x_intersection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_x_intersection</span></code></a>(interval, func, point, atol)</p></td>
+<td><p>Finds x-coordinate of the intersection between the known IV curve and the line segment from the origin to the given point.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.get_guess_interval.html#ivcurves.compare_curves.get_guess_interval" title="ivcurves.compare_curves.get_guess_interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_guess_interval</span></code></a>(known_xs, known_ys, ...)</p></td>
-<td><p>Finds the interval in which the known curve intersects the given line.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.find_distance.html#ivcurves.compare_curves.find_distance" title="ivcurves.compare_curves.find_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_distance</span></code></a>(x, y, xp, yp)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.find_distance.html#ivcurves.compare_curves.find_distance" title="ivcurves.compare_curves.find_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_distance</span></code></a>(x, y, xp, yp)</p></td>
 <td><p>Calculates the distance between two points <span class="math notranslate nohighlight">\((x, y)\)</span> and <span class="math notranslate nohighlight">\((x_p, y_p)\)</span> using a scaled Euclidean distance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.total_score.html#ivcurves.compare_curves.total_score" title="ivcurves.compare_curves.total_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">total_score</span></code></a>(known_curve_params, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.total_score.html#ivcurves.compare_curves.total_score" title="ivcurves.compare_curves.total_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">total_score</span></code></a>(known_curve_params, ...)</p></td>
 <td><p>Calculates the total score for a given fitted curve.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.get_curve.html#ivcurves.compare_curves.get_curve" title="ivcurves.compare_curves.get_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_curve</span></code></a>(curve_parameters, vth, num_pts, atol)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.get_curve.html#ivcurves.compare_curves.get_curve" title="ivcurves.compare_curves.get_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_curve</span></code></a>(curve_parameters, vth, num_pts, atol)</p></td>
 <td><p>Gets precise voltage and current pairs for the given curve.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.iv_plotter.html#ivcurves.compare_curves.iv_plotter" title="ivcurves.compare_curves.iv_plotter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iv_plotter</span></code></a>(iv_known, iv_fitted, vth, ...[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.iv_plotter.html#ivcurves.compare_curves.iv_plotter" title="ivcurves.compare_curves.iv_plotter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iv_plotter</span></code></a>(iv_known, iv_fitted, vth, ...[, ...])</p></td>
 <td><p>Plots the fitted curve (green) and the known curve (cyan).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.get_test_sets_to_score.html#ivcurves.compare_curves.get_test_sets_to_score" title="ivcurves.compare_curves.get_test_sets_to_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_test_sets_to_score</span></code></a>(fitted_files_directory)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.get_test_sets_to_score.html#ivcurves.compare_curves.get_test_sets_to_score" title="ivcurves.compare_curves.get_test_sets_to_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_test_sets_to_score</span></code></a>(fitted_files_directory)</p></td>
 <td><p>Returns a list of valid test set filenames (excluding file extensions) based on the files found in <code class="docutils literal notranslate"><span class="pre">fitted_files_directory</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html#ivcurves.compare_curves.write_test_set_score_per_curve_csvs" title="ivcurves.compare_curves.write_test_set_score_per_curve_csvs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_test_set_score_per_curve_csvs</span></code></a>(scores, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html#ivcurves.compare_curves.write_test_set_score_per_curve_csvs" title="ivcurves.compare_curves.write_test_set_score_per_curve_csvs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_test_set_score_per_curve_csvs</span></code></a>(scores, ...)</p></td>
 <td><p>Writes a CSV file containing a score for each test case in every test set.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.write_overall_scores_csv.html#ivcurves.compare_curves.write_overall_scores_csv" title="ivcurves.compare_curves.write_overall_scores_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_overall_scores_csv</span></code></a>(scores, csv_output_path)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.write_overall_scores_csv.html#ivcurves.compare_curves.write_overall_scores_csv" title="ivcurves.compare_curves.write_overall_scores_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_overall_scores_csv</span></code></a>(scores, csv_output_path)</p></td>
 <td><p>Writes a CSV file containing overall scores for each test set.</p></td>
 </tr>
 </tbody>

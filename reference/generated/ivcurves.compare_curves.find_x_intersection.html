@@ -35,14 +35,13 @@
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="../../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="ivcurves.compare_curves.get_guess_interval" href="ivcurves.compare_curves.get_guess_interval.html" />
+    <link rel="next" title="ivcurves.compare_curves.find_distance" href="ivcurves.compare_curves.find_distance.html" />
     <link rel="prev" title="Compare Curves" href="../compare_curves.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
@@ -171,11 +170,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.compare_curves.get_guess_interval.html">
-     ivcurves.compare_curves.get_guess_interval
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="ivcurves.compare_curves.find_distance.html">
      ivcurves.compare_curves.find_distance
     </a>
@@ -233,16 +227,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.precise.get_left_int_pt.html">
-     ivcurves.precise.get_left_int_pt
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.precise.get_right_int_pt.html">
-     ivcurves.precise.get_right_int_pt
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="ivcurves.precise.lambert_i_from_v.html">
      ivcurves.precise.lambert_i_from_v
     </a>
@@ -268,8 +252,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.precise.write_test_set_json.html">
-     ivcurves.precise.write_test_set_json
+    <a class="reference internal" href="ivcurves.precise.build_test_set_json.html">
+     ivcurves.precise.build_test_set_json
     </a>
    </li>
   </ul>
@@ -319,6 +303,16 @@
      ivcurves.utils.get_filenames_in_directory
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.load_json.html">
+     ivcurves.utils.load_json
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.utils.save_json.html">
+     ivcurves.utils.save_json
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -349,6 +343,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../github_workflows/build_sphinx_docs.html">
      Build Sphinx Docs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../github_workflows/pytest.html">
+     Pytest
     </a>
    </li>
    <li class="toctree-l2 has-children">
@@ -414,11 +413,6 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.test_set_filenames.html">
-         workflows.utils.record_scores.test_set_filenames
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="../github_workflows/utils/generated/workflows.utils.record_scores.validate_overall_scores.html">
          workflows.utils.record_scores.validate_overall_scores
         </a>
@@ -476,32 +470,26 @@
 <h1>ivcurves.compare_curves.find_x_intersection<a class="headerlink" href="#ivcurves-compare-curves-find-x-intersection" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="ivcurves.compare_curves.find_x_intersection">
-<span class="sig-prename descclassname"><span class="pre">ivcurves.compare_curves.</span></span><span class="sig-name descname"><span class="pre">find_x_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">single_diode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">known_xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">known_ys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_segments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsteps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.compare_curves.find_x_intersection" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ivcurves.compare_curves.</span></span><span class="sig-name descname"><span class="pre">find_x_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsteps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.compare_curves.find_x_intersection" title="Permalink to this definition">#</a></dt>
 <dd><p>Finds x-coordinate of the intersection between the known IV curve and the
-line segment from the origin to the given point <span class="math notranslate nohighlight">\((x_p, y_p)\)</span>.</p>
+line segment from the origin to the given point.</p>
 <p>This is an auxiliary function for <a class="reference internal" href="ivcurves.compare_curves.total_score.html#ivcurves.compare_curves.total_score" title="ivcurves.compare_curves.total_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">total_score()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>single_diode</strong> (<em>function</em>) – The single diode equation with two unknowns (the first being voltage,
-the second being current).</p></li>
-<li><p><strong>known_xs</strong> (<em>list of floats</em>) – A list of x-coordinates.</p></li>
-<li><p><strong>known_ys</strong> (<em>list of floats</em>) – A list of y-coordinates associated to <code class="docutils literal notranslate"><span class="pre">known_xs</span></code> that lie on the known
-curve.</p></li>
-<li><p><strong>xp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – x-coordinate of point on fitted curve (voltage).</p></li>
-<li><p><strong>yp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – y-coordinate of point on fitted curve (current).</p></li>
-<li><p><strong>num_segments</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of segments to use when approximating known curve. (See
-<a class="reference internal" href="ivcurves.compare_curves.get_guess_interval.html#ivcurves.compare_curves.get_guess_interval" title="ivcurves.compare_curves.get_guess_interval"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_guess_interval()</span></code></a>.)</p></li>
+<li><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>)</em>) – An interval on the x-axis that contains an intersection.</p></li>
+<li><p><strong>func</strong> (<em>function</em>) – A two-variable scalar-valued function.</p></li>
+<li><p><strong>point</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>)</em>) – The point defining the line from the origin.</p></li>
 <li><p><strong>atol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Absolute tolerance of how close the found x-coordiante must be to the
 true x-coordinate of the intersection point.</p></li>
-<li><p><strong>maxsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Maximum number of iterations for <code class="docutils literal notranslate"><span class="pre">mp.findroot</span></code> to find the
-x-coordinate of the intersection point. A <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> is thrown
-if <code class="docutils literal notranslate"><span class="pre">atol</span></code> is not met after <code class="docutils literal notranslate"><span class="pre">maxsteps</span></code> iterations.</p></li>
+<li><p><strong>maxsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default 100</em>) – Maximum number of iterations for <a class="reference internal" href="ivcurves.precise.golden_search.html#ivcurves.precise.golden_search" title="ivcurves.precise.golden_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">ivcurves.precise.golden_search()</span></code></a>
+and <code class="xref py py-func docutils literal notranslate"><span class="pre">mp.findroot()</span></code> to find the x-coordinate of the intersection
+point. A <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> by either iteration if <code class="docutils literal notranslate"><span class="pre">atol</span></code> is not met
+after <code class="docutils literal notranslate"><span class="pre">maxsteps</span></code> iterations.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>x-coordinate of the intersection of known IV curve and line through the
-origin and the given point.</p>
+<dd class="field-even"><p>x-coordinate of an intersection.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
@@ -526,10 +514,10 @@ origin and the given point.</p>
           <p class="prev-next-title">Compare Curves</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="ivcurves.compare_curves.get_guess_interval.html" title="next page">
+  <a class='right-next' id="next-link" href="ivcurves.compare_curves.find_distance.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">ivcurves.compare_curves.get_guess_interval</p>
+      <p class="prev-next-title">ivcurves.compare_curves.find_distance</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>
