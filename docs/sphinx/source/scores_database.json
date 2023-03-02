@@ -20,7 +20,7 @@
     "submission_main": "sandia_simple.py",
     "test_sets": {
       "case1": "30.0007655429194646100",
-      "case2": "31.0003388135296881407"
+      "case2": "31.0003388135296881407",
 	  "case3a": "nan",
 	  "case3b": "nan",
 	  "case3c": "nan",
