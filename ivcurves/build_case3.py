@@ -214,8 +214,8 @@ if __name__== '__main__':
                 outdf.loc[i, 'Voltages'] = _nparray_to_str(vol)
                 outdf.loc[i, 'diode_voltage'] = _nparray_to_str(diode_voltage)
 
-            outdf['Temperature'] = curves['Temperature']
-            outdf['cells_in_series'] = curves['cells_in_series']
+            outdf['Temperature'] =  curves.loc[idx, 'Temperature']
+            outdf['cells_in_series'] =  curves.loc[idx, 'cells_in_series']
 
             # write json output
             output = {'Manufacturer': '', 'Model': '', 'Serial Number': '',
