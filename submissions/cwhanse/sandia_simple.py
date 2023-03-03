@@ -150,7 +150,7 @@ if __name__ == "__main__":
 
         # for case3, save average rather than the per curve fits
         if casename in ['case3a', 'case3b', 'case3c', 'case3d']:
-            results = results.mean()
+            results = results.mean().to_frame().T
     
         outfilen = pathlib.Path.cwd() / outname
         with open(outfilen, 'w') as outfile:
