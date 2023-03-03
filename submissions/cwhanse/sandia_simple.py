@@ -136,7 +136,7 @@ if __name__ == "__main__":
                 current=data.loc[d, 'Currents'],
                 v_oc=data.loc[d, 'v_oc'],
                 i_sc=data.loc[d, 'i_sc'],
-                v_mp_i_mp=(data.loc[d, 'v_mp'], data.loc[d, 'v_mp'])
+                v_mp_i_mp=(data.loc[d, 'v_mp'], data.loc[d, 'i_mp'])
                 )
             vth = k / q * data.loc[d, 'Temperature']
             n = nNsVth / data.loc[d, 'cells_in_series'] / vth
@@ -151,8 +151,6 @@ if __name__ == "__main__":
         # for case3, save average rather than the per curve fits
         if casename in ['case3a', 'case3b', 'case3c', 'case3d']:
             results = results.mean().to_frame().T
-            results['Index'] = 1
-            results.index = results['Index']
     
         outfilen = pathlib.Path.cwd() / outname
         with open(outfilen, 'w') as outfile:
