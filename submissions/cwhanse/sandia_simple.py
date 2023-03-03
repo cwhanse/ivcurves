@@ -118,7 +118,7 @@ if __name__ == "__main__":
     # physical constants
     k = 1.38066E-23  # Boltzman J/K
     q = 1.60218E-19  # elementary charge (Coulomb)
-    
+
     # fit each IV curve in data1 and data2
     
     for filen in test_files:
@@ -140,13 +140,17 @@ if __name__ == "__main__":
                 )
             vth = k / q * data.loc[d, 'Temperature']
             n = nNsVth / data.loc[d, 'cells_in_series'] / vth
+
             results.loc[d, 'photocurrent'] = il
             results.loc[d, 'saturation_current'] = io
             results.loc[d, 'resistance_series'] = rs
             results.loc[d, 'resistance_shunt'] = rsh
             results.loc[d, 'n'] = n
             results.loc[d, 'cells_in_series'] = data.loc[d, 'cells_in_series']
-    
+
+        # for case3, save average rather than the per curve fits
+        if casename in ['case3a', 'case3b', 'case3c', 'case3d']:
+            results = results.mean()
     
         outfilen = pathlib.Path.cwd() / outname
         with open(outfilen, 'w') as outfile:
