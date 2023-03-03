@@ -229,6 +229,7 @@ if __name__== '__main__':
 
             # write corresponding csv file
             csv_df = params[params.index==idx]
+            csv_df.index = np.arange(1, len(csv_df) + 1)
             outfilen = 'case3' + output_suffix[case][idx] + '.csv'
             with open(TEST_SETS_DIR / outfilen, 'w') as outfile:
                 csv_df.to_csv(outfile, lineterminator='\n')
