@@ -326,7 +326,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 2,
@@ -647,7 +647,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 3,
@@ -968,7 +968,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 4,
@@ -1289,7 +1289,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 5,
@@ -1610,7 +1610,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 6,
@@ -1931,7 +1931,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 7,
@@ -2252,7 +2252,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 8,
@@ -2573,7 +2573,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 9,
@@ -2894,7 +2894,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 10,
@@ -3215,7 +3215,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 11,
@@ -3536,7 +3536,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 12,
@@ -3857,7 +3857,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 13,
@@ -4178,7 +4178,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 14,
@@ -4499,7 +4499,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 15,
@@ -4820,7 +4820,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 16,
@@ -5141,7 +5141,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 17,
@@ -5462,7 +5462,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 18,
@@ -5783,7 +5783,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 19,
@@ -6104,7 +6104,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 20,
@@ -6425,7 +6425,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 21,
@@ -6746,7 +6746,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 22,
@@ -7067,7 +7067,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 23,
@@ -7388,7 +7388,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 24,
@@ -7709,7 +7709,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 25,
@@ -8030,7 +8030,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 26,
@@ -8351,7 +8351,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 27,
@@ -8672,7 +8672,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 28,
@@ -8993,7 +8993,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 29,
@@ -9314,7 +9314,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 30,
@@ -9635,7 +9635,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 31,
@@ -9956,7 +9956,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 32,
@@ -10277,7 +10277,7 @@
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
-      "cells_in_series": 72.0
+      "cells_in_series": NaN
     },
     {
       "Index": 33,
@@ -10594,7 +10594,7 @@
       "p_mp": 28.09974108409776,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -10915,7 +10915,7 @@
       "p_mp": 28.077402312551225,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -11236,7 +11236,7 @@
       "p_mp": 28.103938488735057,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -11557,7 +11557,7 @@
       "p_mp": 28.063902670960687,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -11878,7 +11878,7 @@
       "p_mp": 28.066586481759465,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -12199,7 +12199,7 @@
       "p_mp": 28.10347840257297,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -12520,7 +12520,7 @@
       "p_mp": 28.10259069801999,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -12841,7 +12841,7 @@
       "p_mp": 28.041553776847305,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -13162,7 +13162,7 @@
       "p_mp": 28.01377198239154,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -13483,7 +13483,7 @@
       "p_mp": 28.065758568698914,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -13804,7 +13804,7 @@
       "p_mp": 28.049904503419075,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -14125,7 +14125,7 @@
       "p_mp": 28.048212714178774,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -14446,7 +14446,7 @@
       "p_mp": 28.06594818074296,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -14767,7 +14767,7 @@
       "p_mp": 28.062463152293816,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -15088,7 +15088,7 @@
       "p_mp": 28.072703245481883,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -15409,7 +15409,7 @@
       "p_mp": 28.059314862945055,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -15730,7 +15730,7 @@
       "p_mp": 28.095338242217032,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
@@ -16051,7 +16051,7 @@
       "p_mp": 28.048346575732147,
       "i_x": NaN,
       "i_xx": NaN,
-      "Temperature": NaN,
+      "Temperature": 298.15,
       "Irradiance": NaN,
       "Sweep direction": NaN,
       "Datetime": NaN,
