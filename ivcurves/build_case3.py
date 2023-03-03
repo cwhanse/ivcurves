@@ -1,6 +1,3 @@
-# these modules are part of the Python standard library
-from pathlib import Path
-
 # these modules are installed
 import numpy as np
 import pandas as pd
@@ -134,6 +131,12 @@ def _nparray_to_str(x):
     return [str(v) for v in x]
 
 
+def _npint_to_int(x):
+    ''' Converts a numpy int64 or int32 to python int
+    '''
+    return int(x)
+
+
 def _df_to_list(df):
     ''' Converts a DataFrame to a list for serialization to JSON
     '''
@@ -214,13 +217,12 @@ if __name__== '__main__':
                 outdf.loc[i, 'Voltages'] = _nparray_to_str(vol)
                 outdf.loc[i, 'diode_voltage'] = _nparray_to_str(diode_voltage)
 
-            outdf['Temperature'] =  curves.loc[idx, 'Temperature']
-            outdf['cells_in_series'] =  curves.loc[idx, 'cells_in_series']
+            outdf['Temperature'] = curves.loc[idx, 'Temperature']
 
             # write json output
             output = {'Manufacturer': '', 'Model': '', 'Serial Number': '',
                       'Module ID': '',  'Description': '', 'Material': '',
-                      'cells_in_series': int(outdf.loc[1, 'cells_in_series']),
+                      'cells_in_series': int(params.loc[idx, 'cells_in_series']),
                       'IV Curves': _df_to_list(outdf)}
             outfilen = 'case3' + output_suffix[case][idx] + '.json'
             save_json(output,TEST_SETS_DIR / outfilen)
