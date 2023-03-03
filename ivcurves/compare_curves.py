@@ -4,7 +4,8 @@ from pathlib import Path
 import numpy as np
 
 # from ivcurves repo
-from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
+# same instance of mpmath's mp imported in ivcurves/utils
+from ivcurves.utils import mp
 import ivcurves.utils as utils
 import ivcurves.precise as precise
 
@@ -160,7 +161,8 @@ def score_curve(known_curve_params, fitted_curve_params, vth, num_pts, atol):
             conditions. [A]
 
         rs : numeric
-            Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
+            Series resistance :math:`R_s` under desired IV curve conditions.
+            [ohm]
 
         rsh : numeric
             Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
@@ -184,7 +186,8 @@ def score_curve(known_curve_params, fitted_curve_params, vth, num_pts, atol):
             conditions. [A]
 
         rs : numeric
-            Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
+            Series resistance :math:`R_s` under desired IV curve conditions.
+            [ohm]
 
         rsh : numeric
             Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
@@ -244,13 +247,20 @@ def score_curve(known_curve_params, fitted_curve_params, vth, num_pts, atol):
     for v, i in zip(fit_xs, fit_ys):
         # for each point (`v`, `i`) on the fitted curve, find the associated
         # point on known curve (`new_voltage`, `new_current`)
-        new_voltage = _find_x_intersection(interval_current, single_diode, (v, i), atol)
-        new_current = precise.lambert_i_from_v(new_voltage, il, io, rs, rsh, n, vth, ns) # find current associated to new_voltage
+        new_voltage = _find_x_intersection(
+            interval_current, single_diode, (v, i), atol)
+         # find current associated to new_voltage
+        new_current = precise.lambert_i_from_v(
+            new_voltage, il, io, rs, rsh, n, vth, ns)
 
-        # if voltage, current pair not a precise enough solution to single diode equation, make more precise
-        dff = precise.diff_lhs_rhs(new_voltage, new_current, il, io, rs, rsh, n, vth, ns)
+        # if voltage, current pair is not a precise enough solution to the
+        # single diode equation, make more precise
+        dff = precise.diff_lhs_rhs(
+            new_voltage, new_current, il, io, rs, rsh, n, vth, ns)
         if abs(dff) > atol:
-            new_current = mp.findroot(lambda y: precise.diff_lhs_rhs(new_voltage, y, il, io, rs, rsh, n, vth, ns), new_current, tol=atol**2)
+            new_current = mp.findroot(lambda y: precise.diff_lhs_rhs(
+                new_voltage, y, il, io, rs, rsh, n, vth, ns), new_current,
+                tol=atol**2)
 
         # calculate distance between these points, and add to score
         score += _find_distance(new_voltage, new_current, v, i)
@@ -276,7 +286,8 @@ def score_parameters(known_curve_params, fitted_curve_params):
             conditions. [A]
 
         rs : numeric
-            Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
+            Series resistance :math:`R_s` under desired IV curve conditions.
+            [ohm]
 
         rsh : numeric
             Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
@@ -297,7 +308,8 @@ def score_parameters(known_curve_params, fitted_curve_params):
             conditions. [A]
 
         rs : numeric
-            Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
+            Series resistance :math:`R_s` under desired IV curve conditions.
+            [ohm]
 
         rsh : numeric
             Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
@@ -334,7 +346,8 @@ def calc_precise_curve(curve_parameters, vth, num_pts, atol):
             conditions. [A]
 
         rs : numeric
-            Series resistance :math:`R_s` under desired IV curve conditions. [ohm]
+            Series resistance :math:`R_s` under desired IV curve conditions.
+            [ohm]
 
         rsh : numeric
             Shunt resistance :math:`R_{sh}` under desired IV curve conditions.
@@ -358,8 +371,8 @@ def calc_precise_curve(curve_parameters, vth, num_pts, atol):
 
     atol : float
         The error of each of the solution pairs found is at most ``atol``.
-        (See :func:`ivcurves.precise.get_precise_i`.) Each solution pair is a point
-        on the curve.
+        (See :func:`ivcurves.precise.get_precise_i`.) Each solution pair is a
+        point on the curve.
 
     Returns
     -------
@@ -372,7 +385,7 @@ def calc_precise_curve(curve_parameters, vth, num_pts, atol):
     return vv, ii
 
 
-def _get_test_sets_to_score(tests='', fitted_files_directory=None):
+def _get_test_sets_to_score(tests='', directory=None):
     """
     Returns a list of valid test set names (excluding file extensions).
 
@@ -380,9 +393,9 @@ def _get_test_sets_to_score(tests='', fitted_files_directory=None):
     ----------
     tests : str, default ''
         String composed of comma-separated test set names. If empty, all test
-        set names from fitted_files_directory are returned.
+        set names from directory are returned.
 
-    fitted_files_directory : pathlib.Path
+    directory : pathlib.Path
         Directory that contains files whose filenames are test set filenames.
 
     Returns
@@ -397,15 +410,15 @@ def _get_test_sets_to_score(tests='', fitted_files_directory=None):
             if t not in test_set_names:
                 raise ValueError(f"'{t}' is not a test set")
             test_sets_to_score.append(t)
-    elif fitted_files_directory is not None:
-        # score all found in fitted_files_directory
-        filenames = utils.get_filenames_in_directory(fitted_files_directory)
+    elif directory is not None:
+        # score all found in directory
+        filenames = utils.get_filenames_in_directory(directory)
         test_sets_to_score = [f for f in filenames if f in test_set_names]
         test_sets_to_score.sort()
         if not test_sets_to_score:
-            raise ValueError(f"no test sets found in '{fitted_files_directory}'")
+            raise ValueError(f"no test sets found in '{directory}'")
     else:
-        raise ValueError('Must supply either tests or fitted_files_directory')
+        raise ValueError('Must supply either tests or directory')
     return test_sets_to_score
 
 
@@ -458,15 +471,18 @@ def write_overall_scores_csv(scores, csv_output_path):
 
 def get_argparser():
     parser = argparse.ArgumentParser(
-        description='Measure the distance between IV curves generated from '
-                    'the parameters of the single diode equation.'
+        description='Measure the distance between fitted and known parameter '
+                    'sets.'
     )
-    parser.add_argument('fitted_files_directory', type=Path,
-                        help='Directory containing fitted parameter CSV files.')
-    parser.add_argument('--test-sets', dest='test_sets', type=str, default='',
-                        help='Comma-separated list of test sets to score.')
-    parser.add_argument('--csv-output-path', dest='csv_output_path', type=Path,
-                        default='.', help='Directory where to write output CSV files.')
+    parser.add_argument(
+        'directory', type=Path, 
+        help='Directory containing fitted parameter CSV files.')
+    parser.add_argument(
+        '--test-sets', dest='test_sets', type=str, default='',
+        help='Comma-separated list of test sets to score.')
+    parser.add_argument(
+        '--csv-output-path', dest='csv_output_path', type=Path,
+        default='.', help='Directory where to write output CSV files.')
     return parser
 
 
@@ -478,7 +494,7 @@ def get_argparser():
 if __name__ == '__main__':
     args = get_argparser().parse_args()
     test_sets_to_score = _get_test_sets_to_score(
-        args.test_sets, args.fitted_files_directory)
+        args.test_sets, args.directory)
     scores = {}
     num_compare_pts = 10
     num_total_pts = 200
@@ -490,7 +506,7 @@ if __name__ == '__main__':
         known_parameter_sets = utils.read_iv_curve_parameter_sets(
             utils.TEST_SETS_DIR / name)
         fitted_parameter_sets = utils.read_iv_curve_parameter_sets(
-            args.fitted_files_directory / name)
+            args.directory / name)
         for idx, known_p in known_parameter_sets.items():
             fitted_p = fitted_parameter_sets[idx]
             scores[name][idx] = score_curve(known_p, fitted_p, vth,
@@ -502,7 +518,7 @@ if __name__ == '__main__':
         known_parameter_sets = utils.read_iv_curve_parameter_sets(
             utils.TEST_SETS_DIR / name)
         fitted_parameter_sets = utils.read_iv_curve_parameter_sets(
-            args.fitted_files_directory / name)
+            args.directory / name)
         for idx, known_p in known_parameter_sets.items():
             fitted_p = fitted_parameter_sets[idx]
             scores[name][idx] = score_parameters(known_p, fitted_p)
