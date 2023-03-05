@@ -505,7 +505,7 @@ if __name__ == '__main__':
         test_set_filenames = [args.test_set_filename]
     else:
         # build all precise cases
-        test_set_filenames = ['case1', 'case2']
+        test_set_filenames = utils.TEST_SETS_PRECISE
 
     constants = utils.constants()
     vth, temp_cell, atol, num_pts = (constants['vth'], constants['temp_cell'],

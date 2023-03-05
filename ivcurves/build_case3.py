@@ -137,19 +137,7 @@ def _npint_to_int(x):
     return int(x)
 
 
-def _df_to_list(df):
-    ''' Converts a DataFrame to a list for serialization to JSON
-    '''
-    out = []
-    for i in df.index:
-        d = {'Index': i}
-        d.update({c : df.loc[i, c] for c in df.columns})
-        out.append(d)
-    return out
-
-            
-if __name__== '__main__':
-
+def case3_output():
     # two base curves: one at high irradiance, high efficiency, one at low/low
     curve_list = {'case1': [19, 14],
                   'case2': [19, 14]}
@@ -173,6 +161,7 @@ if __name__== '__main__':
 
     seed_idx = 0
 
+    outputs = []
     for case in ['case1', 'case2']:
         filen = case + '.json'
         with open(TEST_SETS_DIR / filen, 'r') as infile:
@@ -186,8 +175,12 @@ if __name__== '__main__':
             base = curves.loc[idx]
             N = len(base['Currents'])
 
-            outdf = pd.DataFrame(index=np.arange(1, iters + 1),
-                                 columns=curves.columns, data=None)
+            outdf = pd.DataFrame(
+                index=np.arange(1, iters + 1),
+                columns=['Index', *curves.columns],
+                data=dict(Index=range(1, iters+1)),
+                dtype=object
+            )
 
             # random values to modify current
             r = np.random.RandomState(seed=seeds[seed_idx]).normal(
@@ -219,19 +212,29 @@ if __name__== '__main__':
 
             outdf['Temperature'] = curves.loc[idx, 'Temperature']
 
+            outdf['Sweep direction'] = ''
+            outdf['Datetime'] = '1970-01-01T00:00:00Z'
+            outdf = outdf.drop(['cells_in_series'], axis=1)
+
             # write json output
             output = {'Manufacturer': '', 'Model': '', 'Serial Number': '',
                       'Module ID': '',  'Description': '', 'Material': '',
                       'cells_in_series': int(params.loc[idx, 'cells_in_series']),
-                      'IV Curves': _df_to_list(outdf)}
-            outfilen = 'case3' + output_suffix[case][idx] + '.json'
-            save_json(output,TEST_SETS_DIR / outfilen)
+                      'IV Curves': outdf.replace(float('NaN'), None).to_dict(orient='records')}
+            outfilen = 'case3' + output_suffix[case][idx]
 
-            # write corresponding csv file
-            csv_df = params[params.index==idx]
-            new_idx = pd.Index(np.arange(1, len(csv_df) + 1), name='Index')
-            csv_df.index = new_idx
-            outfilen = 'case3' + output_suffix[case][idx] + '.csv'
-            with open(TEST_SETS_DIR / outfilen, 'w') as outfile:
-                csv_df.to_csv(outfile, lineterminator='\n')
-                
+            outputs.append((outfilen, params[params.index == idx], output))
+
+    return outputs
+
+
+if __name__ == '__main__':
+    outputs = case3_output()
+    for outfilen, csv_df, output in outputs:
+        save_json(output, TEST_SETS_DIR / f'{outfilen}.json')
+
+        # write corresponding csv file
+        new_idx = pd.Index(np.arange(1, len(csv_df) + 1), name='Index')
+        csv_df.index = new_idx
+        with open(TEST_SETS_DIR / f'{outfilen}.csv', 'w') as outfile:
+            csv_df.to_csv(outfile, lineterminator='\n')

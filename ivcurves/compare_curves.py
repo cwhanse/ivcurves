@@ -9,9 +9,6 @@ from ivcurves.utils import mp
 import ivcurves.utils as utils
 import ivcurves.precise as precise
 
-# Constants
-
-ALL_TEST_SETS = {'case1', 'case2', 'case3a', 'case3b', 'case3c', 'case3d'}
 
 #####################
 # Find intersection #
@@ -324,7 +321,7 @@ def score_parameters(known_curve_params, fitted_curve_params):
 
     score = 0.
     for x, y in zip(known_curve_params, fitted_curve_params):
-        score += _abs_rel_diff(x, y)        
+        score += _abs_rel_diff(x, y)
     return score
 
 
@@ -475,7 +472,7 @@ def get_argparser():
                     'sets.'
     )
     parser.add_argument(
-        'directory', type=Path, 
+        'directory', type=Path,
         help='Directory containing fitted parameter CSV files.')
     parser.add_argument(
         '--test-sets', dest='test_sets', type=str, default='',
@@ -501,7 +498,7 @@ if __name__ == '__main__':
     constants = utils.constants()
     vth, atol = constants['vth'], constants['atol']
 
-    for name in {'case1', 'case2'}.intersection(test_sets_to_score):
+    for name in utils.TEST_SETS_PRECISE.intersection(test_sets_to_score):
         scores[name] = {}
         known_parameter_sets = utils.read_iv_curve_parameter_sets(
             utils.TEST_SETS_DIR / name)
@@ -512,7 +509,7 @@ if __name__ == '__main__':
             scores[name][idx] = score_curve(known_p, fitted_p, vth,
                                             num_compare_pts, atol)
 
-    for name in {'case3a', 'case3b', 'case3c', 'case3d'}.intersection(
+    for name in utils.TEST_SETS_NOISY.intersection(
             test_sets_to_score):
         scores[name] = {}
         known_parameter_sets = utils.read_iv_curve_parameter_sets(
@@ -522,9 +519,10 @@ if __name__ == '__main__':
         for idx, known_p in known_parameter_sets.items():
             fitted_p = fitted_parameter_sets[idx]
             scores[name][idx] = score_parameters(known_p, fitted_p)
-        
-    for name in ALL_TEST_SETS.difference(test_sets_to_score):
-        scores[name] = {0: float('NaN')}
+
+    for name in utils.get_filenames_in_directory(
+            utils.TEST_SETS_DIR).difference(test_sets_to_score):
+        scores[name] = float('NaN')
 
     write_test_set_score_per_curve_csvs(scores, args.csv_output_path)
     write_overall_scores_csv(scores, args.csv_output_path)
