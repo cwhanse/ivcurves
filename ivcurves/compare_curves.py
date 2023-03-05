@@ -522,7 +522,7 @@ if __name__ == '__main__':
 
     for name in utils.get_filenames_in_directory(
             utils.TEST_SETS_DIR).difference(test_sets_to_score):
-        scores[name] = float('NaN')
+        scores[name] = {0: float('NaN')}
 
     write_test_set_score_per_curve_csvs(scores, args.csv_output_path)
     write_overall_scores_csv(scores, args.csv_output_path)
