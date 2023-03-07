@@ -320,13 +320,12 @@
       "v_mp": 68.69353675988151,
       "i_mp": 18.303656359247505,
       "p_mp": 18.303656359247505,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 2,
@@ -641,13 +640,12 @@
       "v_mp": 68.67124667442567,
       "i_mp": 18.30528643087696,
       "p_mp": 18.30528643087696,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 3,
@@ -962,13 +960,12 @@
       "v_mp": 68.70311281216776,
       "i_mp": 18.31712462985196,
       "p_mp": 18.31712462985196,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 4,
@@ -1283,13 +1280,12 @@
       "v_mp": 67.76552903434002,
       "i_mp": 18.320098118501633,
       "p_mp": 18.320098118501633,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 5,
@@ -1604,13 +1600,12 @@
       "v_mp": 67.77745249044048,
       "i_mp": 18.342594886864624,
       "p_mp": 18.342594886864624,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 6,
@@ -1925,13 +1920,12 @@
       "v_mp": 67.78368506242883,
       "i_mp": 18.343125851905096,
       "p_mp": 18.343125851905096,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 7,
@@ -2246,13 +2240,12 @@
       "v_mp": 68.6607872074363,
       "i_mp": 18.297622125689536,
       "p_mp": 18.297622125689536,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 8,
@@ -2567,13 +2560,12 @@
       "v_mp": 67.76409758848386,
       "i_mp": 18.27360289040108,
       "p_mp": 18.27360289040108,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 9,
@@ -2888,13 +2880,12 @@
       "v_mp": 67.735374725748,
       "i_mp": 18.321723922603493,
       "p_mp": 18.321723922603493,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 10,
@@ -3209,13 +3200,12 @@
       "v_mp": 68.68805219714858,
       "i_mp": 18.330579262624088,
       "p_mp": 18.330579262624088,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 11,
@@ -3530,13 +3520,12 @@
       "v_mp": 68.6953262336115,
       "i_mp": 18.319593491591522,
       "p_mp": 18.319593491591522,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 12,
@@ -3851,13 +3840,12 @@
       "v_mp": 68.69011048857642,
       "i_mp": 18.27699005241633,
       "p_mp": 18.27699005241633,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 13,
@@ -4172,13 +4160,12 @@
       "v_mp": 68.65434250084402,
       "i_mp": 18.312169209617647,
       "p_mp": 18.312169209617647,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 14,
@@ -4493,13 +4480,12 @@
       "v_mp": 67.77653285800652,
       "i_mp": 18.33169408375816,
       "p_mp": 18.33169408375816,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 15,
@@ -4814,13 +4800,12 @@
       "v_mp": 68.68703213113072,
       "i_mp": 18.323010717462495,
       "p_mp": 18.323010717462495,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 16,
@@ -5135,13 +5120,12 @@
       "v_mp": 68.66578945459969,
       "i_mp": 18.305975235349297,
       "p_mp": 18.305975235349297,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 17,
@@ -5456,13 +5440,12 @@
       "v_mp": 67.75684190367365,
       "i_mp": 18.29388582707865,
       "p_mp": 18.29388582707865,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 18,
@@ -5777,13 +5760,12 @@
       "v_mp": 68.67586774152748,
       "i_mp": 18.287661114573613,
       "p_mp": 18.287661114573613,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 19,
@@ -6098,13 +6080,12 @@
       "v_mp": 68.69029920130806,
       "i_mp": 18.31358227016156,
       "p_mp": 18.31358227016156,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 20,
@@ -6419,13 +6400,12 @@
       "v_mp": 67.77477444980885,
       "i_mp": 18.311387691264276,
       "p_mp": 18.311387691264276,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 21,
@@ -6740,13 +6720,12 @@
       "v_mp": 68.66187285053161,
       "i_mp": 18.307998356071096,
       "p_mp": 18.307998356071096,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 22,
@@ -7061,13 +7040,12 @@
       "v_mp": 67.77719780284826,
       "i_mp": 18.33889777656197,
       "p_mp": 18.33889777656197,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 23,
@@ -7382,13 +7360,12 @@
       "v_mp": 68.70063673979826,
       "i_mp": 18.297352187293146,
       "p_mp": 18.297352187293146,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 24,
@@ -7703,13 +7680,12 @@
       "v_mp": 68.64612139714342,
       "i_mp": 18.27550505630878,
       "p_mp": 18.27550505630878,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 25,
@@ -8024,13 +8000,12 @@
       "v_mp": 67.75439186028838,
       "i_mp": 18.30718131440028,
       "p_mp": 18.30718131440028,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 26,
@@ -8345,13 +8320,12 @@
       "v_mp": 68.63985316509606,
       "i_mp": 18.30380836181945,
       "p_mp": 18.30380836181945,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 27,
@@ -8666,13 +8640,12 @@
       "v_mp": 68.69583797525549,
       "i_mp": 18.318429839392273,
       "p_mp": 18.318429839392273,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 28,
@@ -8987,13 +8960,12 @@
       "v_mp": 68.6934854804048,
       "i_mp": 18.309248913548423,
       "p_mp": 18.309248913548423,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 29,
@@ -9308,13 +9280,12 @@
       "v_mp": 67.7654137051748,
       "i_mp": 18.314186033803786,
       "p_mp": 18.314186033803786,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 30,
@@ -9629,13 +9600,12 @@
       "v_mp": 68.69173510132316,
       "i_mp": 18.319533892143177,
       "p_mp": 18.319533892143177,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 31,
@@ -9950,13 +9920,12 @@
       "v_mp": 68.6701694805615,
       "i_mp": 18.305426920070193,
       "p_mp": 18.305426920070193,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 32,
@@ -10271,13 +10240,12 @@
       "v_mp": 68.66174912373778,
       "i_mp": 18.285020200578114,
       "p_mp": 18.285020200578114,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 33,
@@ -10592,13 +10560,12 @@
       "v_mp": 68.69998073110247,
       "i_mp": 18.31781579133828,
       "p_mp": 18.31781579133828,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 34,
@@ -10913,13 +10880,12 @@
       "v_mp": 68.69917492318767,
       "i_mp": 18.320358416257346,
       "p_mp": 18.320358416257346,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 35,
@@ -11234,13 +11200,12 @@
       "v_mp": 67.76849814451037,
       "i_mp": 18.32852364650448,
       "p_mp": 18.32852364650448,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 36,
@@ -11555,13 +11520,12 @@
       "v_mp": 68.68987745966893,
       "i_mp": 18.289788761595638,
       "p_mp": 18.289788761595638,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 37,
@@ -11876,13 +11840,12 @@
       "v_mp": 67.78629630705933,
       "i_mp": 18.31374567655396,
       "p_mp": 18.31374567655396,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 38,
@@ -12197,13 +12160,12 @@
       "v_mp": 67.75720123978094,
       "i_mp": 18.26671862649288,
       "p_mp": 18.26671862649288,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 39,
@@ -12518,13 +12480,12 @@
       "v_mp": 68.69960125370812,
       "i_mp": 18.337237330782337,
       "p_mp": 18.337237330782337,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 40,
@@ -12839,13 +12800,12 @@
       "v_mp": 67.7491070949729,
       "i_mp": 18.323227234112096,
       "p_mp": 18.323227234112096,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 41,
@@ -13160,13 +13120,12 @@
       "v_mp": 68.64397078458448,
       "i_mp": 18.31788985706152,
       "p_mp": 18.31788985706152,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 42,
@@ -13481,13 +13440,12 @@
       "v_mp": 67.74912268089777,
       "i_mp": 18.309825509639463,
       "p_mp": 18.309825509639463,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 43,
@@ -13802,13 +13760,12 @@
       "v_mp": 68.69595624862413,
       "i_mp": 18.318053944973045,
       "p_mp": 18.318053944973045,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 44,
@@ -14123,13 +14080,12 @@
       "v_mp": 68.64264785718514,
       "i_mp": 18.306979126863922,
       "p_mp": 18.306979126863922,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 45,
@@ -14444,13 +14400,12 @@
       "v_mp": 67.78864887878836,
       "i_mp": 18.32845452071912,
       "p_mp": 18.32845452071912,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 46,
@@ -14765,13 +14720,12 @@
       "v_mp": 67.7671193495172,
       "i_mp": 18.305068834224244,
       "p_mp": 18.305068834224244,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 47,
@@ -15086,13 +15040,12 @@
       "v_mp": 67.77424203964162,
       "i_mp": 18.280036746065417,
       "p_mp": 18.280036746065417,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 48,
@@ -15407,13 +15360,12 @@
       "v_mp": 67.76362302603401,
       "i_mp": 18.31458354600107,
       "p_mp": 18.31458354600107,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 49,
@@ -15728,13 +15680,12 @@
       "v_mp": 68.70222665797591,
       "i_mp": 18.30111022052893,
       "p_mp": 18.30111022052893,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     },
     {
       "Index": 50,
@@ -16049,13 +16000,12 @@
       "v_mp": 68.6924505341813,
       "i_mp": 18.32037496399421,
       "p_mp": 18.32037496399421,
-      "i_x": NaN,
-      "i_xx": NaN,
+      "i_x": null,
+      "i_xx": null,
       "Temperature": 298.15,
-      "Irradiance": NaN,
-      "Sweep direction": NaN,
-      "Datetime": NaN,
-      "cells_in_series": NaN
+      "Irradiance": null,
+      "Sweep direction": "",
+      "Datetime": "1970-01-01T00:00:00Z"
     }
   ]
 }

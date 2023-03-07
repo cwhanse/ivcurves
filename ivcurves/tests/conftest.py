@@ -11,6 +11,7 @@ import scipy
 from ivcurves.utils import mp
 import ivcurves.utils as utils
 import ivcurves.precise as precise
+import ivcurves.build_case3 as build_case3
 
 
 def test_set_to_pandas_df(test_set_parameter_sets, test_set_json):
@@ -96,6 +97,13 @@ def test_set_csv_info_and_json(test_set_csv_info, constants):
         parameter_set, vth, temp_cell, atol, num_pts
     )
     return test_set_csv_info, test_set_json
+
+
+@pytest.fixture(scope='function', params=build_case3.case3_output())
+def test_set_noisy_csv_info_and_json(request):
+    # unpack to indentify to tuple items
+    filename, params_csv_df, test_set_json = request.param
+    return filename, params_csv_df, test_set_json
 
 
 @pytest.fixture()

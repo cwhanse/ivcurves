@@ -135,11 +135,11 @@
         },
         "i_x": {
           "description": "",
-          "$ref": "#/$defs/Number"
+          "$ref": "#/$defs/NumberOption"
         },
         "i_xx": {
           "description": "",
-          "$ref": "#/$defs/Number"
+          "$ref": "#/$defs/NumberOption"
         },
         "Temperature": {
           "description": "",

@@ -8,6 +8,8 @@ from mpmath import mp
 IVCURVES_DIR = Path(__file__).parent
 REPO_ROOT_DIR = IVCURVES_DIR / '..'
 TEST_SETS_DIR = IVCURVES_DIR / 'test_sets'
+TEST_SETS_PRECISE = {'case1', 'case2'}
+TEST_SETS_NOISY = {'case3a', 'case3b', 'case3c', 'case3d'}
 DOCS_DIR = REPO_ROOT_DIR / 'docs' / 'sphinx' / 'source'
 IV_PARAMETER_NAMES = ['photocurrent', 'saturation_current',
                       'resistance_series', 'resistance_shunt', 'n',

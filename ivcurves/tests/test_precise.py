@@ -1,6 +1,7 @@
+import json
 import pytest
 import jschon
-from conftest import mp  # same instance of mpmath's mp imported in ivcurves/conftest
+from ivcurves.utils import mp  # same instance of mpmath's mp imported in ivcurves/utils
 import ivcurves.utils as utils
 
 import ivcurves.precise as precise
@@ -10,7 +11,7 @@ def test_test_sets_pass_jsonschema_validation(test_set_json,
                                               ivcurve_jsonschema_validator):
     result = ivcurve_jsonschema_validator.evaluate(jschon.JSON(test_set_json))
     validation_messages = result.output('basic')
-    assert validation_messages['valid']
+    assert validation_messages['valid'], json.dumps(validation_messages['errors'], indent=2)
 
 
 def test_test_sets_precision(test_set_as_pandas_df, constants):
