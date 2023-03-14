@@ -205,14 +205,6 @@ if __name__ == '__main__':
     vth, temp_cell, atol, num_pts = (constants['vth'], constants['temp_cell'],
                                      constants['atol'], constants['num_pts'])
 
-    # plot precise ivcurves
-    for name in utils.get_filenames_in_directory(utils.TEST_SETS_DIR):
-        case_parameter_sets = utils.read_iv_curve_parameter_sets(utils.TEST_SETS_DIR / name)
-        plot_precise_iv_curves(
-            args.save_images_path / name, case_parameter_sets, vth, atol,
-            num_pts
-        )
-
     # plot compare_curves scoring visualization
     if args.fitted_files_path:
         test_sets_to_score = compare_curves.get_test_sets_to_score(args.fitted_files_path)

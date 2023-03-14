@@ -3,17 +3,12 @@ Test Cases
 
 .. datatemplate:nodata::
 
-   {% for test_set_name, test_case in config.html_context.test_cases.test_case_data.items() %}
+   {% for test_set_name, data in config.html_context.test_cases.test_case_data.items() %}
 
    Test Set: {{ test_set_name }}
    =============================
 
-   {% for Index, data in test_case.items() %}
-
-   {{ data.title }}
-   ----------------
-
-   {{ make_list_table([
+   {{ make_list_table_from_mappings([
          'Photocurrent (A)',
          'Saturation Current (A)',
          'Series Resistance (Ω)',
@@ -24,9 +19,5 @@ Test Cases
       title='')
    }}
 
-   .. image:: {{ data.image_path }}
-      :width: 600
-
-   {% endfor %}
    {% endfor %}
 
