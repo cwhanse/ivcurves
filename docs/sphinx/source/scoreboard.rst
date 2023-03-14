@@ -3,7 +3,8 @@
 Scoreboard
 ==========
 
-Submissions are given a score for each test set, and the sum of these scores is their overall score.
+Submissions are given a score for some or all test sets, and the sum of these scores is the submission's overall score.
+If a submission is not scored on a test set, that test set's score will be blank (--).
 Test sets **case1** and **case2** are scored by the distance between the known IV curve and the submission's fitted IV curve (see :func:`ivcurves.compare_curves.score_curve`).
 Test sets **case3a** through **case3d** are scored by the difference between the known and fitted single diode equation parameters (see :func:`ivcurves.compare_curves.score_parameters`).
 
