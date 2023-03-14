@@ -7,7 +7,7 @@ Contents
 .. toctree::
    :maxdepth: 1
 
-   leaderboard
+   scoreboard
    test_cases
    participating
    submissions/index
