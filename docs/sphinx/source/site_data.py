@@ -92,5 +92,6 @@ def test_set_name_to_parameters_and_image():
     test_set_names.sort()
     for name in test_set_names:
         data = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
-        mapping[name] = [[idx, *params] for idx, params in data.items()]
+        # limit params to params[:-1] to not publish cells_in_series
+        mapping[name] = [[idx, *params[:-1]] for idx, params in data.items()]
     return mapping
