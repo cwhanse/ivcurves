@@ -91,10 +91,9 @@ def test_set_name_to_parameters_and_image():
     test_set_names = list(utils.get_filenames_in_directory(utils.TEST_SETS_DIR))
     test_set_names.sort()
     for name in test_set_names:
-        info = {}
-        for idx, parameters in utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}').items():
-            info[idx] = {'title': f'Case {idx}',
-                         'parameters': list(map(mp.nstr, parameters[:-1])), # exclude cells_in_series
-                         'image_path': f'./_images/test_cases/{utils.make_iv_curve_name(name, idx)}.png'}
-        mapping[name] = info
+        data = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
+        # limit params to params[:-1] to not publish cells_in_series
+        mapping[name] = [[idx, *params[:-1]] for idx, params in data.items()]
+        # stringify floats with mp.nstr to write saturation_current in scientific notation
+        mapping[name] = [list(map(mp.nstr, row)) for row in mapping[name]]
     return mapping

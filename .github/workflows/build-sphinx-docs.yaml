@@ -21,9 +21,6 @@ jobs:
       - name: Install ivcurves with docs requirements  # the install is editable because the docs directory is not included in the ivcurves package install to site packages
         working-directory: main
         run: pip3 install -e .[docs]
-      - name: Generate Sphinx docs test case images
-        working-directory: main
-        run: python3 ivcurves/plots.py docs/sphinx/source/_images/test_cases
       - name: Copy IV Curve JSON Schema to _static files
         working-directory: main
         run: cp ivcurves/ivcurve_jsonschema.json docs/sphinx/source/_static/.
