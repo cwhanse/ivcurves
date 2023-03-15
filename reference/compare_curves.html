@@ -35,13 +35,14 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ivcurves.compare_curves.write_test_set_score_per_curve_csvs" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html" />
+    <link rel="next" title="ivcurves.compare_curves._find_x_intersection" href="generated/ivcurves.compare_curves._find_x_intersection.html" />
     <link rel="prev" title="Documentation" href="index.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
@@ -86,8 +87,8 @@
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
     <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../leaderboard.html">
-  Leaderboard
+ <a class="reference internal nav-link" href="../scoreboard.html">
+  Scoreboard
  </a>
 </li>
 
@@ -164,6 +165,36 @@
    </i>
   </label>
   <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.compare_curves._find_x_intersection.html">
+     ivcurves.compare_curves._find_x_intersection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.compare_curves._find_distance.html">
+     ivcurves.compare_curves._find_distance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.compare_curves.score_curve.html">
+     ivcurves.compare_curves.score_curve
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.compare_curves.score_parameters.html">
+     ivcurves.compare_curves.score_parameters
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.compare_curves.calc_precise_curve.html">
+     ivcurves.compare_curves.calc_precise_curve
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/ivcurves.compare_curves._get_test_sets_to_score.html">
+     ivcurves.compare_curves._get_test_sets_to_score
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html">
      ivcurves.compare_curves.write_test_set_score_per_curve_csvs
@@ -500,6 +531,24 @@
 </section>
 <table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves._find_x_intersection.html#ivcurves.compare_curves._find_x_intersection" title="ivcurves.compare_curves._find_x_intersection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_find_x_intersection</span></code></a>(interval, func, point, atol)</p></td>
+<td><p>Finds x-coordinate of the intersection between the known IV curve and the line segment from the origin to the given point.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves._find_distance.html#ivcurves.compare_curves._find_distance" title="ivcurves.compare_curves._find_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_find_distance</span></code></a>(x, y, xp, yp)</p></td>
+<td><p>Calculates the distance between two points <span class="math notranslate nohighlight">\((x, y)\)</span> and <span class="math notranslate nohighlight">\((x_p, y_p)\)</span> using a scaled Euclidean distance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.score_curve.html#ivcurves.compare_curves.score_curve" title="ivcurves.compare_curves.score_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score_curve</span></code></a>(known_curve_params, ...)</p></td>
+<td><p>Calculates the total score for a given fitted curve.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.score_parameters.html#ivcurves.compare_curves.score_parameters" title="ivcurves.compare_curves.score_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score_parameters</span></code></a>(known_curve_params, ...)</p></td>
+<td><p>Calculate score as a sum of absolute relative difference in each parameter</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.calc_precise_curve.html#ivcurves.compare_curves.calc_precise_curve" title="ivcurves.compare_curves.calc_precise_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_precise_curve</span></code></a>(curve_parameters, vth, ...)</p></td>
+<td><p>Gets precise voltage and current pairs for the given curve.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves._get_test_sets_to_score.html#ivcurves.compare_curves._get_test_sets_to_score" title="ivcurves.compare_curves._get_test_sets_to_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_get_test_sets_to_score</span></code></a>([tests, directory])</p></td>
+<td><p>Returns a list of valid test set names (excluding file extensions).</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html#ivcurves.compare_curves.write_test_set_score_per_curve_csvs" title="ivcurves.compare_curves.write_test_set_score_per_curve_csvs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_test_set_score_per_curve_csvs</span></code></a>(scores, ...)</p></td>
 <td><p>Writes a CSV file containing a score for each test case in every test set.</p></td>
 </tr>
@@ -525,10 +574,10 @@
           <p class="prev-next-title">Documentation</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="generated/ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html" title="next page">
+  <a class='right-next' id="next-link" href="generated/ivcurves.compare_curves._find_x_intersection.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">ivcurves.compare_curves.write_test_set_score_per_curve_csvs</p>
+      <p class="prev-next-title">ivcurves.compare_curves._find_x_intersection</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>

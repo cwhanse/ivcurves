@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>ivcurves.compare_curves.write_overall_scores_csv &#8212; ivcurves 1.0 documentation</title>
+    <title>ivcurves.compare_curves._find_distance &#8212; ivcurves 1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -35,14 +35,15 @@
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="../../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Precise" href="../precise.html" />
-    <link rel="prev" title="ivcurves.compare_curves.write_test_set_score_per_curve_csvs" href="ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html" />
+    <link rel="next" title="ivcurves.compare_curves.score_curve" href="ivcurves.compare_curves.score_curve.html" />
+    <link rel="prev" title="ivcurves.compare_curves._find_x_intersection" href="ivcurves.compare_curves._find_x_intersection.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
   </head>
@@ -169,8 +170,8 @@
      ivcurves.compare_curves._find_x_intersection
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.compare_curves._find_distance.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      ivcurves.compare_curves._find_distance
     </a>
    </li>
@@ -199,8 +200,8 @@
      ivcurves.compare_curves.write_test_set_score_per_curve_csvs
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.write_overall_scores_csv.html">
      ivcurves.compare_curves.write_overall_scores_csv
     </a>
    </li>
@@ -483,20 +484,37 @@
               
               <article class="bd-article" role="main">
                 
-  <section id="ivcurves-compare-curves-write-overall-scores-csv">
-<h1>ivcurves.compare_curves.write_overall_scores_csv<a class="headerlink" href="#ivcurves-compare-curves-write-overall-scores-csv" title="Permalink to this heading">#</a></h1>
+  <section id="ivcurves-compare-curves-find-distance">
+<h1>ivcurves.compare_curves._find_distance<a class="headerlink" href="#ivcurves-compare-curves-find-distance" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="ivcurves.compare_curves.write_overall_scores_csv">
-<span class="sig-prename descclassname"><span class="pre">ivcurves.compare_curves.</span></span><span class="sig-name descname"><span class="pre">write_overall_scores_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_output_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.compare_curves.write_overall_scores_csv" title="Permalink to this definition">#</a></dt>
-<dd><p>Writes a CSV file containing overall scores for each test set.
-An overall score is a sum of the test case scores.</p>
+<dt class="sig sig-object py" id="ivcurves.compare_curves._find_distance">
+<span class="sig-prename descclassname"><span class="pre">ivcurves.compare_curves.</span></span><span class="sig-name descname"><span class="pre">_find_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.compare_curves._find_distance" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculates the distance between two points <span class="math notranslate nohighlight">\((x, y)\)</span> and
+<span class="math notranslate nohighlight">\((x_p, y_p)\)</span> using a scaled Euclidean distance.</p>
+<p>The scaled Euclidean distance is defined as</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{\left(\frac{x_p - x}{x}\right)^2 + \left(\frac{y_p - y}{y}\right)^2}\]</div>
+<p>If <span class="math notranslate nohighlight">\(x\)</span> is zero, it is</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{\left(\frac{y_p - y}{y}\right)^2}\]</div>
+<p>If <span class="math notranslate nohighlight">\(y\)</span> is zero, it is</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{\left(\frac{x_p - x}{x}\right)^2}\]</div>
+<p>It is assumed that <span class="math notranslate nohighlight">\((x, y) \neq 0\)</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scores</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – Dictionary of test set filenames (excluding file extensions) to a
-dictionary to test case indices to test case scores.</p></li>
-<li><p><strong>csv_output_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Directory where the CSV files will be writen.</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – x-coordinate of point on known curve.</p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – y-coordinate of point on known curve.</p></li>
+<li><p><strong>xp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – x-coordinate of point on fitted curve.</p></li>
+<li><p><strong>yp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – y-coordinate of point on fitted curve.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The calculated distance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mpmath float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -511,17 +529,17 @@ dictionary to test case indices to test case scores.</p></li>
               <footer class="bd-footer-article">
                   <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="ivcurves.compare_curves._find_x_intersection.html" title="previous page">
       <i class="fas fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">ivcurves.compare_curves.write_test_set_score_per_curve_csvs</p>
+          <p class="prev-next-title">ivcurves.compare_curves._find_x_intersection</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="../precise.html" title="next page">
+  <a class='right-next' id="next-link" href="ivcurves.compare_curves.score_curve.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Precise</p>
+      <p class="prev-next-title">ivcurves.compare_curves.score_curve</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>

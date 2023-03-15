@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>ivcurves.compare_curves.write_overall_scores_csv &#8212; ivcurves 1.0 documentation</title>
+    <title>ivcurves.compare_curves._find_x_intersection &#8212; ivcurves 1.0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -41,8 +41,8 @@
     <script src="../../_static/datatables/setup.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Precise" href="../precise.html" />
-    <link rel="prev" title="ivcurves.compare_curves.write_test_set_score_per_curve_csvs" href="ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html" />
+    <link rel="next" title="ivcurves.compare_curves._find_distance" href="ivcurves.compare_curves._find_distance.html" />
+    <link rel="prev" title="Compare Curves" href="../compare_curves.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
   </head>
@@ -164,8 +164,8 @@
    </i>
   </label>
   <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="ivcurves.compare_curves._find_x_intersection.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      ivcurves.compare_curves._find_x_intersection
     </a>
    </li>
@@ -199,8 +199,8 @@
      ivcurves.compare_curves.write_test_set_score_per_curve_csvs
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="ivcurves.compare_curves.write_overall_scores_csv.html">
      ivcurves.compare_curves.write_overall_scores_csv
     </a>
    </li>
@@ -483,20 +483,33 @@
               
               <article class="bd-article" role="main">
                 
-  <section id="ivcurves-compare-curves-write-overall-scores-csv">
-<h1>ivcurves.compare_curves.write_overall_scores_csv<a class="headerlink" href="#ivcurves-compare-curves-write-overall-scores-csv" title="Permalink to this heading">#</a></h1>
+  <section id="ivcurves-compare-curves-find-x-intersection">
+<h1>ivcurves.compare_curves._find_x_intersection<a class="headerlink" href="#ivcurves-compare-curves-find-x-intersection" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="ivcurves.compare_curves.write_overall_scores_csv">
-<span class="sig-prename descclassname"><span class="pre">ivcurves.compare_curves.</span></span><span class="sig-name descname"><span class="pre">write_overall_scores_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_output_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.compare_curves.write_overall_scores_csv" title="Permalink to this definition">#</a></dt>
-<dd><p>Writes a CSV file containing overall scores for each test set.
-An overall score is a sum of the test case scores.</p>
+<dt class="sig sig-object py" id="ivcurves.compare_curves._find_x_intersection">
+<span class="sig-prename descclassname"><span class="pre">ivcurves.compare_curves.</span></span><span class="sig-name descname"><span class="pre">_find_x_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsteps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ivcurves.compare_curves._find_x_intersection" title="Permalink to this definition">#</a></dt>
+<dd><p>Finds x-coordinate of the intersection between the known IV curve and the
+line segment from the origin to the given point.</p>
+<p>This is an auxiliary function for <code class="xref py py-func docutils literal notranslate"><span class="pre">total_score()</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scores</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – Dictionary of test set filenames (excluding file extensions) to a
-dictionary to test case indices to test case scores.</p></li>
-<li><p><strong>csv_output_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Directory where the CSV files will be writen.</p></li>
+<li><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>)</em>) – An interval on the x-axis that contains an intersection.</p></li>
+<li><p><strong>func</strong> (<em>function</em>) – A two-variable scalar-valued function.</p></li>
+<li><p><strong>point</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>)</em>) – The point defining the line from the origin.</p></li>
+<li><p><strong>atol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Absolute tolerance of how close the found x-coordiante must be to the
+true x-coordinate of the intersection point.</p></li>
+<li><p><strong>maxsteps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>default 100</em>) – Maximum number of iterations for <a class="reference internal" href="ivcurves.precise.golden_search.html#ivcurves.precise.golden_search" title="ivcurves.precise.golden_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">ivcurves.precise.golden_search()</span></code></a>
+and <code class="xref py py-func docutils literal notranslate"><span class="pre">mp.findroot()</span></code> to find the x-coordinate of the intersection
+point. A <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> by either iteration if <code class="docutils literal notranslate"><span class="pre">atol</span></code> is not met
+after <code class="docutils literal notranslate"><span class="pre">maxsteps</span></code> iterations.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>x-coordinate of an intersection.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -511,17 +524,17 @@ dictionary to test case indices to test case scores.</p></li>
               <footer class="bd-footer-article">
                   <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="ivcurves.compare_curves.write_test_set_score_per_curve_csvs.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="../compare_curves.html" title="previous page">
       <i class="fas fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">ivcurves.compare_curves.write_test_set_score_per_curve_csvs</p>
+          <p class="prev-next-title">Compare Curves</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="../precise.html" title="next page">
+  <a class='right-next' id="next-link" href="ivcurves.compare_curves._find_distance.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Precise</p>
+      <p class="prev-next-title">ivcurves.compare_curves._find_distance</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>

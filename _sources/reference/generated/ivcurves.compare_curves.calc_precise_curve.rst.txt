@@ -1,0 +1,6 @@
+﻿ivcurves.compare\_curves.calc\_precise\_curve
+=============================================
+
+.. currentmodule:: ivcurves.compare_curves
+
+.. autofunction:: calc_precise_curve
