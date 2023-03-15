@@ -94,4 +94,6 @@ def test_set_name_to_parameters_and_image():
         data = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
         # limit params to params[:-1] to not publish cells_in_series
         mapping[name] = [[idx, *params[:-1]] for idx, params in data.items()]
+        # stringify floats with mp.nstr to write saturation_current in scientific notation
+        mapping[name] = [list(map(mp.nstr, row)) for row in mapping[name]]
     return mapping
