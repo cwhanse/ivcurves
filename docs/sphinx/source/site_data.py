@@ -86,6 +86,12 @@ def scoreboard_table_rows():
     return table_rows
 
 
+RENAME = {'case1': 'Case 1',
+          'case2': 'Case 2',
+          'case3a': 'Case 3a',
+          'case3b': 'Case 3b',
+          'case3c': 'Case 3c',
+          'case3d': 'Case 3d'}
 def test_set_name_to_parameters_and_image():
     mapping = {}
     test_set_names = list(utils.get_filenames_in_directory(utils.TEST_SETS_DIR))
@@ -93,7 +99,7 @@ def test_set_name_to_parameters_and_image():
     for name in test_set_names:
         data = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
         # limit params to params[:-1] to not publish cells_in_series
-        mapping[name] = [[idx, *params[:-1]] for idx, params in data.items()]
+        mapping[RENAME[name]] = [[idx, *params[:-1]] for idx, params in data.items()]
         # stringify floats with mp.nstr to write saturation_current in scientific notation
-        mapping[name] = [list(map(mp.nstr, row)) for row in mapping[name]]
+        mapping[RENAME[name]] = [list(map(mp.nstr, row)) for row in mapping[RENAME[name]]]
     return mapping
