@@ -164,34 +164,41 @@
 <nav id="bd-toc-nav">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-set-case1">
-   Test Set: case1
+  <a class="reference internal nav-link" href="#case-1-and-case-2">
+   Case 1 and Case 2
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-set-case2">
-   Test Set: case2
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-set-case3a">
-   Test Set: case3a
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-set-case3b">
-   Test Set: case3b
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-set-case3c">
-   Test Set: case3c
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-set-case3d">
-   Test Set: case3d
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-1">
+     Case 1
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-2">
+     Case 2
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-3a">
+     Case 3a
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-3b">
+     Case 3b
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-3c">
+     Case 3c
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#case-3d">
+     Case 3d
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -214,9 +221,15 @@
                 
   <section id="test-cases">
 <h1>Test Cases<a class="headerlink" href="#test-cases" title="Permalink to this heading">#</a></h1>
-<p>Here we describe the test cases.</p>
-<section id="test-set-case1">
-<h2>Test Set: case1<a class="headerlink" href="#test-set-case1" title="Permalink to this heading">#</a></h2>
+<p>IV curve fitting algorithms are scored using three benchmark cases.</p>
+<section id="case-1-and-case-2">
+<h2>Case 1 and Case 2<a class="headerlink" href="#case-1-and-case-2" title="Permalink to this heading">#</a></h2>
+<p>Case 1 and Case 2 represent, respectively, a module composed of 60 series-connected single junction crystalline silicon (cSi) cells, and a module composed of 140 series-connected thin-film cells. Each case contains 32 sets of IV curves computed exactly for all combinations of high and low values of the five parameters in the single diode equation. Tables of the parameters are given below.</p>
+<p>For both Case 1 and Case 2, the scoring engine expects to recieve the five parameter values for each IV curve. The test score is the sum over all IV curves of a metric that measures the separation between the exactly-known curve and the curve computed from the inputted five parameters. The metric is the sum of the length of the line segments lying between each pair of curves the rays projected from the origin through 100 points on the known curve, where these points are equally-spaced between 0 V and V<sub>OC</sub>.</p>
+<p>Case 3 comprises 4 sets of 50 IV curves each. Case 3a represents a good quality, 60-cell cSe module at high power condition, and Case 3b represents a poor quality cSi module in low light conditions. Case 3c represents a good quality, 140-cell thin film module at high power conditions, and Case 3d represents a poor quality thin-film module at low light conditions. For each of these four cases, 50 IV curves are formed by computing the exact curve from the assumed parameters, then adding simulated measurement noise. Voltage noise is simulated by uncorrelated random samples from a uniform distribution on [-0.05%, 0.05%]. Current noise is generated from a zero-mean normal distribution with 0.1% standard deviation, with an autocorrelation that decays exponentially. Details are provided in the file build_case3.py.</p>
+<p>For Case 3, the scoring engine expects to recieve one set of five parameter values for each part of Case 3 (four sets in total). The test score is the sum (over the parts of Case 3) of the sum (over the five parameters) of the absolute difference in parameter value, as a percent of the known value.</p>
+<section id="case-1">
+<h3>Case 1<a class="headerlink" href="#case-1" title="Permalink to this heading">#</a></h3>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Index</p></th>
@@ -455,8 +468,8 @@
 </tbody>
 </table>
 </section>
-<section id="test-set-case2">
-<h2>Test Set: case2<a class="headerlink" href="#test-set-case2" title="Permalink to this heading">#</a></h2>
+<section id="case-2">
+<h3>Case 2<a class="headerlink" href="#case-2" title="Permalink to this heading">#</a></h3>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Index</p></th>
@@ -695,8 +708,8 @@
 </tbody>
 </table>
 </section>
-<section id="test-set-case3a">
-<h2>Test Set: case3a<a class="headerlink" href="#test-set-case3a" title="Permalink to this heading">#</a></h2>
+<section id="case-3a">
+<h3>Case 3a<a class="headerlink" href="#case-3a" title="Permalink to this heading">#</a></h3>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Index</p></th>
@@ -718,8 +731,8 @@
 </tbody>
 </table>
 </section>
-<section id="test-set-case3b">
-<h2>Test Set: case3b<a class="headerlink" href="#test-set-case3b" title="Permalink to this heading">#</a></h2>
+<section id="case-3b">
+<h3>Case 3b<a class="headerlink" href="#case-3b" title="Permalink to this heading">#</a></h3>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Index</p></th>
@@ -741,8 +754,8 @@
 </tbody>
 </table>
 </section>
-<section id="test-set-case3c">
-<h2>Test Set: case3c<a class="headerlink" href="#test-set-case3c" title="Permalink to this heading">#</a></h2>
+<section id="case-3c">
+<h3>Case 3c<a class="headerlink" href="#case-3c" title="Permalink to this heading">#</a></h3>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Index</p></th>
@@ -764,8 +777,8 @@
 </tbody>
 </table>
 </section>
-<section id="test-set-case3d">
-<h2>Test Set: case3d<a class="headerlink" href="#test-set-case3d" title="Permalink to this heading">#</a></h2>
+<section id="case-3d">
+<h3>Case 3d<a class="headerlink" href="#case-3d" title="Permalink to this heading">#</a></h3>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Index</p></th>
@@ -786,6 +799,7 @@
 </tr>
 </tbody>
 </table>
+</section>
 </section>
 </section>
 
