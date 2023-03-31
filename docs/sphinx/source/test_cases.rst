@@ -19,7 +19,7 @@ For Case 3, the scoring engine expects to recieve one set of five parameter valu
 
    {% for test_set_name, data in config.html_context.test_cases.test_case_data.items() %}
 
-   Test Set: {{ test_set_name }}
+   {{ test_set_name }}
    =============================
 
    {{ make_list_table([
