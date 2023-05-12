@@ -12,6 +12,6 @@ python:
   system_packages: false
   install:
     - method: pip
-      path: -e .
+      path: .
       extra_requirements:
         - docs
