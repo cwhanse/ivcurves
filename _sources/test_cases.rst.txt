@@ -6,7 +6,7 @@ IV curve fitting algorithms are scored using three benchmark cases.
 Case 1 and Case 2
 -----------------
 
-Case 1 and Case 2 represent, respectively, a module composed of 60 series-connected single junction crystalline silicon (cSi) cells, and a module composed of 140 series-connected thin-film cells. Each case contains 32 sets of IV curves computed exactly for all combinations of high and low values of the five parameters in the single diode equation. Tables of the parameters are given below.
+Case 1 and Case 2 represent, respectively, a module composed of 72 series-connected single junction crystalline silicon (cSi) cells, and a module composed of 140 series-connected thin-film cells. Each case contains 32 sets of IV curves computed exactly for all combinations of high and low values of the five parameters in the single diode equation. Tables of the parameters are given below.
 
 For both Case 1 and Case 2, the scoring engine expects to recieve the five parameter values for each IV curve. The test score is the sum over all IV curves of a metric that measures the separation between the exactly-known curve and the curve computed from the inputted five parameters. The metric is the sum of the length of the line segments lying between each pair of curves the rays projected from the origin through 100 points on the known curve, where these points are equally-spaced between 0 V and V\ :sub:`OC`\ .
 
