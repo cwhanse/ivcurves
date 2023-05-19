@@ -201,9 +201,3 @@ jobs:
           git commit -m 'Update all entries in scores database'
           git push origin main
 
-  build-sphinx-docs:
-    # rebuild docs to update leaderboard
-    needs:
-      - score-all-submissions
-    uses: ./.github/workflows/build-sphinx-docs.yaml
-
