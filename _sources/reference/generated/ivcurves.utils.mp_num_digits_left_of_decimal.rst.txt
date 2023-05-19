@@ -1,6 +1,0 @@
-﻿ivcurves.utils.mp\_num\_digits\_left\_of\_decimal
-=================================================
-
-.. currentmodule:: ivcurves.utils
-
-.. autofunction:: mp_num_digits_left_of_decimal

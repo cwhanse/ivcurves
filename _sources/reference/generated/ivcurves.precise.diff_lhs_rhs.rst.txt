@@ -1,6 +1,0 @@
-﻿ivcurves.precise.diff\_lhs\_rhs
-===============================
-
-.. currentmodule:: ivcurves.precise
-
-.. autofunction:: diff_lhs_rhs

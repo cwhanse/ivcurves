@@ -1,6 +1,0 @@
-﻿ivcurves.precise.plot\_iv\_curves
-=================================
-
-.. currentmodule:: ivcurves.precise
-
-.. autofunction:: plot_iv_curves

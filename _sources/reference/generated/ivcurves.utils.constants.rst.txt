@@ -1,6 +1,0 @@
-﻿ivcurves.utils.constants
-========================
-
-.. currentmodule:: ivcurves.utils
-
-.. autofunction:: constants

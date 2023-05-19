@@ -1,6 +1,0 @@
-﻿ivcurves.compare\_curves.\_find\_x\_intersection
-================================================
-
-.. currentmodule:: ivcurves.compare_curves
-
-.. autofunction:: _find_x_intersection

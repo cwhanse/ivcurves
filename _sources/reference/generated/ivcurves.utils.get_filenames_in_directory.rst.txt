@@ -1,6 +1,0 @@
-﻿ivcurves.utils.get\_filenames\_in\_directory
-============================================
-
-.. currentmodule:: ivcurves.utils
-
-.. autofunction:: get_filenames_in_directory

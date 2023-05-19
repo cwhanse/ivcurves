@@ -1,6 +1,0 @@
-﻿ivcurves.precise.write\_test\_set\_json
-=======================================
-
-.. currentmodule:: ivcurves.precise
-
-.. autofunction:: write_test_set_json

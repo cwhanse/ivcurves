@@ -1,6 +1,0 @@
-﻿ivcurves.compare\_curves.\_get\_test\_sets\_to\_score
-=====================================================
-
-.. currentmodule:: ivcurves.compare_curves
-
-.. autofunction:: _get_test_sets_to_score

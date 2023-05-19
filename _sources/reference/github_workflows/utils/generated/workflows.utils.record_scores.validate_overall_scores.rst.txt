@@ -1,6 +1,0 @@
-﻿workflows.utils.record\_scores.validate\_overall\_scores
-========================================================
-
-.. currentmodule:: workflows.utils.record_scores
-
-.. autofunction:: validate_overall_scores

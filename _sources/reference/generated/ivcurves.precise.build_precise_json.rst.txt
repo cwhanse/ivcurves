@@ -1,6 +1,0 @@
-﻿ivcurves.precise.build\_precise\_json
-=====================================
-
-.. currentmodule:: ivcurves.precise
-
-.. autofunction:: build_precise_json

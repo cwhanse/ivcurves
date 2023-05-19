@@ -1,6 +1,0 @@
-﻿ivcurves.utils.save\_json
-=========================
-
-.. currentmodule:: ivcurves.utils
-
-.. autofunction:: save_json

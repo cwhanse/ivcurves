@@ -1,6 +1,0 @@
-﻿ivcurves.precise.golden\_search
-===============================
-
-.. currentmodule:: ivcurves.precise
-
-.. autofunction:: golden_search

@@ -1,6 +1,0 @@
-﻿ivcurves.precise.max\_power\_pt\_finder
-=======================================
-
-.. currentmodule:: ivcurves.precise
-
-.. autofunction:: max_power_pt_finder

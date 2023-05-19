@@ -1,6 +1,0 @@
-﻿ivcurves.compare\_curves.find\_distance
-=======================================
-
-.. currentmodule:: ivcurves.compare_curves
-
-.. autofunction:: find_distance
