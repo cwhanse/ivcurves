@@ -19,6 +19,3 @@ Record Scores
 
    ValidateAndRecordScores --> CommitModifiedDatabase(Commit and push updated database to GitHub)
 
-   CommitModifiedDatabase -->|run-scorer is true| StartBuildSphinxDocsWorkflow(Call the build-sphinx-docs workflow)
-   CommitModifiedDatabase -->|run-scorer is false| TerminateWorkflowRecordScores(End the workflow)
-

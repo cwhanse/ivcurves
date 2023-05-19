@@ -39,5 +39,3 @@ Update Scores
    BeginBashScriptToRunAllSubmissions -->|For every submission| Bash
    Bash --> CommitModifiedDatabase(Commit and push the udpated database to GitHub)
 
-   CommitModifiedDatabase --> StartBuildSphinxDocksWorkflow(Call the build-sphinx-docs workflow)
-
