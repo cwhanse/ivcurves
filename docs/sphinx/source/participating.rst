@@ -290,7 +290,7 @@ To run ``ivcurves/compare_curves.py`` for all test sets, run the command
 
 .. code-block:: bash
 
-   python3 ivcurves/compare_curves.py folder/containing/your/CSV/files/ --csv-ouput-path folder/to/write/your/scores/
+   python3 ivcurves/compare_curves.py folder/containing/your/CSV/files/ --csv-output-path folder/to/write/your/scores/
 
 To run ``ivcurves/compare_curves.py`` for a single test set ``<test_set>.json``, run the command
 
