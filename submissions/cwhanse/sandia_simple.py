@@ -107,6 +107,16 @@ def json_file_to_dict(filepath):
         return json.load(file)
 
 
+def filter_params(results, max_rsh=1e5):
+    bad = pd.Series(index=results.index, data=False)
+    for col in ['photocurrent', 'saturation_current', 'resistance_series',
+                'resistance_shunt', 'n']:
+        bad = bad | results[col] < 0
+        bad = bad | results[col].isna()
+    bad = bad | (results['resistance_shunt'] > max_rsh)
+    return bad
+
+
 if __name__ == "__main__":
 
     test_files = get_test_set_filepaths()
@@ -128,7 +138,7 @@ if __name__ == "__main__":
         # read IV curves for this case
         data = json_file_to_df(filen)
         # set up Dataframe to contain each curve's diode equation parameters
-        results = pd.DataFrame(index=data.index, columns=cols)
+        results = pd.DataFrame(index=data.index, columns=cols, data=0.)
         # process each IV curve
         for d in data.index:
             il, io, rs, rsh, nNsVth = pvlib.ivtools.sde.fit_sandia_simple(
@@ -150,7 +160,9 @@ if __name__ == "__main__":
 
         # for case3, save average rather than the per curve fits
         if casename in ['case3a', 'case3b', 'case3c', 'case3d']:
-            results = results.mean().to_frame().T
+            # filter badly fit curves
+            bad = filter_params(results)
+            results = results[~bad].mean().to_frame().T
     
         outfilen = pathlib.Path.cwd() / outname
         with open(outfilen, 'w') as outfile:
