@@ -163,6 +163,7 @@ if __name__ == "__main__":
             # filter badly fit curves
             bad = filter_params(results)
             results = results[~bad].mean().to_frame().T
+            results.index = pd.Index([1], name='Index')  # scorer looks for this name
     
         outfilen = pathlib.Path.cwd() / outname
         with open(outfilen, 'w') as outfile:
