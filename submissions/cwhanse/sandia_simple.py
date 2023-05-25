@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Uses pvlib.ivtools.sde.fit_sandia_simple to estimate the single diode equation
-parameters for each IV curve. The fitting method is documented in [1]_
+Uses :py:func:`pvlib.ivtools.sde.fit_sandia_simple` to estimate the single diode equation
+parameters for each IV curve. The fitting method is documented in [1]_.
 
 References
 ----------
