@@ -52,10 +52,3 @@ jobs:
           git commit -m 'Update scores database'
           git push origin main
 
-  build-sphinx-docs:
-    needs:
-      - score-submission
-      - record-scores
-    if: ${{ needs.score-submission.outputs.run-scorer == 'true' }}
-    uses: ./.github/workflows/build-sphinx-docs.yaml
-

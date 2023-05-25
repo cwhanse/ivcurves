@@ -48,41 +48,7 @@ def datetime_from_github_datetime_str(ghdatetime_str):
     return datetime.datetime.strptime(ghdatetime_str, '%Y-%m-%dT%H:%M:%SZ')
 
 
-def leaderboard_entry_list():
-    entries = []
-
-    for pr_number, submission_data in submissions().items():
-        code_link = link_to_submission_code(
-            submission_data['merge_commit'],
-            submission_data['username'],
-            submission_data['submission_main']
-        )
-        docs_link = link_to_submission_docs(
-            submission_data['username'],
-            submission_data['submission_main']
-        )
-        entries.append({
-            'submission': f'{to_ghuser(submission_data["username"])} ({to_pull(pr_number)})',
-            'method_name': to_doc(docs_link),
-            'overall_score': sum(mp.mpmathify(v) for v in submission_data['test_sets'].values() if v != utils.COMPETITION_INVALID_SCORE_VALUE),
-            'submission_datetime': datetime_from_github_datetime_str(submission_data['submission_datetime']),
-            'links':  f'`Code <{code_link}>`__'
-        })
-
-    # order entries from lowest score to highest, and then by submission datetime
-    entries.sort(key=lambda l: l['submission_datetime'])
-    entries.sort(key=lambda l: l['overall_score'])
-
-    for idx, entry in enumerate(entries):
-        entry['rank'] = f'#{idx + 1}'
-        entry['overall_score'] = mp.nstr(entry['overall_score'])
-        # use the submission date instead of datetime
-        entry['submission_date'] = entry['submission_datetime'].strftime('%m/%d/%Y')
-
-    return entries
-
-
-def compare_submissions_table_rows():
+def scoreboard_table_rows():
     entries = []
 
     for pr_number, submission_data in submissions().items():
@@ -120,15 +86,20 @@ def compare_submissions_table_rows():
     return table_rows
 
 
+RENAME = {'case1': 'Case 1',
+          'case2': 'Case 2',
+          'case3a': 'Case 3a',
+          'case3b': 'Case 3b',
+          'case3c': 'Case 3c',
+          'case3d': 'Case 3d'}
 def test_set_name_to_parameters_and_image():
     mapping = {}
     test_set_names = list(utils.get_filenames_in_directory(utils.TEST_SETS_DIR))
     test_set_names.sort()
     for name in test_set_names:
-        info = {}
-        for idx, parameters in utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}').items():
-            info[idx] = {'title': f'Case {idx}',
-                         'parameters': list(map(mp.nstr, parameters[:-1])), # exclude cells_in_series
-                         'image_path': f'./_images/test_cases/{utils.make_iv_curve_name(name, idx)}.png'}
-        mapping[name] = info
+        data = utils.read_iv_curve_parameter_sets(f'{utils.TEST_SETS_DIR}/{name}')
+        # limit params to params[:-1] to not publish cells_in_series
+        mapping[RENAME[name]] = [[idx, *params[:-1]] for idx, params in data.items()]
+        # stringify floats with mp.nstr to write saturation_current in scientific notation
+        mapping[RENAME[name]] = [list(map(mp.nstr, row)) for row in mapping[RENAME[name]]]
     return mapping

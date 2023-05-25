@@ -89,19 +89,15 @@ html_theme_options = {
 }
 
 html_sidebars = {
-    'leaderboard': [],
-    'compare_submissions': [],
+    'scoreboard': [],
     'test_cases': [],
     'participating': [],
     'jsonschema': []
 }
 
 html_context = {
-    'leaderboard': {
-        'entries': site_data.leaderboard_entry_list()
-    },
-    'compare_submissions': {
-        'table_rows': site_data.compare_submissions_table_rows()
+    'scoreboard': {
+        'table_rows': site_data.scoreboard_table_rows()
     },
     'test_cases': {
         'test_case_data': site_data.test_set_name_to_parameters_and_image()

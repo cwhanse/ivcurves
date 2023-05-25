@@ -1,4 +1,5 @@
 import argparse
+from pathlib import Path
 import pvlib
 import numpy as np
 
@@ -490,7 +491,7 @@ def get_argparser():
         description='Generates precise IV curve data from the parameters of '
                     'the single diode equation.'
     )
-    parser.add_argument('save_json_path', type=str,
+    parser.add_argument('save_json_path', type=Path,
                         help='Saves the test set JSON at the given path.')
     parser.add_argument('--test-set', dest='test_set_filename', type=str,
                         help='Test set filename (excluding file extension) to '
@@ -505,7 +506,7 @@ if __name__ == '__main__':
         test_set_filenames = [args.test_set_filename]
     else:
         # build all precise cases
-        test_set_filenames = ['case1', 'case2']
+        test_set_filenames = utils.TEST_SETS_PRECISE
 
     constants = utils.constants()
     vth, temp_cell, atol, num_pts = (constants['vth'], constants['temp_cell'],
@@ -518,7 +519,7 @@ if __name__ == '__main__':
             if test_set_json_path.exists():
                 test_set_json = utils.load_json(test_set_json_path)
                 test_set_json = build_precise_json(
-                    name, case_parameter_sets, vth, temp_cell, atol, num_pts,
+                    case_parameter_sets, vth, temp_cell, atol, num_pts,
                     test_set_json=test_set_json
                 )
                 utils.save_json(test_set_json, args.save_json_path / f'{name}.json')
