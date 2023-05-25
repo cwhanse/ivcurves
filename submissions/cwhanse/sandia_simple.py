@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Uses pvlib.ivtools.sde.fit_sandia_simple to estimate the single diode equation
-parameters for each IV curve. The fitting method is documented in [1]_
+Uses :py:func:`pvlib.ivtools.sde.fit_sandia_simple` to estimate the single diode equation
+parameters for each IV curve. The fitting method is documented in [1]_.
 
 References
 ----------
@@ -107,6 +107,16 @@ def json_file_to_dict(filepath):
         return json.load(file)
 
 
+def filter_params(results, max_rsh=1e5):
+    bad = pd.Series(index=results.index, data=False)
+    for col in ['photocurrent', 'saturation_current', 'resistance_series',
+                'resistance_shunt', 'n']:
+        bad = bad | results[col] < 0
+        bad = bad | results[col].isna()
+    bad = bad | (results['resistance_shunt'] > max_rsh)
+    return bad
+
+
 if __name__ == "__main__":
 
     test_files = get_test_set_filepaths()
@@ -128,7 +138,7 @@ if __name__ == "__main__":
         # read IV curves for this case
         data = json_file_to_df(filen)
         # set up Dataframe to contain each curve's diode equation parameters
-        results = pd.DataFrame(index=data.index, columns=cols)
+        results = pd.DataFrame(index=data.index, columns=cols, data=0.)
         # process each IV curve
         for d in data.index:
             il, io, rs, rsh, nNsVth = pvlib.ivtools.sde.fit_sandia_simple(
@@ -136,7 +146,7 @@ if __name__ == "__main__":
                 current=data.loc[d, 'Currents'],
                 v_oc=data.loc[d, 'v_oc'],
                 i_sc=data.loc[d, 'i_sc'],
-                v_mp_i_mp=(data.loc[d, 'v_mp'], data.loc[d, 'v_mp'])
+                v_mp_i_mp=(data.loc[d, 'v_mp'], data.loc[d, 'i_mp'])
                 )
             vth = k / q * data.loc[d, 'Temperature']
             n = nNsVth / data.loc[d, 'cells_in_series'] / vth
@@ -150,9 +160,10 @@ if __name__ == "__main__":
 
         # for case3, save average rather than the per curve fits
         if casename in ['case3a', 'case3b', 'case3c', 'case3d']:
-            results = results.mean().to_frame().T
-            results['Index'] = 1
-            results.index = results['Index']
+            # filter badly fit curves
+            bad = filter_params(results)
+            results = results[~bad].mean().to_frame().T
+            results.index = pd.Index([1], name='Index')  # scorer looks for this name
     
         outfilen = pathlib.Path.cwd() / outname
         with open(outfilen, 'w') as outfile:
