@@ -504,10 +504,13 @@ if __name__ == '__main__':
             utils.TEST_SETS_DIR / name)
         fitted_parameter_sets = utils.read_iv_curve_parameter_sets(
             args.directory / name)
-        for idx, known_p in known_parameter_sets.items():
-            fitted_p = fitted_parameter_sets[idx]
-            scores[name][idx] = score_curve(known_p, fitted_p, vth,
-                                            num_compare_pts, atol)
+        if known_parameter_sets.keys()==fitted_parameter_sets.keys():
+            for idx, known_p in known_parameter_sets.items():
+                fitted_p = fitted_parameter_sets[idx]
+                scores[name][idx] = score_curve(known_p, fitted_p, vth,
+                                                num_compare_pts, atol)
+        else:
+            raise ValueError(f'Fitted parameter Index in {name} must be the same as the Test Case')
 
     for name in utils.TEST_SETS_NOISY.intersection(
             test_sets_to_score):
@@ -516,9 +519,12 @@ if __name__ == '__main__':
             utils.TEST_SETS_DIR / name)
         fitted_parameter_sets = utils.read_iv_curve_parameter_sets(
             args.directory / name)
-        for idx, known_p in known_parameter_sets.items():
-            fitted_p = fitted_parameter_sets[idx]
-            scores[name][idx] = score_parameters(known_p, fitted_p)
+        if known_parameter_sets.keys()==fitted_parameter_sets.keys():
+            for idx, known_p in known_parameter_sets.items():
+                fitted_p = fitted_parameter_sets[idx]
+                scores[name][idx] = score_parameters(known_p, fitted_p)
+        else:
+            raise ValueError(f'Fitted parameter Index in {name} must be the same as the Test Case')
 
     for name in utils.get_filenames_in_directory(
             utils.TEST_SETS_DIR).difference(test_sets_to_score):
