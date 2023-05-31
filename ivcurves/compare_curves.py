@@ -498,7 +498,8 @@ if __name__ == '__main__':
     constants = utils.constants()
     vth, atol = constants['vth'], constants['atol']
 
-    for name in utils.TEST_SETS_PRECISE.intersection(test_sets_to_score):
+    for name in sorted(utils.TEST_SETS_PRECISE.intersection(
+            test_sets_to_score)):
         scores[name] = {}
         known_parameter_sets = utils.read_iv_curve_parameter_sets(
             utils.TEST_SETS_DIR / name)
@@ -512,8 +513,8 @@ if __name__ == '__main__':
         else:
             raise ValueError(f'Fitted parameter Index in {name} must be the same as the Test Case')
 
-    for name in utils.TEST_SETS_NOISY.intersection(
-            test_sets_to_score):
+    for name in sorted(utils.TEST_SETS_NOISY.intersection(
+            test_sets_to_score)):
         scores[name] = {}
         known_parameter_sets = utils.read_iv_curve_parameter_sets(
             utils.TEST_SETS_DIR / name)
