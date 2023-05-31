@@ -138,9 +138,16 @@ def read_iv_curve_parameter_sets(filename):
     mapping = {}
     with open(f'{filename}.csv', newline='') as file:
         reader = csv.DictReader(file, delimiter=',')
-        for row in reader:
-            mapping[int(row['Index'])] = [mp.mpmathify(row[col])
-                                          for col in IV_PARAMETER_NAMES]
+        # check for proper column names
+        colnames = reader.fieldnames
+        if 'Index' not in colnames:
+            raise ValueError(f'Index is required and not found in {filename}')
+        elif any([c not in colnames for c in IV_PARAMETER_NAMES]):
+            raise ValueError(f'Check column names in {filename}, missing some of {IV_PARAMETER_NAMES}')
+        else:
+            for row in reader:
+                mapping[int(row['Index'])] = [mp.mpmathify(row[col])
+                                              for col in IV_PARAMETER_NAMES]
     return mapping
 
 
