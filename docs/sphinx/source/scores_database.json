@@ -1,32 +1,4 @@
 {
-  "42": {
-    "username": "cwhanse",
-    "submission_datetime": "2023-05-25T19:45:52Z",
-    "merge_commit": "181879d846016d146c84c028bb6cfe6a092bd3d3",
-    "submission_main": "./sandia_simple.py",
-    "test_sets": {
-      "case1": "30.0007440160126361560",
-      "case2": "31.0003101828179782768",
-      "case3a": "4.2596671013444123630",
-      "case3b": "0.05685224629230342051",
-      "case3c": "0.3409934105361316841",
-      "case3d": "0.5965076513192244000"
-    }
-  },
-  "44": {
-    "username": "cwhanse",
-    "submission_datetime": "2023-05-25T20:15:13Z",
-    "merge_commit": "14249cf6efc7f9920b4e396153e5694a919832bc",
-    "submission_main": "./sandia_simple.py",
-    "test_sets": {
-      "case1": "30.0007440160126361560",
-      "case2": "31.0003101828179782768",
-      "case3a": "4.2596671013444123630",
-      "case3b": "0.05685224629230342051",
-      "case3c": "0.3409934105361316841",
-      "case3d": "0.5965076513192244000"
-    }
-  },
   "45": {
     "username": "cwhanse",
     "submission_datetime": "2023-05-31T20:24:12Z",
