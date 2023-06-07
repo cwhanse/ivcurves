@@ -117,8 +117,17 @@ def filter_params(results, max_rsh=1e5):
     return bad
 
 
-if __name__ == "__main__":
+def main_function():
+    '''
+    Reads test sets and fits each test set using the sandia_simple method.
 
+    Writes fitted parameters for each test set.
+
+    Returns
+    -------
+    None.
+
+    '''
     test_files = get_test_set_filepaths()
     
     # set up dataframe to hold results
@@ -129,8 +138,6 @@ if __name__ == "__main__":
     k = 1.38066E-23  # Boltzman J/K
     q = 1.60218E-19  # elementary charge (Coulomb)
 
-    # fit each IV curve in data1 and data2
-    
     for filen in test_files:
         # extract case name and make output file name
         casename = pathlib.Path(filen).name.strip('.json')
@@ -159,12 +166,19 @@ if __name__ == "__main__":
             results.loc[d, 'cells_in_series'] = data.loc[d, 'cells_in_series']
 
         # for case3, save average rather than the per curve fits
+        # remove bad parameter sets before averaging
         if casename in ['case3a', 'case3b', 'case3c', 'case3d']:
-            # filter badly fit curves
+            # filter out badly fit curves
             bad = filter_params(results)
             results = results[~bad].mean().to_frame().T
-            results.index = pd.Index([1], name='Index')  # scorer looks for this name
+            # reset the index including its name, scorer expects 'Index'
+            results.index = pd.Index([1], name='Index')
     
         outfilen = pathlib.Path.cwd() / outname
         with open(outfilen, 'w') as outfile:
             results.to_csv(outfile)
+
+
+if __name__ == "__main__":
+    main_function()
+
