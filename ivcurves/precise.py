@@ -369,12 +369,14 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     solutions if necessary.
     """
     # convert mpf to np.float64
-    params_npfloat64 = map(lambda x: np.float64(x), [il, io, rs, rsh, n*vth*ns])
-    res = pvlib.pvsystem.singlediode(*params_npfloat64, ivcurve_pnts=num_pts)
+    params_npfloat64 = list(map(np.float64, (il, io, rs, rsh, n*vth*ns)))
+    res = pvlib.pvsystem.singlediode(*params_npfloat64)
+    vv = np.linspace(0., res['v_oc'], num_pts)
+    ii = pvlib.pvsystem.i_from_v(vv, *params_npfloat64)
 
     # convert np.float64 to mpf
-    vv = np.fromiter(map(mp.mpmathify, res['v']), dtype=mp.mpf)
-    ii = np.fromiter(map(mp.mpmathify, res['i']), dtype=mp.mpf)
+    vv = np.fromiter(map(mp.mpmathify, vv), dtype=mp.mpf)
+    ii = np.fromiter(map(mp.mpmathify, ii), dtype=mp.mpf)
 
     # allocate array for new, more precise i's
     precise_i = np.zeros(ii.shape[0], dtype=mp.mpf)
