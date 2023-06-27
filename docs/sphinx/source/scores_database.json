@@ -1,22 +1,8 @@
 {
-  "45": {
+  "47": {
     "username": "cwhanse",
-    "submission_datetime": "2023-05-31T20:24:12Z",
-    "merge_commit": "63e7691cabb1fe82a832fc0d3a3d82399e2f3f76",
-    "submission_main": "./sandia_simple.py",
-    "test_sets": {
-      "case1": "30.0007440160126361560",
-      "case2": "31.0003101828179782768",
-      "case3a": "4.2596671013444123630",
-      "case3b": "0.05685224629230342051",
-      "case3c": "0.3409934105361316841",
-      "case3d": "0.5965076513192244000"
-    }
-  },
-  "46": {
-    "username": "cwhanse",
-    "submission_datetime": "2023-06-05T20:44:15Z",
-    "merge_commit": "71b165ded52314ef9bf457bb23da8245ea88f08a",
+    "submission_datetime": "2023-06-07T15:51:24Z",
+    "merge_commit": "a942bb3b5090f449e6710f7d94daabbc8f4eebd2",
     "submission_main": "sandia_simple.py",
     "test_sets": {
       "case1": "30.0007440160126361560",
