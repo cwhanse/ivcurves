@@ -371,7 +371,9 @@ def get_precise_i(il, io, rs, rsh, n, vth, ns, atol, num_pts):
     # convert mpf to np.float64
     params_npfloat64 = list(map(np.float64, (il, io, rs, rsh, n*vth*ns)))
     res = pvlib.pvsystem.singlediode(*params_npfloat64)
-    vv = np.linspace(0., res['v_oc'], num_pts)
+
+    # use the same spacing of voltages from 0 to v_oc for every curve
+    vv = res['v_oc'] * np.linspace(0, 1, num_pts)
     ii = pvlib.pvsystem.i_from_v(vv, *params_npfloat64)
 
     # convert np.float64 to mpf
