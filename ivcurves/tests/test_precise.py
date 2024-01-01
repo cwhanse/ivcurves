@@ -19,7 +19,7 @@ def test_test_sets_precision(test_set_as_pandas_df, constants):
     df = test_set_as_pandas_df
 
     for _, row in df.iterrows():
-        il, io, rs, rsh, n, ns = row[utils.IV_PARAMETER_NAMES]
+        il, io, rs, rsh, n, ns, _ = row[utils.IV_PARAMETER_NAMES]
         params = il, io, rs, rsh, n, vth, ns
         abs_diff = lambda v, i: abs(precise.diff_lhs_rhs(v, i, *params))
 
