@@ -2,3 +2,8 @@ matplotlib >=3.5.2
 pvlib >=0.10.1
 mpmath >=1.2.1
 scipy >=1.4.1
+pydata-sphinx-theme ==0.9.0
+sphinx ==5.0.2
+sphinxcontrib.datatemplates  ==0.9.1
+sphinxcontrib-autoprogram ==0.1.7
+sphinxcontrib-mermaid ==0.8.1
