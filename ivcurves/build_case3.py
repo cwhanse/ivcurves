@@ -201,7 +201,7 @@ def case3_output():
                 outdf.loc[i, 'i_sc'] = cur[0]
                 p = cur * vol
                 midx = np.argmax(p)
-                outdf.loc[i, 'i_mp'] = p[midx]
+                outdf.loc[i, 'i_mp'] = cur[midx]
                 outdf.loc[i, 'v_mp'] = vol[midx]
                 outdf.loc[i, 'v_oc'] = np.max(vol)
                 outdf.loc[i, 'p_mp'] = p[midx]
@@ -223,7 +223,9 @@ def case3_output():
                       'IV Curves': outdf.replace(float('NaN'), None).to_dict(orient='records')}
             outfilen = 'case3' + output_suffix[case][idx]
 
-            outputs.append((outfilen, params[params.index == idx], output))
+            outparams = params[params.index == idx].copy()
+
+            outputs.append((outfilen, outparams, output))
 
     return outputs
 
