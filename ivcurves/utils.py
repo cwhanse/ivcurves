@@ -13,7 +13,7 @@ TEST_SETS_NOISY = {'case3a', 'case3b', 'case3c', 'case3d'}
 DOCS_DIR = REPO_ROOT_DIR / 'docs' / 'sphinx' / 'source'
 IV_PARAMETER_NAMES = ['photocurrent', 'saturation_current',
                       'resistance_series', 'resistance_shunt', 'n',
-                      'cells_in_series', 'Temperature']
+                      'cells_in_series']
 COMPETITION_INVALID_SCORE_VALUE = 'nan'
 
 
@@ -120,7 +120,7 @@ def read_iv_curve_parameter_sets(filename):
     r"""
     Returns a dictionary of indices to a list of these values:
     photocurrent, saturation_current, resistance_series,
-    resistance_shunt, n, and cells_in_series.
+    resistance_shunt, n, cells_in_series.
     The indices and values are read from the CSV file at ``filename``.
 
     Parameters
