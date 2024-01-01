@@ -458,7 +458,7 @@ def build_precise_json(case_parameter_sets, vth, temp_cell, atol, num_pts,
     # this is set in the loop below, and is the same for every iv curve
     cells_in_series = None
 
-    for test_idx, (il, io, rs, rsh, n, ns, temp_cell) in case_parameter_sets.items():
+    for test_idx, (il, io, rs, rsh, n, ns) in case_parameter_sets.items():
         params = il, io, rs, rsh, n, vth, ns
         cells_in_series = int(params[-1])
         rs = params[2]

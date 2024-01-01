@@ -174,7 +174,6 @@ def case3_output():
         for idx in curve_list[case]:
             base = curves.loc[idx]
             N = len(base['Currents'])
-            temp_cell = base['Temperature']
 
             outdf = pd.DataFrame(
                 index=np.arange(1, iters + 1),
@@ -225,7 +224,6 @@ def case3_output():
             outfilen = 'case3' + output_suffix[case][idx]
 
             outparams = params[params.index == idx].copy()
-            outparams.loc[idx, 'Temperature'] = temp_cell
 
             outputs.append((outfilen, outparams, output))
 
