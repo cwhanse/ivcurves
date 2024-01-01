@@ -13,7 +13,7 @@ TEST_SETS_NOISY = {'case3a', 'case3b', 'case3c', 'case3d'}
 DOCS_DIR = REPO_ROOT_DIR / 'docs' / 'sphinx' / 'source'
 IV_PARAMETER_NAMES = ['photocurrent', 'saturation_current',
                       'resistance_series', 'resistance_shunt', 'n',
-                      'cells_in_series']
+                      'cells_in_series', 'Temperature']
 COMPETITION_INVALID_SCORE_VALUE = 'nan'
 
 
