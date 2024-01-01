@@ -1,2 +1,2 @@
-Index,photocurrent,saturation_current,resistance_series,resistance_shunt,n,cells_in_series
-1,0.5,1e-08,1.0,300,1.5,140
+Index,photocurrent,saturation_current,resistance_series,resistance_shunt,n,cells_in_series,Temperature
+1,0.5,1e-08,1.0,300,1.5,140,298.15
