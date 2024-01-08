@@ -2,6 +2,7 @@ name: Score submission
 
 on:
   push:
+  pull_request:
   workflow_call:
     outputs:
       run-scorer:
