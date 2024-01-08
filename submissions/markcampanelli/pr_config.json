@@ -1,6 +1,6 @@
 {
     "RUN_SCORER": true,
     "REQUIREMENTS": "./requirements.txt",
-    "SUBMISSION_MAIN": "./create benchmark_data.py",
+    "SUBMISSION_MAIN": "./create_benchmark_data.py",
 	"TEST_SETS_FOR_SCORING": "case1,case2,case3a,case3b,case3c,case3d"
 }
