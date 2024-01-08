@@ -1,1 +1,3 @@
-pvfit[test] @ git+https://github.com/markcampanelli/pvfit@a1909fa08aacaece507d503ddee881914b78adf8
+pandas >=2,<3
+pvfit @ git+https://github.com/markcampanelli/pvfit@a1909fa08aacaece507d503ddee881914b78adf8
+pytest>=7,<8
