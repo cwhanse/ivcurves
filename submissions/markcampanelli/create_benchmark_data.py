@@ -1,4 +1,4 @@
-"""Run unit test from pvfit package to generate fit data."""
+"""Run unit test from pvfit package to generate fit data in current directory."""
 
 import pvfit.modeling.dc.single_diode.equation.inference_test
 import pytest
